@@ -10,28 +10,27 @@ class Vacols::Brieff < Vacols::Record
   scope :new_tb_request, -> {where("BFDTB > BFDDEC")}
   scope :tb_request, -> {where.not(:BFDTB => nil)}
 
+  scope :travel_board, -> {check_pending.where(:BFHR => 2)}
+  scope :central_office, -> {check_pending.where(:BFHR => 1, :BFDOCIND => 'N')}
+  scope :video, -> {check_pending.where(:BFHR => 1,:BFDOCIND => 'Y')}
+
   #This is not a great way to do this but the OR was causing issues.
   #Also am unsure how to check vacols.hearing_held_postrem(bfkey, bfddec) <> 'Y'
-  def self.check_pending(docdate)
-    where("((`BRIEFF`.`BFD19` IS NOT NULL AND `BRIEFF`.`BFMPRO` = "\
-     "'ADV' AND (`BRIEFF`.`BFHA` = 3 OR `BRIEFF`.`BFHA` IS NULL) AND"\
-      "`BRIEFF`.`BFD19` < '"+ docdate +"') OR (`BRIEFF`.`BFMPRO` = 'REM'"\
-      " AND `BRIEFF`.`BFDTB` IS NOT NULL AND BFDTB > BFDDEC))")
+
     #is_remanded.tb_request.new_tb_request.limit_docdate(docdate)
     #form_completed.check_action.is_advanced.limit_docdate(docdate)
     #where{(form_completed.check_action.is_advanced.limit_docdate(docdate)) | (is_remanded.tb_request.new_tb_request.docdate(docdate))}
+  scope :check_pending, -> {where("((`BRIEFF`.`BFD19` IS NOT NULL"\
+    " AND `BRIEFF`.`BFMPRO` = 'ADV' AND (`BRIEFF`.`BFHA` = 3 OR"\
+    "`BRIEFF`.`BFHA` IS NULL)) OR (`BRIEFF`.`BFMPRO` = 'REM'"\
+      " AND `BRIEFF`.`BFDTB` IS NOT NULL AND BFDTB > BFDDEC))")}
+#runs from the first so need to add one month
+  def in_docdate(docdate)
+    self.BFD19 <= Date.parse(docdate) + 1.month
   end
 
-  def self.travel_board(docdate)
-    check_pending(docdate).where(:BFHR => 2)
-  end
-
-  def self.central_office(docdate)
-    check_pending(docdate).where(:BFHR => 1, :BFDOCIND => 'N')
-  end
-
-  def self.video(docdate)
-    check_pending(docdate).where(:BFHR => 1,:BFDOCIND => 'Y')
+  def get_regional_office()
+    self.BFREGOFF
   end
 
 
@@ -59,18 +58,22 @@ class Vacols::Brieff < Vacols::Record
   end
   end 
 
+  def self.get_report(docdate, htype, rstype)
+    temp = BrieffReport.new(docdate, htype, rstype)
+    temp.get_pending_results
+  end
 
-  def self.do_work(docdate, hType, rsType)
+  def self.do_work(hType, rsType)
   begin
     case hType
     when "1"
-      central_office(docdate)
+      central_office
     when "2"
-      travel_board(docdate)
+      travel_board
     when "6"
-      video(docdate)
+      video
     when 0
-      limit_docdate(docdate)
+      limit_docdate
     else
       puts "error"
     end

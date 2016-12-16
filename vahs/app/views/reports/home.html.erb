@@ -24,48 +24,55 @@
 </form>
 <div id="rptResults" class="wrapper" style="background-color:#fff;" >
 <% if @json.present? %>
-	<table class="table table-condensed" style="margin: 0 auto;line-height:0px;">
+	<table class="table table-condensed" style="margin: 0 auto;line-height:0px">
 		<thead class="thead-inverse">
-		<tr>
-			<th>Regional Office</th><th>Type</th><th>Pending</th><th>Percentage</th><th>Pre-FY2000</th><th>FY01-05</th><th>FY06-10</th><th>FY11-15</th><th>FY16</th><th>FY17</th>
-		</tr>
+			<tr>
+				<th>Regional<br/>Office</th><th>Type</th><th class='cntrAlign'>Total<br/>Pending</th><th class='cntrAlign'>Pending<br/>(Pre <%= params[:docdate] %> )</th><th class='cntrAlign'>Percentage</th><th>Pre-FY2000</th><th>FY01-05</th><th>FY06-10</th><th>FY11-15</th><th>FY16</th><th>FY17</th>
+			</tr>
 		</thead>
 		<tbody>
-		<% @ttls = Array.new(7,0)
-		   @json.sort_by{|h,v| v[6]}.reverse.each do |h,v|
+		<% @ttls = {
+				'fyCol' => [0,0,0,0,0,0],
+				'ttlPending' => 0,
+				'bfDocDate' => 0
+			}
+		   @json.sort_by{|roName,obj| obj["bfDocDate"]}.reverse.each do |roName,obj|
 		%>
 			<tr>
-				<td><%= h %></td>
+				<td><%= roName %></td>
 				<td><%= @shType %></td>
-				<td class='rghtAlign'><%= v[6]  %></td>
-				<td class='rghtAlign'><%= ((v[6].to_f / @ttlPending.to_f)*100).round(1) %>%</td>
-				<td class='cntrAlign'><%= v[0] %></td>
-				<td class='cntrAlign'><%= v[1] %></td>
-				<td class='cntrAlign'><%= v[2] %></td>
-				<td class='cntrAlign'><%= v[3] %></td>
-				<td class='cntrAlign'><%= v[4] %></td>
-				<td class='cntrAlign'><%= v[5] %></td>
+				<td class='rghtAlign'><%= obj["ttlPending"]  %></td>
+				<td class='rghtAlign'><%= obj["bfDocDate"]  %></td>
+				<td class='rghtAlign'><%= ((obj["bfDocDate"].to_f / @ttlbfDocDate.to_f)*100).round(1) %>%</td>
+				<td class='cntrAlign'><%= obj["fyCol"][0] %></td>
+				<td class='cntrAlign'><%= obj["fyCol"][1] %></td>
+				<td class='cntrAlign'><%= obj["fyCol"][2] %></td>
+				<td class='cntrAlign'><%= obj["fyCol"][3] %></td>
+				<td class='cntrAlign'><%= obj["fyCol"][4] %></td>
+				<td class='cntrAlign'><%= obj["fyCol"][5] %></td>
 			</tr>
 		<%
-			@ttls[0] += v[0]
-			@ttls[1] += v[1]
-			@ttls[2] += v[2]
-			@ttls[3] += v[3]
-			@ttls[4] += v[4]
-			@ttls[5] += v[5]
-			@ttls[6] += v[6]
+			@ttls["fyCol"][0] += obj["fyCol"][0]
+			@ttls["fyCol"][1] += obj["fyCol"][1]
+			@ttls["fyCol"][2] += obj["fyCol"][2]
+			@ttls["fyCol"][3] += obj["fyCol"][3]
+			@ttls["fyCol"][4] += obj["fyCol"][4]
+			@ttls["fyCol"][5] += obj["fyCol"][5]
+			@ttls["bfDocDate"] += obj["bfDocDate"]
+			@ttls["ttlPending"] += obj["ttlPending"]
 		end %>
 			<tr class='rptTotals'>
 				<td></td>
 				<td>Totals</td>
-				<td class='rghtAlign'><%= @ttls[6]  %></td>
+				<td class='rghtAlign'><%= @ttls["ttlPending"] %></td>
+				<td class='rghtAlign'><%= @ttls["bfDocDate"] %></td>
 				<td class='rghtAlign'></td>
-				<td class='cntrAlign'><%= @ttls[0] %></td>
-				<td class='cntrAlign'><%= @ttls[1] %></td>
-				<td class='cntrAlign'><%= @ttls[2] %></td>
-				<td class='cntrAlign'><%= @ttls[3] %></td>
-				<td class='cntrAlign'><%= @ttls[4] %></td>
-				<td class='cntrAlign'><%= @ttls[5] %></td>
+				<td class='cntrAlign'><%= @ttls["fyCol"][0] %></td>
+				<td class='cntrAlign'><%= @ttls["fyCol"][1] %></td>
+				<td class='cntrAlign'><%= @ttls["fyCol"][2] %></td>
+				<td class='cntrAlign'><%= @ttls["fyCol"][3] %></td>
+				<td class='cntrAlign'><%= @ttls["fyCol"][4] %></td>
+				<td class='cntrAlign'><%= @ttls["fyCol"][5] %></td>
 			</tr>
 		</tbody>
 	</table>
@@ -84,20 +91,25 @@
 	}
 
 	var exportRecs = JSON.parse('<%=raw j @exportXLS.to_json %>');
+	
 	var shType = '<%= j @shType.to_s %>'
-	var ttlPending = '<%= j @ttlPending.to_s %>'
+	var ttlPending = '<%= j @ttlbfDocDate.to_s %>'
 	var tblData = [];
-	var tblTotals = [0,0,0,0,0,0,0];
+	var tblTotals = {
+		ttlPending: 0,
+		bfDocDate: 0,
+		fyCol: [0,0,0,0,0,0]
+	
+	};
 
 	var processResults = function(){
 		var d = $.Deferred();
-		$.each(exportRecs, function(i,v){
-			//sum = 0;
-			//$.each(v,function(){sum+=parseFloat(this) || 0;});
+		$.each(exportRecs, function(name,data){
 			var obj = {
-				ro: i,
-				p: v[6],
-				v: v
+				roName: name,
+				ttlPending: data.ttlPending,
+				bfDocDate: data.bfDocDate,
+				fyCol: data.fyCol
 			}
 			tblData.push(obj);
 		});
@@ -107,22 +119,25 @@
 	
 	var expTbl = $('<table></table>');
 	$.when(processResults()).then(function(){
-		tblData.sort(sort_by('p', false, parseInt))
+		tblData.sort(sort_by('bfDocDate', false, parseInt))
 	}).then(function(){
-		expTbl.append("<tr><th>Regional Office</th><th>Type</th><th>Pending</th><th>Percentage</th><th>Pre-FY2000</th><th>FY01-05</th><th>FY06-10</th><th>FY11-15</th><th>FY16</th><th>FY17</th></tr>");
+		expTbl.append("<tr><th>Regional Office</th><th>Type</th><th>Total Pending</th><th>Pending (Pre " + $('#docdate').val() + " )</th><th>Percentage</th><th>Pre-FY2000</th><th>FY01-05</th><th>FY06-10</th><th>FY11-15</th><th>FY16</th><th>FY17</th></tr>");
 	}).then(function(){
 		for(j = 0 ; j < tblData.length ; j++){
 			var tr = $('<tr/>')
-			tr.append("<td>" + tblData[j].ro +"</td>");
+			tr.append("<td>" + tblData[j].roName +"</td>");
 			tr.append("<td>" + shType + "</td>");
 			
-			tr.append("<td>" + tblData[j].p +"</td>");
-			tblTotals[6] += tblData[j].p;
+			tr.append("<td>" + tblData[j].ttlPending +"</td>");
+			tblTotals.ttlPending += tblData[j].ttlPending;
+
+			tr.append("<td>" + tblData[j].bfDocDate +"</td>");
+			tblTotals.bfDocDate += tblData[j].bfDocDate;
 			
-			tr.append("<td>"+ ((tblData[j].p / ttlPending)*100).toFixed(1) +"%</td>");
-			for(i=0; i<(tblData[j].v.length-1); i++){
-				tr.append("<td>" + tblData[j].v[i] +"</td>");
-				tblTotals[i] += tblData[j].v[i];
+			tr.append("<td>"+ ((tblData[j].bfDocDate / ttlPending)*100).toFixed(1) +"%</td>");
+			for(i=0; i<(tblData[j].fyCol.length); i++){
+				tr.append("<td>" + tblData[j].fyCol[i] +"</td>");
+				tblTotals.fyCol[i] += tblData[j].fyCol[i];
 			}
 			expTbl.append(tr);
 		}
@@ -130,10 +145,11 @@
 		var tr = $('<tr class="rptTotals"/>')
 		tr.append("<td></td>");
 		tr.append("<td>Totals</td>");
-		tr.append("<td>" + tblTotals[6] +"</td>");
+		tr.append("<td>" + tblTotals.ttlPending +"</td>");
+		tr.append("<td>" + tblTotals.bfDocDate +"</td>");
 		tr.append("<td></td>");
-		for(i=0; i<(tblTotals.length-1); i++){
-			tr.append("<td>" + tblTotals[i] +"</td>");
+		for(i=0; i<(tblTotals.fyCol.length); i++){
+			tr.append("<td>" + tblTotals.fyCol[i] +"</td>");
 		}
 		expTbl.append(tr);
 	}).then(function(){
@@ -142,7 +158,6 @@
 			filename: "ExportReport"
 		});
 	});
-	
 <% end %>
 <% end %>
 <% if @err.present? %>

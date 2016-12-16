@@ -10,7 +10,7 @@ class ReportsController < ApplicationController
 	@hType = params[:hType]
 	@rsType = params[:rsType]
 	@shType = ""
-	@ttlPending = 0
+	@ttlbfDocDate = 0
 	
 	case @hType
   	when "1"
@@ -20,21 +20,15 @@ class ReportsController < ApplicationController
   	when "6"
   		@shType = "Video"
   	end
-	
-	begin
-		@result = Vacols::Brieff.do_work(@docdate, @hType, @rsType)
-		@output = Hash.new {|h, k| h[k] = [0,0,0,0,0,0,0]}
-		@result.each do |i|
-			@output[i["BFREGOFF"]][i.fiscal_year] +=1
-			@output[i["BFREGOFF"]][6] += 1
-			@ttlPending +=1
-		end 
-		
+
+		@output, @ttlbfDocDate = Vacols::Brieff.get_report(@docdate, @hType, @rsType)
+
 		if params[:ViewResults]
 			@json = JSON.parse(@output.to_json)
 		else
 			@exportXLS = JSON.parse(@output.to_json)
 		end
+	begin
 	rescue
 		@err = true
 	end

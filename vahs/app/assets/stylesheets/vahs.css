@@ -103,10 +103,16 @@ a {
 	line-height: 36px;
 	background: transparent;
 }
-#rptResults{
-	font-size:14px;
-	line-height:36px;
+#rptResults {
+	font-size:12px;
 	background: transparent;
+}
+#rptResults thead {
+	line-height: 14px;
+	padding-bottom:0px;
+}
+#rptResults thead th {
+	padding-bottom:3px;
 }
 .vertical-top {
 	display: inline-block;
