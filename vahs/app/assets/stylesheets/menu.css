@@ -1,0 +1,19 @@
+@charset "utf-8";
+/* CSS Document */
+
+#custom-bootstrap-menu.navbar-default {
+    font-size: 12px;
+    background-color: rgba(1, 19, 63, 1);
+    border-width: 0px;
+    border-radius: 0px;
+}
+#custom-bootstrap-menu.navbar-default .navbar-nav>a {
+    color: rgba(255, 255, 255, 1);
+	background-color: rgba(1, 19, 63, 1);
+}
+#custom-bootstrap-menu.navbar-default .navbar-nav>a.active,
+#custom-bootstrap-menu.navbar-default .navbar-nav>a:hover,
+#custom-bootstrap-menu.navbar-default .navbar-nav>a:focus {
+    color: rgba(255, 255, 0, 1);
+    background-color: rgba(1, 19, 63, 1);
+}

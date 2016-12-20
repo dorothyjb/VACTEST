@@ -1,11 +1,10 @@
 class ReportsController < ApplicationController
-  def home
+  def docket
     @docdate = params[:docdate]
 	@hType = params[:hType]
 	@rsType = params[:rsType]
   end
-
-  def create
+  def getDocket
     @docdate = params[:docdate]+"-01"
 	@hType = params[:hType]
 	@rsType = params[:rsType]
@@ -13,14 +12,15 @@ class ReportsController < ApplicationController
 	@ttlbfDocDate = 0
 	
 	case @hType
-  	when "1"
-  		@shType = "Central Office"
-  	when "2"
-		@shType = "Travel Board"
-  	when "6"
-  		@shType = "Video"
+		when "1"
+			@shType = "Central Office"
+		when "2"
+			@shType = "Travel Board"
+		when "6"
+			@shType = "Video"
   	end
 
+	begin
 		@output, @ttlbfDocDate = Vacols::Brieff.get_report(@docdate, @hType, @rsType)
 
 		if params[:ViewResults]
@@ -28,10 +28,16 @@ class ReportsController < ApplicationController
 		else
 			@exportXLS = JSON.parse(@output.to_json)
 		end
-	begin
 	rescue
 		@err = true
 	end
-	render :home
+	render :docket
+  end
+
+  def analysis
+  
+  end
+  def getAnalysis
+    render :analysis
   end
 end

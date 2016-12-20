@@ -13,4 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery.form-validator
-//= require_tree .
+//= require jquery-ui
+//= require bootstrap
+//= require angular.min
+//= require angular-ui.min

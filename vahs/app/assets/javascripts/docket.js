@@ -1,15 +1,9 @@
-//= require jquery.min
-//= require jquery-ui.min
-//= require bootstrap
-//= require angular.min
-//= require angular-ui.min
 //= require jquery.table2excel
 
 $( document ).ready(function() {
-	
 	var d = null;
-
-	$('#docdate').datepicker( {
+	
+	$('#docdate').datepicker({
         changeMonth: true,
         changeYear: true,
         showButtonPanel: true,
@@ -21,14 +15,15 @@ $( document ).ready(function() {
 
 	if($('#docdate').val().length == 0){
 		d = new Date(2013, 1, 1);
-		$('#docdate').val("2013-02")
-		$('#docdate').datepicker("setDate",d);
+		$('#docdate').val("2013-02");
 		$('#docdate').datepicker("option","defaultDate",d);
+		$('#docdate').datepicker("setDate",d);
 	}else{
 		var parts = $('#docdate').val().split("-");
 		d = new Date(parts[0],(parts[1]-1), 1);
-		$('#docdate').val(parts[0]+"-"+parts[1])
+		$('#docdate').val(parts[0]+"-"+parts[1]);
 		$('#docdate').datepicker("option","defaultDate",d);
 		$('#docdate').datepicker("setDate",d);
 	}
+
 });

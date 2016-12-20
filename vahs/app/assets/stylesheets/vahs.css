@@ -1,14 +1,5 @@
-/*
-*= require jquery-ui
-*= require bootstrap 
-*= require_self 
-*= require_tree .
-*= require _main.scss
-*/
-
 @charset "utf-8";
 /* CSS Document */
-
 
 body{
 	position:relative;
@@ -98,7 +89,7 @@ a {
 	font-size:14px;
 	line-height:36px;
 }
-#rptControls{
+#rptControls {
 	font-size: 13x;
 	line-height: 36px;
 	background: transparent;

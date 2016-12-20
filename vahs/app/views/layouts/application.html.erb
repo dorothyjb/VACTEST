@@ -11,22 +11,18 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title><%=(yield(:title)) %></title>
 	<%= csrf_meta_tags %>
-	
-	<%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-	<%= stylesheet_link_tag    'reports', media: 'all' %>
-	<%= stylesheet_link_tag    'vahs', media: 'all' %>
-	<%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-	<%= javascript_include_tag 'reports' %>
-	<%= javascript_include_tag 'vahs' %>
+
+	<%= stylesheet_link_tag    'application', media: 'all'%>
+	<%= javascript_include_tag 'application' %>
+	<%= javascript_include_tag 'menu' %>
 	<%= javascript_tag do %>
-		
     <% end %>
-	
 </head>
 <body id="vahs">  
 <div class="main">
-   <%= render 'layouts/header' %>
-   <%= yield %>
+	<%= render 'layouts/header' %>
+	<%= render 'layouts/menu' %>
+	<%= yield %>
 </div>	
 </body>
 </html>
