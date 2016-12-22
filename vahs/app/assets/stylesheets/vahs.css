@@ -89,11 +89,15 @@ a {
 	font-size:14px;
 	line-height:36px;
 }
+label{
+	margin-bottom: 0.1em !important;
+}
 #rptControls {
 	font-size: 13x;
-	line-height: 36px;
+	line-height: 20px;
 	background: transparent;
 }
+
 #rptResults {
 	font-size:12px;
 	background: transparent;
@@ -105,11 +109,26 @@ a {
 #rptResults thead th {
 	padding-bottom:3px;
 }
+.rptResultsHeader{
+	margin-top:15px;
+	font-size:28px;
+	font-weight: bold;
+	line-height:36px;
+	text-align:center;
+	width:100%
+}
 .vertical-top {
 	display: inline-block;
     vertical-align: top;
 	line-height: 20px;
 }
+.vertical-bottom {
+	display: inline-block;
+    vertical-align: bottom;
+	margin-bottom: 0px !important;
+	line-height: 20px;
+}
+
 .rptInput {
 	display: block;
 	width: 100%;
@@ -127,10 +146,10 @@ a {
 .rptButton {
 	left:0px;
 	top:0px;
-	height:20px;
+	width: 100%;
+	line-height: 20px;
 	background:inherit;
 	background-color:#000921;
-	line-height: 20px;
 	text-align: center;
 	vertical-align: middle;
 	box-sizing:border-box;
@@ -156,6 +175,7 @@ a {
 }
 
 .error{
+	margin-top: 20px;
 	line-height: 20px;
 	text-align: center;
 	vertical-align: top;

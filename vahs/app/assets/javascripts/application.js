@@ -17,3 +17,4 @@
 //= require bootstrap
 //= require angular.min
 //= require angular-ui.min
+//= require 508ARIA

@@ -1,0 +1,35 @@
+<div class="rptResultsHeader">Video Hearing Allocation Analysis</div>
+<table class="table table-condensed" style="margin: 0 auto;line-height:0px">
+	<thead class="thead-inverse">
+		<tr>
+			<th>Regional<br/>Office</th><th class='cntrAlign'>Total<br/>Pending</th><th class='cntrAlign'>Pending<br/>(Pre <%= params[:docdate] %> )</th><th class='cntrAlign'>Percentage</th><th class='cntrAlign'>Judge Days Added</th><th class='cntrAlign'>Total Hearings Added</th><th class='cntrAlign'>Hearings Per Day<br/>(Based on TimeZone)</th>
+		</tr>
+	</thead>
+	<tbody>
+	<% @json.sort_by{|h,obj| obj["bfDocDate"]}.reverse.each do |h,obj| 
+		@recDays = (((obj["bfDocDate"].to_f / @ttlbfDocDate.to_f))*@judgeDays.to_f).round(2)
+		@ttls["ttlJudgeDays"] += @recDays.round(0)
+		@ttls["ttlAdded"] += (@recDays.round(0)  * obj["tzValue"])
+	%>
+		<tr>
+			<td><%=obj["staID"]%>-<%=obj["ro"]["city"] %></td>
+			<td class='cntrAlign'><%= obj["ttlPending"]  %></td>
+			<td class='cntrAlign'><%= obj["bfDocDate"]  %></td>
+			<td class='cntrAlign'><%= ((obj["bfDocDate"].to_f / @ttlbfDocDate.to_f)*100).round(2) %>%</td>
+			<td class='cntrAlign'><%= @recDays.round(0) %></td>
+			<td class='cntrAlign'><%= @recDays.round(0) * obj["tzValue"]  %></td>
+			<td class='cntrAlign'><%= obj["tzValue"]  %></td>
+		</tr>
+	<% end %>
+		<tr class='rptTotals'>
+			<td>Totals</td>
+			<td class='cntrAlign'><%= @ttls["ttlPending"] %></td>
+			<td class='cntrAlign'><%= @ttls["bfDocDate"] %></td>
+			<td class='cntrAlign'></td>
+			<td class='cntrAlign'><%= @ttls["ttlJudgeDays"] %></td>
+			<td class='cntrAlign'><%= @ttls["ttlAdded"] %></td>
+			<td class='cntrAlign'></td>
+		</tr>
+	</tbody>
+</table>
+

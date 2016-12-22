@@ -1,8 +1,8 @@
 <nav id="custom-bootstrap-menu" class="navbar navbar-default" role="navigation">
   <div class="nav navbar-nav">
-      <a id='nav_home' class="nav-item nav-link" href="/">Home</a>
-      <a id='nav_docket' class="nav-item nav-link" href="docket">Docket Reports</a>
-      <a id='nav_analysis' class="nav-item nav-link" href="analysis">FY Analysis</a>
-      <a id='nav_about' class="nav-item nav-link" href="about">About</a>
+	  <%= link_to('Home', root_path, class:'nav-item nav-link', id:'nav_home', alt:'Navigate to Home')%>
+	  <%= link_to('Docket Reports', docket_path, class:'nav-item nav-link', id:'nav_docket', alt:'Navigate to Docket Reports')%>
+	  <%= link_to('FY Analysis', analysis_path, class:'nav-item nav-link', id:'nav_analysis', alt:'Navigate to FY Analysis ')%>
+	  <%= link_to('About', about_path, class:'nav-item nav-link', id:'nav_about', alt:'Navigate to About')%>
   </div>
 </nav>

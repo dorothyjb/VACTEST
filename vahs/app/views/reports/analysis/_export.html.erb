@@ -1,0 +1,81 @@
+<iframe id="exportData" style="display:none"></iframe>
+<%= javascript_tag do %>
+	//This function allows us to sort an array that is containing objects by using the object's key names
+	function sort_by(field, reverse, primer){
+	   var key = function (x) {return primer ? primer(x[field]) : x[field]};
+	   return function (a,b) {
+		  var A = key(a), B = key(b);
+		  return ( (A < B) ? -1 : ((A > B) ? 1 : 0) ) * [-1,1][+!!reverse];                  
+	   }
+	}
+
+	var exportRecs = JSON.parse('<%=raw j @exportXLS.to_json %>');
+	
+	var shType = '<%= j @shType.to_s %>'
+	var ttlPending = '<%= j @ttlbfDocDate.to_s %>'
+	var tblData = [];
+	var tblTotals = {
+		ttlPending: 0,
+		bfDocDate: 0,
+		fyCol: [0,0,0,0,0,0]
+	
+	};
+
+	var processResults = function(){
+		var d = $.Deferred();
+		$.each(exportRecs, function(name,data){
+			var obj = {
+				roName: name,
+				ttlPending: data.ttlPending,
+				bfDocDate: data.bfDocDate,
+				fyCol: data.fyCol
+			}
+			tblData.push(obj);
+		});
+		d.resolve();
+		return d.promise();
+	};
+	
+	var expTbl = $('<table></table>');
+	$.when(processResults()).then(function(){
+		tblData.sort(sort_by('bfDocDate', false, parseInt))
+	}).then(function(){
+		expTbl.append("<tr><th>Regional Office</th><th>Total Pending</th><th>Pending (Pre " + $('#docdate').val() + " )</th><th>Percentage</th><th>Judge Days Added</th><th>Total Hearings Added</th><th>Hearings Per Day (Based on TimeZone)</th></tr>");
+	}).then(function(){
+		for(j = 0 ; j < tblData.length ; j++){
+			var tr = $('<tr/>')
+			tr.append("<td>" + tblData[j].roName +"</td>");
+			
+			tr.append("<td>" + tblData[j].ttlPending +"</td>");
+			tblTotals.ttlPending += tblData[j].ttlPending;
+
+			tr.append("<td>" + tblData[j].bfDocDate +"</td>");
+			tblTotals.bfDocDate += tblData[j].bfDocDate;
+			
+			tr.append("<td>"+ ((tblData[j].bfDocDate / ttlPending)*100).toFixed(1) +"%</td>");
+
+			tr.append("<td>" + 0 +"</td>");
+			tr.append("<td>" + 0 +"</td>");
+			tr.append("<td>" + 0 +"</td>");
+
+			expTbl.append(tr);
+		}
+	}).then(function(){
+		var tr = $('<tr class="rptTotals"/>')
+		tr.append("<td>Totals</td>");
+		tr.append("<td>" + tblTotals.ttlPending +"</td>");
+		tr.append("<td>" + tblTotals.bfDocDate +"</td>");
+		tr.append("<td></td>");
+
+		tr.append("<td>" + 0 +"</td>");
+		tr.append("<td>" + 0 +"</td>");
+		tr.append("<td>" + 0 +"</td>");
+
+		expTbl.append(tr);
+	}).then(function(){
+		expTbl.table2excel({
+			name: "ExportReport",
+			filename: "ExportReport"
+		});
+	});
+<% end %>

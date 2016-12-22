@@ -30,7 +30,7 @@ class Vacols::Brieff < Vacols::Record
   end
 
   def get_regional_office()
-    self.BFREGOFF
+    self.BFREGOFF.to_s.lstrip
   end
 
 
