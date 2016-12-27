@@ -1,4 +1,6 @@
 class ReportsController < ApplicationController
+
+  # Docket Range Reporting 
   def docket
     @docdate = params[:docdate]
 	@hType = params[:hType]
@@ -8,22 +10,14 @@ class ReportsController < ApplicationController
     @docdate = params[:docdate]+"-01"
 	@hType = params[:hType]
 	@rsType = params[:rsType]
-	@shType = ""
+	@shType = getHearingType(@hType)
+	
 	@ttlbfDocDate = 0
 	@ttls = {
 		'fyCol' => [0,0,0,0,0,0],
 		'ttlPending' => 0,
 		'bfDocDate' => 0
 	}
-	
-	case @hType
-		when "1"
-			@shType = "Central Office"
-		when "2"
-			@shType = "Travel Board"
-		when "6"
-			@shType = "Video"
-  	end
 
 	begin
 		@output, @ttlbfDocDate = Vacols::Brieff.get_report(@docdate, @hType, @rsType)
@@ -36,10 +30,10 @@ class ReportsController < ApplicationController
 			@ttls["fyCol"][3] += obj["fyCol"][3]
 			@ttls["fyCol"][4] += obj["fyCol"][4]
 			@ttls["fyCol"][5] += obj["fyCol"][5]
-			@ttls["bfDocDate"] += obj["bfDocDate"]
 			@ttls["ttlPending"] += obj["ttlPending"]
 		end
-		
+		@ttls["bfDocDate"] = @ttlbfDocDate
+
 		if params[:ViewResults]
 			@json = JSON.parse(@output.to_json)
 		else
@@ -51,6 +45,7 @@ class ReportsController < ApplicationController
 	render :docket
   end
 
+  # Docket FY Analysis Reporting 
   def analysis
     @docdate = params[:docdate]
 	@hType = params[:hType]
@@ -64,8 +59,8 @@ class ReportsController < ApplicationController
 	@numJudge = params[:numJudge]
 	@judgeMult = params[:judgeMult]
 	@coDays = params[:coDays]  
+	@shType = @hType
 	@judgeDays = 0
-	@shType = ""
 	@ttlbfDocDate = 0
 	
 	@ttls = {
@@ -77,34 +72,46 @@ class ReportsController < ApplicationController
 	
 	case @hType
 		when "1"
-			@shType = "Central Office"
+			@judgeDays = 0
 		when "2"
-			@shType = "Travel Board"
+			@judgeDays = 0
 		when "6"
-			@shType = "Video"
 			@judgeDays = ((((@numJudge.to_f * @judgeMult.to_f)) * 12)-12)-@coDays.to_i
   	end
 		
-	begin
 		@output, @ttlbfDocDate = Vacols::Brieff.get_report(@docdate, @hType, 0)
 
 		@doTtls = JSON.parse(@output.to_json)
 		@doTtls.each do |roName,obj|
-			@ttls["bfDocDate"] += obj["bfDocDate"]
 			@ttls["ttlPending"] += obj["ttlPending"]
 		end
+		@ttls["bfDocDate"] = @ttlbfDocDate
 		
 		if params[:ViewResults]
 			@json = JSON.parse(@output.to_json)
 		else
-			@exportXLS = @json
+			@exportXLS = JSON.parse(@output.to_json)
 			
 		end
 
+	begin
 	rescue
 		@err = true
 	end
     render :analysis
 	
   end
+  
+  def getHearingType(hType)
+  	case hType
+		when "1"
+			return "Central Office"
+		when "2"
+			return "Travel Board"
+		when "6"
+			return "Video"
+		else
+			return ""
+  	end
+ end
 end

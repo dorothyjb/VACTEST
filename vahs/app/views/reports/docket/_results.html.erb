@@ -1,12 +1,12 @@
 <div id="rptResults" class="wrapper" style="background-color:#fff;" >
-	<table class="table table-condensed" style="margin: 0 auto;line-height:0px">
+	<table class="table table-condensed" style="width: auto !important;margin: 0 auto;line-height:12px;table-layout:fixed;word-wrap:break-word;">
 		<thead class="thead-inverse">
 			<tr>
 				<th>Regional<br/>Office</th><th>Type</th><th class='cntrAlign'>Total<br/>Pending</th><th class='cntrAlign'>Pending<br/>(Pre <%= params[:docdate] %> )</th><th class='cntrAlign'>Percentage</th><th>Pre-FY2000</th><th>FY01-05</th><th>FY06-10</th><th>FY11-15</th><th>FY16</th><th>FY17</th>
 			</tr>
 		</thead>
 		<tbody>
-		<% @json.sort_by{|h,obj| obj["bfDocDate"]}.reverse.each do |h,obj| %>
+		<% @json.sort_by{|h,obj| obj["ttlPending"]}.sort_by{|h,obj| obj["bfDocDate"]}.reverse.each do |h,obj| %>
 			<tr>
 				<td><%= obj["staID"] %>-<%= obj["ro"]["city"] %></td>
 				<td><%= @shType %></td>

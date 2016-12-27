@@ -1,12 +1,12 @@
 <div class="rptResultsHeader">Video Hearing Allocation Analysis</div>
-<table class="table table-condensed" style="margin: 0 auto;line-height:0px">
+<table class="table table-condensed" style="width: auto !important;margin: 0 auto;line-height:0px;table-layout:fixed;word-wrap:break-word;">
 	<thead class="thead-inverse">
 		<tr>
 			<th>Regional<br/>Office</th><th class='cntrAlign'>Total<br/>Pending</th><th class='cntrAlign'>Pending<br/>(Pre <%= params[:docdate] %> )</th><th class='cntrAlign'>Percentage</th><th class='cntrAlign'>Judge Days Added</th><th class='cntrAlign'>Total Hearings Added</th><th class='cntrAlign'>Hearings Per Day<br/>(Based on TimeZone)</th>
 		</tr>
 	</thead>
 	<tbody>
-	<% @json.sort_by{|h,obj| obj["bfDocDate"]}.reverse.each do |h,obj| 
+	<% @json.sort_by{|h,obj| obj["ttlPending"]}.sort_by{|h,obj| obj["bfDocDate"]}.reverse.each do |h,obj| 
 		@recDays = (((obj["bfDocDate"].to_f / @ttlbfDocDate.to_f))*@judgeDays.to_f).round(2)
 		@ttls["ttlJudgeDays"] += @recDays.round(0)
 		@ttls["ttlAdded"] += (@recDays.round(0)  * obj["tzValue"])

@@ -154,7 +154,8 @@ class Vacols::RegionalOffice
   }.freeze
 
 
-#mapping mountain to 9, alaska to 7, manila to 7, puerto rico to 7
+  #TimeZone values mapped - Used for Video Hearing Analysis
+  #mapping mountain to 9, alaska to 7, manila to 7, puerto rico to 7
   VHTZ = {
     "America/Anchorage" => 7,
     "America/Boise" => 9,
@@ -170,12 +171,8 @@ class Vacols::RegionalOffice
   }.freeze
     ROS = CITIES.keys.freeze
 
-    #returns the number of video hearings for this RO based on timezone
-    def self.tzValue(ro)
-        VHTZ[CITIES.find {|k, h| h[:city] == ro}[1][:timezone]]
+	#Function to return collection of info about a Regional Office
+	def self.roInfo(ro)
+        return STATIONS.find{|k,v| [v].flatten.include?(ro)}.first, CITIES[ro], VHTZ[CITIES[ro][:timezone]]
     end
-    def self.getCSSNumber(ro)
-        "000"
-    end
-
 end

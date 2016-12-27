@@ -1,81 +1,146 @@
-<iframe id="exportData" style="display:none"></iframe>
 <%= javascript_tag do %>
-	//This function allows us to sort an array that is containing objects by using the object's key names
-	function sort_by(field, reverse, primer){
-	   var key = function (x) {return primer ? primer(x[field]) : x[field]};
-	   return function (a,b) {
-		  var A = key(a), B = key(b);
-		  return ( (A < B) ? -1 : ((A > B) ? 1 : 0) ) * [-1,1][+!!reverse];                  
-	   }
-	}
 
-	var exportRecs = JSON.parse('<%=raw j @exportXLS.to_json %>');
-	
+	var	exportRecs = JSON.parse('<%=raw j @exportXLS.to_json %>');
+	var	tblTotals = JSON.parse(('<%=raw j @ttls.to_json %>'));
 	var shType = '<%= j @shType.to_s %>'
-	var ttlPending = '<%= j @ttlbfDocDate.to_s %>'
+	var judgeDays = '<%= j @judgeDays.to_s %>'
+
+	var expTbl = $('<table></table>');
 	var tblData = [];
-	var tblTotals = {
-		ttlPending: 0,
-		bfDocDate: 0,
-		fyCol: [0,0,0,0,0,0]
-	
-	};
+	var tblContent = [];
 
 	var processResults = function(){
 		var d = $.Deferred();
+
+		//This function allows us to sort an array that is containing objects by using the object's key names
+		function sort_by(field, reverse, primer){
+		   var key = function (x) {return primer ? primer(x[field]) : x[field]};
+		   return function (a,b) {
+			  var A = key(a), B = key(b);
+			  return ( (A < B) ? -1 : ((A > B) ? 1 : 0) ) * [-1,1][+!!reverse];                  
+		   }
+		}
+
 		$.each(exportRecs, function(name,data){
 			var obj = {
-				roName: name,
-				ttlPending: data.ttlPending,
-				bfDocDate: data.bfDocDate,
-				fyCol: data.fyCol
+				ro:  data["staID"] + "-" + data["ro"]["city"],
+				ttlPending: data["ttlPending"],
+				bfDocDate: data["bfDocDate"]
 			}
+
+			switch( shType ){
+				case "1":
+					break;
+				case "2":
+					break;
+				case "6":
+					obj["Pct"] =  parseFloat((parseFloat(obj["bfDocDate"]) / parseFloat(tblTotals["bfDocDate"]))*100).toFixed(2);
+
+					var recDays = parseFloat((parseFloat(obj["Pct"])/100)*parseFloat(judgeDays)).toFixed(2);
+					obj["jdgDays"] = Math.round(recDays);
+					obj["ttlAdded"] = Math.round(recDays)*parseInt(data["tzValue"]);
+					obj["tzValue"] = data["tzValue"]
+					
+					tblTotals["ttlJudgeDays"] += obj["jdgDays"]
+					tblTotals["ttlAdded"] += obj["ttlAdded"]
+			}
+			
 			tblData.push(obj);
 		});
-		d.resolve();
-		return d.promise();
+
+		tblData.sort(sort_by('bfDocDate', false, parseInt))
+		return d.resolve().promise();
 	};
 	
-	var expTbl = $('<table></table>');
 	$.when(processResults()).then(function(){
-		tblData.sort(sort_by('bfDocDate', false, parseInt))
+		tblContent.push("<tr>")
+		tblContent.push("<th>Regional Office</th>")
+		tblContent.push("<th>Total Pending</th>")
+		tblContent.push("<th>Pending (Pre " + $('#docdate').val() + " )</th>")
+		tblContent.push("<th>Percentage</th>")
 	}).then(function(){
-		expTbl.append("<tr><th>Regional Office</th><th>Total Pending</th><th>Pending (Pre " + $('#docdate').val() + " )</th><th>Percentage</th><th>Judge Days Added</th><th>Total Hearings Added</th><th>Hearings Per Day (Based on TimeZone)</th></tr>");
+		switch( shType ){
+			case "1":
+				tblContent.push("<th></th>")
+				tblContent.push("<th></th>")
+				tblContent.push("<th></th>")
+				break;
+			case "2":
+				tblContent.push("<th></th>")
+				tblContent.push("<th></th>")
+				tblContent.push("<th></th>")
+				break;
+			case "6":
+				tblContent.push("<th>Judge Days Added</th>")
+				tblContent.push("<th>Total Hearings Added</th>")
+				tblContent.push("<th>Hearings Per Day (Based on TimeZone)</th>")
+		}
+	
 	}).then(function(){
+		tblContent.push("</tr>")
+	}).then(function(){
+		console.log(tblData)
+		console.log(tblTotals)
 		for(j = 0 ; j < tblData.length ; j++){
-			var tr = $('<tr/>')
-			tr.append("<td>" + tblData[j].roName +"</td>");
-			
-			tr.append("<td>" + tblData[j].ttlPending +"</td>");
-			tblTotals.ttlPending += tblData[j].ttlPending;
-
-			tr.append("<td>" + tblData[j].bfDocDate +"</td>");
-			tblTotals.bfDocDate += tblData[j].bfDocDate;
-			
-			tr.append("<td>"+ ((tblData[j].bfDocDate / ttlPending)*100).toFixed(1) +"%</td>");
-
-			tr.append("<td>" + 0 +"</td>");
-			tr.append("<td>" + 0 +"</td>");
-			tr.append("<td>" + 0 +"</td>");
-
-			expTbl.append(tr);
+			tblContent.push("<tr>")
+			tblContent.push("<td>" + tblData[j]["ro"] +"</td>");
+			tblContent.push("<td>" + tblData[j]["ttlPending"] +"</td>");
+			tblContent.push("<td>" + tblData[j]["bfDocDate"] +"</td>");
+			switch( shType ){
+				case "1":
+					tblContent.push("<td></td>")
+					tblContent.push("<td></td>")
+					tblContent.push("<td></td>")
+					tblContent.push("<td></td>")
+					break;
+				case "2":
+					tblContent.push("<td></td>")
+					tblContent.push("<td></td>")
+					tblContent.push("<td></td>")
+					tblContent.push("<td></td>")
+					break;
+				case "6":
+					tblContent.push("<td>" + tblData[j]["Pct"] +"</td>")
+					tblContent.push("<td>" + tblData[j]["jdgDays"] +"</td>")
+					tblContent.push("<td>" + tblData[j]["ttlAdded"] +"</td>")
+					tblContent.push("<td>" + tblData[j]["tzValue"] +"</td>")
+			}
+			tblContent.push("</tr>")
 		}
 	}).then(function(){
-		var tr = $('<tr class="rptTotals"/>')
-		tr.append("<td>Totals</td>");
-		tr.append("<td>" + tblTotals.ttlPending +"</td>");
-		tr.append("<td>" + tblTotals.bfDocDate +"</td>");
-		tr.append("<td></td>");
-
-		tr.append("<td>" + 0 +"</td>");
-		tr.append("<td>" + 0 +"</td>");
-		tr.append("<td>" + 0 +"</td>");
-
-		expTbl.append(tr);
+		tblContent.push('<tr class="rptTotals">');
+		tblContent.push("<td>Totals</td>");
+		tblContent.push("<td>" + tblTotals["ttlPending"] +"</td>");
+		tblContent.push("<td>" + tblTotals["bfDocDate"] +"</td>");
+		tblContent.push("<td></td>");
+	}).then(function(){
+		switch( shType ){
+			case "1":
+				tblContent.push("<td></td>");
+				tblContent.push("<td></td>");
+				tblContent.push("<td></td>");
+				break;
+			case "2":
+				tblContent.push("<td></td>");
+				tblContent.push("<td></td>");
+				tblContent.push("<td></td>");
+				break;
+			case "6":
+				tblContent.push("<td>"+ tblTotals["ttlJudgeDays"] +"</td>");
+				tblContent.push("<td>"+ tblTotals["ttlAdded"] +"</td>");
+				tblContent.push("<td></td>");
+			}
+	
+	}).then(function(){
+		tblContent.push("</tr>");
+	}).then(function(){
+		expTbl.append(tblContent.join(''));
 	}).then(function(){
 		expTbl.table2excel({
-			name: "ExportReport",
-			filename: "ExportReport"
+			name: "ExportAnalysisReport",
+			filename: "ExportAnalysisReport"
 		});
 	});
+
+
 <% end %>
