@@ -12,16 +12,21 @@ class ReportsController < ApplicationController
 	@rsType = params[:rsType]
 	@shType = getHearingType(@hType)
 	
-	@ttlbfDocDate = 0
+	#Object to hold totals
+	# - fyCol: Columns for the FY breakdown
+	# - bfDocDate: total of the records that are before Docket Date (bfDocDate)
+	# - ttlPending: total of all returned records
 	@ttls = {
 		'fyCol' => [0,0,0,0,0,0],
-		'ttlPending' => 0,
-		'bfDocDate' => 0
+		'bfDocDate' => 0, 
+		'ttlPending' => 0
 	}
 
 	begin
-		@output, @ttlbfDocDate = Vacols::Brieff.get_report(@docdate, @hType, @rsType)
+		#Get the data 
+		@output, @ttls["bfDocDate"], @ttls["ttlPending"] = Vacols::Brieff.get_report(@docdate, @hType, @rsType)
 		
+		#Parse the data to a JSON object and sum up the FY columns for the Totals row
 		@doTtls = JSON.parse(@output.to_json)
 		@doTtls.each do |roName,obj|
 			@ttls["fyCol"][0] += obj["fyCol"][0]
@@ -30,10 +35,9 @@ class ReportsController < ApplicationController
 			@ttls["fyCol"][3] += obj["fyCol"][3]
 			@ttls["fyCol"][4] += obj["fyCol"][4]
 			@ttls["fyCol"][5] += obj["fyCol"][5]
-			@ttls["ttlPending"] += obj["ttlPending"]
 		end
-		@ttls["bfDocDate"] = @ttlbfDocDate
 
+		#Partials execute based on what 'exists'
 		if params[:ViewResults]
 			@json = JSON.parse(@output.to_json)
 		else
@@ -56,16 +60,20 @@ class ReportsController < ApplicationController
   def getAnalysis
     @docdate = params[:docdate]+"-01"
 	@hType = params[:hType]
+	@shType = @hType
+	
+	#Temporary Hack to get values from the form
+	# - The form fields will be replaced once an analysis 
+	#   parameters configuration page is implemented
 	@numJudge = params[:numJudge]
 	@judgeMult = params[:judgeMult]
 	@coDays = params[:coDays]  
-	@shType = @hType
-	@judgeDays = 0
-	@ttlbfDocDate = 0
+	@judgeDays = 0  #Calculated Judge Days for Video Hearings Analysis
 	
+	#Object to hold totals
 	@ttls = {
-		'ttlPending' => 0,
 		'bfDocDate' => 0,
+		'ttlPending' => 0,
 		'ttlJudgeDays' => 0,
 		'ttlAdded' => 0
 	}
@@ -76,32 +84,29 @@ class ReportsController < ApplicationController
 		when "2"
 			@judgeDays = 0
 		when "6"
-			@judgeDays = ((((@numJudge.to_f * @judgeMult.to_f)) * 12)-12)-@coDays.to_i
+			# The additional subtraction of 12 is because of ??? Holidays ???
+			# Excel Example: 1331 = ((( 57 * 2.25 ) * 12 ) - 12 ) - 196 
+			@judgeDays = (((@numJudge.to_f * @judgeMult.to_f) * 12)-12)-@coDays.to_i
   	end
-		
-		@output, @ttlbfDocDate = Vacols::Brieff.get_report(@docdate, @hType, 0)
-
-		@doTtls = JSON.parse(@output.to_json)
-		@doTtls.each do |roName,obj|
-			@ttls["ttlPending"] += obj["ttlPending"]
-		end
-		@ttls["bfDocDate"] = @ttlbfDocDate
-		
+	
+	begin		
+		#Get the data 
+		@output, @ttls["bfDocDate"], @ttls["ttlPending"] = Vacols::Brieff.get_report(@docdate, @hType, 0)
+				
+		#Partials execute based on what 'exists'
 		if params[:ViewResults]
 			@json = JSON.parse(@output.to_json)
 		else
 			@exportXLS = JSON.parse(@output.to_json)
 			
 		end
-
-	begin
 	rescue
 		@err = true
 	end
     render :analysis
-	
   end
-  
+
+  #Function for returning the string for the type of hearing selected
   def getHearingType(hType)
   	case hType
 		when "1"

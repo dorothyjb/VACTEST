@@ -1,38 +1,51 @@
-<div id="rptResults" class="wrapper" style="background-color:#fff;" >
-	<table class="table table-condensed" style="width: auto !important;margin: 0 auto;line-height:12px;table-layout:fixed;word-wrap:break-word;">
+<div id="rptResults" class="wrapper">
+	<table class="table table-condensed">
 		<thead class="thead-inverse">
 			<tr>
-				<th>Regional<br/>Office</th><th>Type</th><th class='cntrAlign'>Total<br/>Pending</th><th class='cntrAlign'>Pending<br/>(Pre <%= params[:docdate] %> )</th><th class='cntrAlign'>Percentage</th><th>Pre-FY2000</th><th>FY01-05</th><th>FY06-10</th><th>FY11-15</th><th>FY16</th><th>FY17</th>
+				<th>Regional<br/>Office</th>
+				<th>Type</th>
+				<th class="cntrAlign">Total<br/>Pending</th>
+				<th class="cntrAlign">Pending<br/>(Pre <%= params[:docdate] %> )</th>
+				<th class="cntrAlign">Percentage</th>
+				<th>Pre-FY2000</th>
+				<th>FY01-05</th>
+				<th>FY06-10</th>
+				<th>FY11-15</th>
+				<th>FY16</th>
+				<th>FY17</th>
 			</tr>
 		</thead>
 		<tbody>
-		<% @json.sort_by{|h,obj| obj["ttlPending"]}.sort_by{|h,obj| obj["bfDocDate"]}.reverse.each do |h,obj| %>
+		<% @json.sort_by{|h,obj| obj["ttlPending"]}.sort_by{|h,obj| obj["bfDocDate"]}.reverse.each do |h,obj| 
+			#Determine and format the percentage
+			@pctOf = "%.4f" % ((obj["bfDocDate"].to_f / @ttls["bfDocDate"].to_f)*100).round(4)
+		%>
 			<tr>
 				<td><%= obj["staID"] %>-<%= obj["ro"]["city"] %></td>
 				<td><%= @shType %></td>
-				<td class='rghtAlign'><%= obj["ttlPending"]  %></td>
-				<td class='rghtAlign'><%= obj["bfDocDate"]  %></td>
-				<td class='rghtAlign'><%= ((obj["bfDocDate"].to_f / @ttlbfDocDate.to_f)*100).round(1) %>%</td>
-				<td class='cntrAlign'><%= obj["fyCol"][0] %></td>
-				<td class='cntrAlign'><%= obj["fyCol"][1] %></td>
-				<td class='cntrAlign'><%= obj["fyCol"][2] %></td>
-				<td class='cntrAlign'><%= obj["fyCol"][3] %></td>
-				<td class='cntrAlign'><%= obj["fyCol"][4] %></td>
-				<td class='cntrAlign'><%= obj["fyCol"][5] %></td>
+				<td class="rghtAlign"><%= obj["ttlPending"]  %></td>
+				<td class="rghtAlign"><%= obj["bfDocDate"]  %></td>
+				<td class="rghtAlign"><%= @pctOf %>%</td>
+				<td class="cntrAlign"><%= obj["fyCol"][0] %></td>
+				<td class="cntrAlign"><%= obj["fyCol"][1] %></td>
+				<td class="cntrAlign"><%= obj["fyCol"][2] %></td>
+				<td class="cntrAlign"><%= obj["fyCol"][3] %></td>
+				<td class="cntrAlign"><%= obj["fyCol"][4] %></td>
+				<td class="cntrAlign"><%= obj["fyCol"][5] %></td>
 			</tr>
 		<% end %>
-			<tr class='rptTotals'>
+			<tr class="rptTotals">
 				<td></td>
 				<td>Totals</td>
-				<td class='rghtAlign'><%= @ttls["ttlPending"] %></td>
-				<td class='rghtAlign'><%= @ttls["bfDocDate"] %></td>
-				<td class='rghtAlign'></td>
-				<td class='cntrAlign'><%= @ttls["fyCol"][0] %></td>
-				<td class='cntrAlign'><%= @ttls["fyCol"][1] %></td>
-				<td class='cntrAlign'><%= @ttls["fyCol"][2] %></td>
-				<td class='cntrAlign'><%= @ttls["fyCol"][3] %></td>
-				<td class='cntrAlign'><%= @ttls["fyCol"][4] %></td>
-				<td class='cntrAlign'><%= @ttls["fyCol"][5] %></td>
+				<td class="rghtAlign"><%= @ttls["ttlPending"] %></td>
+				<td class="rghtAlign"><%= @ttls["bfDocDate"] %></td>
+				<td class="rghtAlign"></td>
+				<td class="cntrAlign"><%= @ttls["fyCol"][0] %></td>
+				<td class="cntrAlign"><%= @ttls["fyCol"][1] %></td>
+				<td class="cntrAlign"><%= @ttls["fyCol"][2] %></td>
+				<td class="cntrAlign"><%= @ttls["fyCol"][3] %></td>
+				<td class="cntrAlign"><%= @ttls["fyCol"][4] %></td>
+				<td class="cntrAlign"><%= @ttls["fyCol"][5] %></td>
 			</tr>
 		</tbody>
 	</table>

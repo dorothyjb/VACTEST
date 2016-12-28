@@ -9,7 +9,9 @@ class Vacols::Brieff::BrieffReport
 
 	def get_pending_results
 	
-		#Variable to hold the Total Number of Docket entries that occur before the Docket date selected
+		#Total Number of Docket entries pending
+		ttlPending = 0
+		#Total Number of Docket entries that occur before the Docket date selected
 		ttlbfDocDate = 0
 		
 		#Hash Object that contains a compiled result on each Regional Office for use in reporting
@@ -31,11 +33,14 @@ class Vacols::Brieff::BrieffReport
 			# and TimeZone value used for the Video Hearing Analysis Calculations
 			output[roID]['staID'], output[roID]['ro'] , output[roID]['tzValue'] = Vacols::RegionalOffice.roInfo(roID)
 			
-			#Calculate the Fiscal Year and increment the appropriate FY column
+			#Calculate the Fiscal Year and increment the appropriate FY column per RO
 			output[roID]['fyCol'][i.fiscal_year] +=1
 			
-			#Total Pending regardless of DocDate
+			#Total Pending per RO regardless of DocDate
 			output[roID]['ttlPending'] += 1
+			
+			#Total Pending for ALL ROs regardless of DocDate
+			ttlPending +=1
 			
 			#Calculate the quantity of entries that exist before the Docket date value
 			if(i.in_docdate(docdate))
@@ -44,6 +49,6 @@ class Vacols::Brieff::BrieffReport
 			end
 		end 
 
-		return output, ttlbfDocDate
+		return output, ttlbfDocDate, ttlPending
 	end
 end

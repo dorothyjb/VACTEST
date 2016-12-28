@@ -1,6 +1,10 @@
 @charset "utf-8";
-/* CSS Document */
-
+/* Core VAHS CSS Document 
+ *
+ * Used to set the core style of the VAHS environment.
+ * Used to override supporting CSS styles for Bootstrap implementation.
+ *
+ */
 body{
 	position:relative;
 	color: #010C29;
@@ -19,7 +23,6 @@ body{
 	scrollbar-arrow-color: #01133F; 
 
 }
-
 body::-webkit-scrollbar-track{
 	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
 	background-color: #F5F5F5;
@@ -33,16 +36,20 @@ body::-webkit-scrollbar-thumb{
 	border-radius: 10px;
 	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.44, rgb(122,153,217)), color-stop(0.72, rgb(73,125,189)), color-stop(0.86, rgb(28,58,148)));
 }
-
-
 a {
   cursor: pointer;
 }
+label{
+	margin-bottom: 0.1em !important;
+}
 
+
+/* Start - Used in app/views/layouts/application.html.erb */
 .main{
 	margin: 0 auto;
 	width:960px;
 }
+
 #vahs{
 	font-family:'Arial';
 	font-weight:400;
@@ -52,7 +59,9 @@ a {
 	text-align:left;
 	line-height:normal;
 }
+/* End - app/views/layouts/application.html.erb */
 
+/* Start - Used in app/views/layouts/_header.html.erb */
 #header{
 	left: 0px;
 	top: 0px;
@@ -77,6 +86,9 @@ a {
 #subheader span{
 	margin-left:3px;
 }
+/* End - app/views/layouts/_header.html.erb */
+
+/* Start - app/views/[SubFolder]/[All Primary Pages].html.erb */
 #content{
 	background: #fff;
 	background-image: url("/assets/greyfade.png");
@@ -89,15 +101,25 @@ a {
 	font-size:14px;
 	line-height:36px;
 }
-label{
-	margin-bottom: 0.1em !important;
+/* End - app/views/[SubFolder]/[All Primary Pages].html.erb */
+
+
+/* Start - app/views/[SubFolder]/[All Form Partials].html.erb */
+/* Start - Bootstrap table CSS Overrides */
+.table-condensed {
+	width: auto !important;
+	margin: 0 auto;
+	line-height: 12px;
+	table-layout:fixed;
+	word-wrap:break-word;
 }
+/* End - Bootstrap table CSS Overrides */
+
 #rptControls {
 	font-size: 13x;
 	line-height: 20px;
 	background: transparent;
 }
-
 #rptResults {
 	font-size:12px;
 	background: transparent;
@@ -128,7 +150,6 @@ label{
 	margin-bottom: 0px !important;
 	line-height: 20px;
 }
-
 .rptInput {
 	display: block;
 	width: 100%;
@@ -173,7 +194,15 @@ label{
 .rptTotals {
 	font-weight: bold;
 }
+.cntrAlign {
+	text-align: center;
+}
+.rghtAlign {
+	text-align: right;
+}
+/* End - app/views/[SubFolder]/[All Form Partials].html.erb */
 
+/* Start - Partial: app/views/base/_error.html.erb */
 .error{
 	margin-top: 20px;
 	line-height: 20px;
@@ -192,9 +221,4 @@ label{
 	font-size:14px;
 	color:#f00;
 }
-.cntrAlign {
-	text-align: center;
-}
-.rghtAlign {
-	text-align: right;
-}
+/* End - Partial: app/views/base/_error.html.erb */

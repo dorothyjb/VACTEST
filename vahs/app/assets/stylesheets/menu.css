@@ -1,6 +1,8 @@
 @charset "utf-8";
-/* CSS Document */
-
+/* menu CSS Document 
+ * Used to override supporting CSS style for Bootstrap NAVBAR implementation.
+ * - in app/views/layouts/_menu.html.erb
+ */
 #custom-bootstrap-menu.navbar-default {
     font-size: 12px;
     background-color: rgba(1, 19, 63, 1);

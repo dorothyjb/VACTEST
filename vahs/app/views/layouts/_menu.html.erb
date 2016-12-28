@@ -1,8 +1,9 @@
+<%= javascript_include_tag "menu" %>
 <nav id="custom-bootstrap-menu" class="navbar navbar-default" role="navigation">
   <div class="nav navbar-nav">
-	  <%= link_to('Home', root_path, class:'nav-item nav-link', id:'nav_home', alt:'Navigate to Home')%>
-	  <%= link_to('Docket Reports', docket_path, class:'nav-item nav-link', id:'nav_docket', alt:'Navigate to Docket Reports')%>
-	  <%= link_to('FY Analysis', analysis_path, class:'nav-item nav-link', id:'nav_analysis', alt:'Navigate to FY Analysis ')%>
-	  <%= link_to('About', about_path, class:'nav-item nav-link', id:'nav_about', alt:'Navigate to About')%>
+	  <%= link_to("Home", root_path, class:"nav-item nav-link", id:"nav_home", alt:"Navigate to Home")%>
+	  <%= link_to("Docket Reports", docket_path, class:"nav-item nav-link", id:"nav_docket", alt:"Navigate to Docket Reports")%>
+	  <%= link_to("FY Analysis", analysis_path, class:"nav-item nav-link", id:"nav_analysis", alt:"Navigate to FY Analysis ")%>
+	  <!-- <%= link_to("About", about_path, class:"nav-item nav-link", id:"nav_about", alt:"Navigate to About")%> -->
   </div>
 </nav>

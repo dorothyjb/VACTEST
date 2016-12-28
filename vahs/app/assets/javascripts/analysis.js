@@ -1,13 +1,13 @@
+/*
+ * Require the use of the 'table2excel' javascript file for the exporting functionality
+ */
 //= require jquery.table2excel
 
 $( document ).ready(function() {
-	$('#numJudge').val("57");
-	$('#judgeMult').val("2.25");
-	$('#coDays').val("196");
-	
-	
+	/*
+	 * DatePicker Control's Functionality
+	 */
 	var d = null;
-	
 	$('#docdate').datepicker({
         changeMonth: true,
         changeYear: true,
@@ -17,7 +17,9 @@ $( document ).ready(function() {
             $(this).datepicker('setDate', new Date(inst.selectedYear, inst.selectedMonth, 1));
         }
     });
-
+	/* This has to come after the initialization of the control above. 
+	 * Otherwise, the control does not get set to proper values when used. 
+	 */
 	if($('#docdate').val().length == 0){
 		d = new Date(2013, 1, 1);
 		$('#docdate').val("2013-02");
@@ -31,4 +33,16 @@ $( document ).ready(function() {
 		$('#docdate').datepicker("setDate",d);
 	}
 
+	/* Temporary Hack - Set the defaults of the three fields on the page 
+	 * This is going to change once the implementation of the Analysis Parameters interface is created.
+	 */
+	if($('#numJudge').val().length == 0){
+		$('#numJudge').val("57");
+	}
+	if($('#judgeMult').val().length == 0){
+		$('#judgeMult').val("2.25");
+	}
+	if($('#coDays').val().length == 0){
+		$('#coDays').val("196");
+	}
 });
