@@ -39,8 +39,10 @@ class ReportsController < ApplicationController
 
 		#Partials execute based on what 'exists'
 		if params[:ViewResults]
+			#User clicked the View Results button
 			@json = JSON.parse(@output.to_json)
 		else
+			#User clicked the View Results button
 			@exportXLS = JSON.parse(@output.to_json)
 		end
 	rescue
@@ -71,6 +73,10 @@ class ReportsController < ApplicationController
 	@judgeDays = 0  #Calculated Judge Days for Video Hearings Analysis
 	
 	#Object to hold totals
+	# - bfDocDate: total of the records that are before Docket Date (bfDocDate)
+	# - ttlPending: total of all returned records
+	# - ttlJudgeDays: total of all RO's Judge days
+	# - ttlAdded: total of all days add by RO Juedge Day calculations 
 	@ttls = {
 		'bfDocDate' => 0,
 		'ttlPending' => 0,
@@ -78,9 +84,10 @@ class ReportsController < ApplicationController
 		'ttlAdded' => 0
 	}
 	
+	#Case to determine what calculations need to be done for the appropriate requested analysis
 	case @hType
 		when "1"
-			@judgeDays = 0
+			@judgeDays = @coDays.to_i - 3 #need to look into this minus 3
 		when "2"
 			@judgeDays = 0
 		when "6"
@@ -95,10 +102,11 @@ class ReportsController < ApplicationController
 				
 		#Partials execute based on what 'exists'
 		if params[:ViewResults]
+			#User clicked the View Results button
 			@json = JSON.parse(@output.to_json)
 		else
+			#User clicked the View Results button
 			@exportXLS = JSON.parse(@output.to_json)
-			
 		end
 	rescue
 		@err = true

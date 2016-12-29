@@ -173,6 +173,8 @@ class Vacols::RegionalOffice
 
 	#Function to return collection of info about a Regional Office
 	def self.roInfo(ro)
-        return STATIONS.find{|k,v| [v].flatten.include?(ro)}.first, CITIES[ro], VHTZ[CITIES[ro][:timezone]]
+		#will fail if does not find result, also no need for array of arrays  
+		#return STATIONS.find{|k,v| [v].flatten.include?(ro)}.first, CITIES[ro], VHTZ[CITIES[ro][:timezone]]  
+		return STATIONS.find{|k,v| Array(v).include?(ro)}.try(:first), CITIES[ro], VHTZ[CITIES[ro][:timezone]]  
     end
 end

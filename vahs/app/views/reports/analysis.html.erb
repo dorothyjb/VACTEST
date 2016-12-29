@@ -1,41 +1,12 @@
 <% title "FY Analysis" %>
 <%= javascript_include_tag "analysis" %>
 <div id="content" class="container">
-<form method="POST" action="analysis">
-	<div id="rptControls" class="wrapper" >
-		<div class="row">
-			<div class="col-sm-2"><%= label_tag("docdate","Docket Range", alt:"Docket Range") %></div>
-			<div class="col-sm-2"><%= label_tag("hType","Hearing Type", alt:"Hearing Type") %></div>
-			<div class="col-sm-2"><%= label_tag("numJudge","# of Judges", alt:"Number of Judges") %></div>
-			<div class="col-sm-2"><%= label_tag("judgeMult","Hearings Per Month", alt:"Hearings Per Month") %></div>
-			<div class="col-sm-4"><%= label_tag("coDays","CO Judge Days", alt:"CO Judge Days") %></div>
-		</div>
-		<div class="row">
-			<div class="col-sm-2 vertical-top"><%= text_field_tag("docdate",params[:docdate],class: "rptInput", alt:"Docket Range Date") %></div>
-			<div class="col-sm-2 vertical-top"><%= select_tag("hType",options_for_select([["[Select Below]", "0"],["Central Office (CO)", "1"], ["Travel Board (TB)", "2"], ["Video Hearing (VH)", "6"]],params[:hType]), alt:"Select Hearing Type") %></div>
-			<div class="col-sm-2 vertical-top"><%= text_field_tag("numJudge", params[:numJudge], class: "rptInput", alt:"Number of Judges") %></div>
-			<div class="col-sm-2 vertical-top"><%= text_field_tag("judgeMult", params[:judgeMult], class: "rptInput", alt:"Hearings Per Month") %></div>
-			<div class="col-sm-2 vertical-top"><%= text_field_tag("coDays", params[:coDays], class: "rptInput", alt:"CO Judge Days") %></div>
-			<div class="col-sm-2"></div>
-		</div>
-		<div class="row">
-			<div class="col-sm-8 vertical-top" style="margin-left:5px">YYYY-MM</div>
-			<div class="col-sm-10"></div>
-		</div>
-		<div class="row">
-			<div class="col-sm-8"></div>
-			<div class="col-sm-2 vertical-top"><%= button_tag("View Results", type: "submit", class: "rptButton", name: "ViewResults", id:"btnView", alt:"Click to Submit and View Results") %></div>
-			<div class="col-sm-2 vertical-top"><%= button_tag("Export Results", type: "submit", class: "rptButton", name:"ExportResults", id:"btnExport", alt:"Click to Export Results") %></div>
-		</div>
-	</div>
-</form>
-<% if @json.present? %>
-	<div id="rptResults" class="wrapper" style="background-color:#fff;" >
-		<%= render :partial => "reports/analysis/co" if @hType == "1"  %>
-		<%= render :partial => "reports/analysis/travel" if @hType == "2"  %>
-		<%= render :partial => "reports/analysis/video" if @hType == "6"  %>
-	</div>
-<% end %>
-<%= render :partial => "reports/analysis/export" if @exportXLS.present?  %>
-<%= render :partial => "base/error" if @err.present?  %>
+	<%= render :partial => "reports/analysis/form" %>
+	<% if @json.present? %>
+			<%= render :partial => "reports/analysis/co" if @hType == "1"  %>
+			<%= render :partial => "reports/analysis/travel" if @hType == "2"  %>
+			<%= render :partial => "reports/analysis/video" if @hType == "6"  %>
+	<% end %>
+	<%= render :partial => "reports/analysis/export" if @exportXLS.present?  %>
+	<%= render :partial => "base/error" if @err.present?  %>
 </div>

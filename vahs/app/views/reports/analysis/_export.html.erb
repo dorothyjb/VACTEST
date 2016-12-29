@@ -22,27 +22,32 @@
 		}
 
 		$.each(exportRecs, function(name,data){
+			var pct = parseFloat((parseFloat(data["bfDocDate"]) / parseFloat(tblTotals["bfDocDate"]))*100).toFixed(2);
 			var obj = {
 				ro:  data["staID"] + "-" + data["ro"]["city"],
 				ttlPending: data["ttlPending"],
-				bfDocDate: data["bfDocDate"]
+				bfDocDate: data["bfDocDate"],
+				pct: pct,
+				tzValue: data["tzValue"]
 			}
 
 			switch( shType ){
 				case "1":
+					var recDays = parseFloat((parseFloat(obj["pct"])/100)*parseFloat(judgeDays)).toFixed(2);
+					obj["jdgDays"] = Math.round(recDays);
+					obj["ttlAdded"] = Math.round(recDays)*11;
+					tblTotals["ttlJudgeDays"] += obj["jdgDays"]
+					tblTotals["ttlAdded"] += obj["ttlAdded"]
 					break;
 				case "2":
 					break;
 				case "6":
-					obj["Pct"] =  parseFloat((parseFloat(obj["bfDocDate"]) / parseFloat(tblTotals["bfDocDate"]))*100).toFixed(2);
-
-					var recDays = parseFloat((parseFloat(obj["Pct"])/100)*parseFloat(judgeDays)).toFixed(2);
+					var recDays = parseFloat((parseFloat(obj["pct"])/100)*parseFloat(judgeDays)).toFixed(2);
 					obj["jdgDays"] = Math.round(recDays);
 					obj["ttlAdded"] = Math.round(recDays)*parseInt(data["tzValue"]);
-					obj["tzValue"] = data["tzValue"]
-					
 					tblTotals["ttlJudgeDays"] += obj["jdgDays"]
 					tblTotals["ttlAdded"] += obj["ttlAdded"]
+					break;
 			}
 			
 			tblData.push(obj);
@@ -61,14 +66,14 @@
 	}).then(function(){
 		switch( shType ){
 			case "1":
-				tblContent.push("<th></th>")
-				tblContent.push("<th></th>")
-				tblContent.push("<th></th>")
+				tblContent.push("<th>Judge Days Added</th>")
+				tblContent.push("<th>Total Hearings Added</th>")
+				tblContent.push("<th>TBD</th>")
 				break;
 			case "2":
-				tblContent.push("<th></th>")
-				tblContent.push("<th></th>")
-				tblContent.push("<th></th>")
+				tblContent.push("<th>Judge Trips Added</th>")
+				tblContent.push("<th>Total Hearings Added</th>")
+				tblContent.push("<th>TBD</th>")
 				break;
 			case "6":
 				tblContent.push("<th>Judge Days Added</th>")
@@ -86,21 +91,19 @@
 			tblContent.push("<td>" + tblData[j]["ro"] +"</td>");
 			tblContent.push("<td>" + tblData[j]["ttlPending"] +"</td>");
 			tblContent.push("<td>" + tblData[j]["bfDocDate"] +"</td>");
+			tblContent.push("<td>" + tblData[j]["pct"] +"</td>")
 			switch( shType ){
 				case "1":
-					tblContent.push("<td></td>")
-					tblContent.push("<td></td>")
-					tblContent.push("<td></td>")
-					tblContent.push("<td></td>")
+					tblContent.push("<td>" + tblData[j]["jdgDays"] +"</td>")
+					tblContent.push("<td>" + tblData[j]["ttlAdded"] +"</td>")
+					tblContent.push("<td>" + "??" +"</td>")
 					break;
 				case "2":
-					tblContent.push("<td></td>")
-					tblContent.push("<td></td>")
-					tblContent.push("<td></td>")
-					tblContent.push("<td></td>")
+					tblContent.push("<td>" + "" +"</td>")
+					tblContent.push("<td>" + "" +"</td>")
+					tblContent.push("<td>" + "" +"</td>")
 					break;
 				case "6":
-					tblContent.push("<td>" + tblData[j]["Pct"] +"</td>")
 					tblContent.push("<td>" + tblData[j]["jdgDays"] +"</td>")
 					tblContent.push("<td>" + tblData[j]["ttlAdded"] +"</td>")
 					tblContent.push("<td>" + tblData[j]["tzValue"] +"</td>")
@@ -116,14 +119,14 @@
 	}).then(function(){
 		switch( shType ){
 			case "1":
-				tblContent.push("<td></td>");
-				tblContent.push("<td></td>");
+				tblContent.push("<td>"+ tblTotals["ttlJudgeDays"] +"</td>");
+				tblContent.push("<td>"+ tblTotals["ttlAdded"] +"</td>");
 				tblContent.push("<td></td>");
 				break;
 			case "2":
-				tblContent.push("<td></td>");
-				tblContent.push("<td></td>");
-				tblContent.push("<td></td>");
+				tblContent.push("<td>"+ "" +"</td>");
+				tblContent.push("<td>"+ "" +"</td>");
+				tblContent.push("<td>"+ "" +"</td>");
 				break;
 			case "6":
 				tblContent.push("<td>"+ tblTotals["ttlJudgeDays"] +"</td>");

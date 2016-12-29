@@ -1,40 +1,57 @@
 <% title " - Travel Board" %>
+<div id="rptResults" class="wrapper" style="background-color:#fff;" >
 <div class="rptResultsHeader">Travel Board Allocation Analysis</div>
 <table class="table table-condensed">
 	<thead class="thead-inverse">
 		<tr>
 			<th>Regional<br/>Office</th>
-			<th class="cntrAlign">Total<br/>Pending</th>
-			<th class="cntrAlign">Pending<br/>(Pre <%= params[:docdate] %> )</th>
-			<th class="cntrAlign">Percentage</th>
-			<th class="cntrAlign">TBD</th>
-			<th class="cntrAlign">TBD</th>
-			<th class="cntrAlign">TBD</th>
+			<th class='cntrAlign'>Total<br/>Pending</th>
+			<th class='cntrAlign'>Pending<br/>(Pre <%= params[:docdate] %> )</th>
+			<th class='cntrAlign'>Percentage</th>
+			<th class='cntrAlign'>Judge Trips Added</th>
+			<th class='cntrAlign'>Total Hearings Added</th>
+			<th class='cntrAlign'>TBD</th>
 		</tr>
 	</thead>
 	<tbody>
-	
-		<tr>
-			<td>RO Name</td>
-			<td class="rghtAlign">##</td>
-			<td class="rghtAlign">##</td>
-			<td class="rghtAlign">%%</td>
-			<td class="cntrAlign">??</td>
-			<td class="cntrAlign">??</td>
-			<td class="cntrAlign">??</td>
-		</tr>
+	<% @json.sort_by{|h,obj| obj["ttlPending"]}.sort_by{|h,obj| obj["bfDocDate"]}.reverse.each do |h,obj| 
+		#Some quick math and totals
+		
+		#Determine this RO"s percentage
+		@pctRO = (obj["bfDocDate"].to_f / @ttls["bfDocDate"].to_f)
+		
+		#Determine Judge Days for this RO based on the calculated percentage
+		#@jdgDays = (@pctRO*@judgeDays.to_f).round(0)
 
-	
-	
+		#Determine Total Hearings Added for this RO based on the calculated Judge Days
+		#@addedDays = @jdgDays * 11
+		
+		#Convert to string and format for displaying the Percentage of the RO
+		@pctOf = "%.4f" % (@pctRO*100).round(4)
+		
+		#Do some accumulation for the Totals Row
+		#@ttls["ttlJudgeDays"] += @jdgDays.round(0)
+		#@ttls["ttlAdded"] += @addedDays
+	%>
+		<tr>
+			<td><%=obj["staID"]%>-<%=obj["ro"]["city"] %></td>
+			<td class="cntrAlign"><%= obj["ttlPending"]  %></td>
+			<td class="cntrAlign"><%= obj["bfDocDate"]  %></td>
+			<td class="cntrAlign"><%= @pctOf %>%</td>
+			<td class="cntrAlign"></td>
+			<td class="cntrAlign"></td>
+			<td class="cntrAlign"></td>
+		</tr>
+		<% end %>
 		<tr class="rptTotals">
 			<td>Totals</td>
-			<td class="rghtAlign">###</td>
-			<td class="rghtAlign">###</td>
-			<td class="rghtAlign"></td>
-			<td class="rghtAlign"></td>
+			<td class="cntrAlign"><%= @ttls["ttlPending"] %></td>
+			<td class="cntrAlign"><%= @ttls["bfDocDate"] %></td>
+			<td class="cntrAlign"></td>
+			<td class="cntrAlign"></td>
 			<td class="cntrAlign"></td>
 			<td class="cntrAlign"></td>
 		</tr>
 	</tbody>
 </table>
-
+</div>
