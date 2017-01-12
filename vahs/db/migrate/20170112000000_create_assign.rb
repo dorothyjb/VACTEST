@@ -28,6 +28,8 @@ class CreateAssign < ActiveRecord::Migration
       t.string  "TSKORDER", limit: 15
       t.string  "TSSYS",    limit: 16
     end
+
+    add_index "ASSIGN", ["TSKTKNM"], name: "fk_tsktknm", using: :btree
   end
 
   def self.down
