@@ -20,6 +20,8 @@ class CreateAttach < ActiveRecord::Migration
       t.string "IMREAD2",  limit: 16
       t.string "IMGSYS",   limit: 16
     end
+
+    add_index "ATTACH", ["IMGTKKY"], name: "fk_imgtkky", using: :btree
   end
 
   def self.down
