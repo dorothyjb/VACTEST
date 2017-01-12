@@ -1,4 +1,4 @@
-class CreateRMDREA < ActiveRecord::Migration
+class CreateRmdrea < ActiveRecord::Migration
   def self.up
    create_table "RMDREA", primary_key: "RMDKEY", force: :cascade do |t|
       t.string  "RMDVAL",      limit: 2

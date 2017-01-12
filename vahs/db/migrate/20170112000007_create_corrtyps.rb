@@ -1,4 +1,4 @@
-class CreateCorrTyps < ActiveRecord::Migration
+class CreateCorrtyps < ActiveRecord::Migration
   def self.up
     create_table "CORRTYPS", primary_key: "CTYPKEY", force: :cascade do |t|
       t.string "CTYPVAL",  limit: 10

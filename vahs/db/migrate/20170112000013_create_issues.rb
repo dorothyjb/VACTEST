@@ -1,4 +1,4 @@
-class CreateIssues < ActiveRecord::Migrations
+class CreateIssues < ActiveRecord::Migration
   def self.up
     create_table "ISSUES", id: false, force: :cascade do |t|
       t.string  "ISSKEY",    limit: 12

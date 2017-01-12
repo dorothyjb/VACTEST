@@ -1,4 +1,4 @@
-class CreateOthDocs < ActiveRecord::Migration
+class CreateOthdocs < ActiveRecord::Migration
   def self.up
     create_table "OTHDOCS", id: false, force: :cascade do |t|
       t.string "TICKNUM",  limit: 12
@@ -27,7 +27,8 @@ class CreateOthDocs < ActiveRecord::Migration
       t.string "COPAY",    limit: 3
     end
 
-    add_index "OTHDOCS", ["TICKNUM"], name: "fk_ticknum", using: :btree
+    #fk_ticknum exists in FOLDER.
+    #add_index "OTHDOCS", ["TICKNUM"], name: "fk_ticknum", using: :btree
   end
 
   def self.down

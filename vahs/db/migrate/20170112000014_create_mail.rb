@@ -1,4 +1,4 @@
-class CreateMail < ActiveRecord::Migrations
+class CreateMail < ActiveRecord::Migration
   def self.up
     create_table "MAIL", id: false, force: :cascade do |t|
       t.string  "MLFOLDER",   limit: 12

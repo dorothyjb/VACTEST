@@ -1,4 +1,4 @@
-class CreateHearSched < ActiveRecord::Migration
+class CreateHearsched < ActiveRecord::Migration
   def self.up
     create_table "HEARSCHED", id: false, force: :cascade do |t|
       t.integer "HEARING_PKSEQ", limit: 4

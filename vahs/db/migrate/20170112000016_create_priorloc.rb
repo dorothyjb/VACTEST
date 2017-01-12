@@ -1,4 +1,4 @@
-class CreatePriorLoc < ActiveRecord::Migration
+class CreatePriorloc < ActiveRecord::Migration
   def self.up
     create_table "PRIORLOC", id: false, force: :cascade do |t|
       t.string "LOCLCODE", limit: 10

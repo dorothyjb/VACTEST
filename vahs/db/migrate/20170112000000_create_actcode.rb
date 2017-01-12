@@ -1,4 +1,4 @@
-class CreateActCode < ActiveRecord::Migration
+class CreateActcode < ActiveRecord::Migration
   def self.up
     create_table "ACTCODE", primary_key: "ACTCKEY", force: :cascade do |t|
       t.string "ACTCDESC",  limit: 50

@@ -1,4 +1,4 @@
-class CreateVFTypes < ActiveRecord::Migration
+class CreateVftypes < ActiveRecord::Migration
   def self.up
     create_table "VFTYPES", id: false, force: :cascade do |t|
       t.string "FTKEY",    limit: 10

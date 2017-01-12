@@ -1,4 +1,4 @@
-class CreateDecreView < ActiveRecord::Migration
+class CreateDecreview < ActiveRecord::Migration
   def self.up
     create_table "DECREVIEW", primary_key: "FOLDER", force: :cascade do |t|
       t.string "APPEAL_ID",   limit: 10

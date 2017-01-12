@@ -1,4 +1,4 @@
-class CreateISSRef < ActiveRecord::Migration
+class CreateIssref < ActiveRecord::Migration
   def self.up
     create_table "ISSREF", id: false, force: :cascade do |t|
       t.string "PROG_CODE", limit: 6
