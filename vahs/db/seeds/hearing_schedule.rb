@@ -1,0 +1,3 @@
+Vacols::HearingSchedule.create!([
+  {HEARING_PKSEQ: 1232545515, HEARING_TYPE: "Q", FOLDER_NR: "SDK", HEARING_DATE: nil, HEARING_DISP: "W", BOARD_MEMBER: "Tom Hodge", NOTES1: "hearing taking place at the moment", TEAM: "VA", ROOM: "F150", REP_STATE: "MD", MDUSER: "system", MDTIME: nil, REQDATE: nil, CLSDATE: nil, RECMED: "S", CONSENT: nil, CONRET: nil, CONTAPES: "I", TRANREQ: "L", TRANSENT: nil, WBTAPES: 3, WBBACKUP: "K", WBSENT: nil, RECPROB: "C", TASKNO: "A1258", ADDUSER: "Dom", ADDTIME: nil, AOD: "Q", HOLDAYS: 258, VDKEY: "West5", REPNAME: "jane Trish", VDBVAPOC: "Sam Neil", VDROPOC: "James Bond", CANCELDATE: nil}
+])

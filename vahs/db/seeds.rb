@@ -5,3 +5,11 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+Dir[File.join(Rails.root, 'app', 'models', 'vacols', '*.rb')].each do |f|
+  require f
+end
+
+Dir[File.join(Rails.root, 'db', 'seeds', '*.rb')].each do |f|
+  load f
+end
