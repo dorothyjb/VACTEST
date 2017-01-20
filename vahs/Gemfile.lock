@@ -226,9 +226,6 @@ GEM
     sdoc (0.4.2)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
-    seed_dump (3.2.4)
-      activerecord (>= 4)
-      activesupport (>= 4)
     selenium-webdriver (3.0.1)
       childprocess (~> 0.5)
       rubyzip (~> 1.0)
@@ -297,7 +294,6 @@ DEPENDENCIES
   sass-rails (~> 5.0)
   scss_lint
   sdoc (~> 0.4.0)
-  seed_dump
   simplecov
   sniffybara!
   spring
@@ -307,4 +303,4 @@ DEPENDENCIES
   web-console (~> 2.0)
 
 BUNDLED WITH
-   1.13.6
+   1.13.7
