@@ -1,30 +1,46 @@
 class ReportsController < ApplicationController
-
-  # Docket Range Reporting 
-  def docket
+  def home
     @docdate = params[:docdate]
 	@hType = params[:hType]
 	@rsType = params[:rsType]
   end
-  def getDocket
+
+  def create
     @docdate = params[:docdate]+"-01"
 	@hType = params[:hType]
 	@rsType = params[:rsType]
-	@shType = getHearingType(@hType)
+	@shType = ""
+	@ttlPending = 0
 	
-	#Object to hold totals
-	# - fyCol: Columns for the FY breakdown
-	# - bfDocDate: total of the records that are before Docket Date (bfDocDate)
-	# - ttlPending: total of all returned records
-	@ttls = {
-		'fyCol' => [0,0,0,0,0,0],
-		'bfDocDate' => 0, 
-		'ttlPending' => 0
-	}
-
+	case @hType
+  	when "1"
+  		@shType = "Central Office"
+  	when "2"
+		@shType = "Travel Board"
+  	when "6"
+  		@shType = "Video"
+  	end
+	
 	begin
-		#Get the data 
-		@output, @ttls["bfDocDate"], @ttls["ttlPending"] = Vacols::Brieff.get_report(@docdate, @hType, @rsType)
+		@result = Vacols::Brieff.do_work(@docdate, @hType, @rsType)
+		@output = Hash.new {|h, k| h[k] = [0,0,0,0,0,0,0]}
+		@result.each do |i|
+			@output[i["BFREGOFF"]][i.fiscal_year] +=1
+			@output[i["BFREGOFF"]][6] += 1
+			@ttlPending +=1
+		end 
+		
+		if params[:ViewResults]
+			@json = JSON.parse(@output.to_json)
+		else
+			@exportXLS = JSON.parse(@output.to_json)
+		end
+	rescue
+		@err = true
+	end
+	render :home
+  end
+end@rsType)
 		
 		#Parse the data to a JSON object and sum up the FY columns for the Totals row
 		@doTtls = JSON.parse(@output.to_json)
@@ -93,7 +109,7 @@ class ReportsController < ApplicationController
 		when "6"
 			# The additional subtraction of 12 is because of ??? Holidays ???
 			# Excel Example: 1331 = ((( 57 * 2.25 ) * 12 ) - 12 ) - 196 
-			@judgeDays = (((@numJudge.to_f * @judgeMult.to_f) * 12)-12)-@coDays.to_i
+			@judgeDays = (((@numJudge.to_f * @judgeMult.to_f) * 12))-@coDays.to_i
   	end
 	
 	begin		

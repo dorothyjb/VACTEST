@@ -13,8 +13,9 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery.form-validator
-//= require jquery-ui
+//= require_tree .-ui
 //= require bootstrap
 //= require angular.min
 //= require angular-ui.min
 //= require 508ARIA
+//= require jquery.floatThead.min.js

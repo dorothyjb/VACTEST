@@ -22,18 +22,18 @@ fake_vacols_development:
   database: slaubrey_vac
   socket: /var/lib/mysql/mysql.sock
   port: 3306
-
-local_vacols_development:
-  adapter: mysql2
-  encoding: utf8
-  username: root
-  password: classic1
-  database: test
-  socket: /var/lib/mysql/mysql.sock
   
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
+test:
+  <<: *default
+  database: db/test.sqlite3
+
+production:
+  <<: *default
+  database: db/production.sqlite3
+to the same as development or production.
 test:
   <<: *default
   database: db/test.sqlite3
