@@ -33,11 +33,3 @@ test:
 production:
   <<: *default
   database: db/production.sqlite3
-to the same as development or production.
-test:
-  <<: *default
-  database: db/test.sqlite3
-
-production:
-  <<: *default
-  database: db/production.sqlite3
