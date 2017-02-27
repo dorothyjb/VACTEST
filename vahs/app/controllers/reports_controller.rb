@@ -1,46 +1,33 @@
 class ReportsController < ApplicationController
-  def home
+
+  # Docket Range Reporting 
+  
+  #@rsType is never used or referenced and can be removed eventually.
+  #Do not currently have the time to go remove it from all method calls
+  def docket
     @docdate = params[:docdate]
 	@hType = params[:hType]
 	@rsType = params[:rsType]
   end
-
-  def create
+  def getDocket
     @docdate = params[:docdate]+"-01"
 	@hType = params[:hType]
 	@rsType = params[:rsType]
-	@shType = ""
-	@ttlPending = 0
+	@shType = getHearingType(@hType)
 	
-	case @hType
-  	when "1"
-  		@shType = "Central Office"
-  	when "2"
-		@shType = "Travel Board"
-  	when "6"
-  		@shType = "Video"
-  	end
-	
+	#Object to hold totals
+	# - fyCol: Columns for the FY breakdown
+	# - bfDocDate: total of the records that are before Docket Date (bfDocDate)
+	# - ttlPending: total of all returned records
+	@ttls = {
+		'fyCol' => [0,0,0,0,0,0],
+		'bfDocDate' => 0, 
+		'ttlPending' => 0
+	}
+
 	begin
-		@result = Vacols::Brieff.do_work(@docdate, @hType, @rsType)
-		@output = Hash.new {|h, k| h[k] = [0,0,0,0,0,0,0]}
-		@result.each do |i|
-			@output[i["BFREGOFF"]][i.fiscal_year] +=1
-			@output[i["BFREGOFF"]][6] += 1
-			@ttlPending +=1
-		end 
-		
-		if params[:ViewResults]
-			@json = JSON.parse(@output.to_json)
-		else
-			@exportXLS = JSON.parse(@output.to_json)
-		end
-	rescue
-		@err = true
-	end
-	render :home
-  end
-end@rsType)
+		#Get the data 
+		@output, @ttls["bfDocDate"], @ttls["ttlPending"] = Vacols::Brieff.get_report(@docdate, @hType, @rsType)
 		
 		#Parse the data to a JSON object and sum up the FY columns for the Totals row
 		@doTtls = JSON.parse(@output.to_json)

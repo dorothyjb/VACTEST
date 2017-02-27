@@ -1,15 +1,10 @@
-/*
-*= require jquery-ui
-*= require bootstrap 
-*= require_self 
-*= require_tree .
-*= require _main.scss
-*/
-
 @charset "utf-8";
-/* CSS Document */
-
-
+/* Core VAHS CSS Document 
+ *
+ * Used to set the core style of the VAHS environment.
+ * Used to override supporting CSS styles for Bootstrap implementation.
+ *
+ */
 body{
 	position:relative;
 	color: #010C29;
@@ -17,21 +12,44 @@ body{
 	font-size: 75%;
 	height: 100%;
 	overflow:hidden;
-	overflow-x:hidden;
+	overflow-x:auto;
+	overflow-y:scroll;
 	width: 100%;
 	height: auto;
 	background:#fff;
 	background: url("/assets/bg-middle-effect.png") repeat-y scroll center -65px #01133F;
-}
+	scrollbar-face-color: #01133F;
+	scrollbar-track-color: #F5F5F5;
+	scrollbar-arrow-color: #01133F; 
 
+}
+body::-webkit-scrollbar-track{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: #F5F5F5;
+	border-radius: 10px;
+}
+body::-webkit-scrollbar{
+	width: 10px;
+	background-color: #01133F;
+}
+body::-webkit-scrollbar-thumb{
+	border-radius: 10px;
+	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.44, rgb(122,153,217)), color-stop(0.72, rgb(73,125,189)), color-stop(0.86, rgb(28,58,148)));
+}
 a {
   cursor: pointer;
 }
+label{
+	margin-bottom: 0.1em !important;
+}
 
+
+/* Start - Used in app/views/layouts/application.html.erb */
 .main{
 	margin: 0 auto;
 	width:960px;
 }
+
 #vahs{
 	font-family:'Arial';
 	font-weight:400;
@@ -41,7 +59,9 @@ a {
 	text-align:left;
 	line-height:normal;
 }
+/* End - app/views/layouts/application.html.erb */
 
+/* Start - Used in app/views/layouts/_header.html.erb */
 #header{
 	left: 0px;
 	top: 0px;
@@ -66,98 +86,49 @@ a {
 #subheader span{
 	margin-left:3px;
 }
+/* End - app/views/layouts/_header.html.erb */
+
+/* Start - app/views/[SubFolder]/[All Primary Pages].html.erb */
 #content{
 	background: #fff;
 	background-image: url("/assets/greyfade.png");
 	background-repeat: repeat-x;
 	background-position: left top;
 	padding: 12px 10px 10px 10px;
+	width: 950px;
 	border-radius: 8px;
 }
 .wrapper{
 	font-size:14px;
 	line-height:36px;
 }
-#rptControls{
-	font-size: 13x;
-	line-height: 36px;
-	background: transparent;
-}
-#rptResults{
-	font-size:14px;
-	line-height:36px;
-	background: transparent;
-}
-.vertical-top {
-	display: inline-block;
-    vertical-align: top;
-	line-height: 20px;
-}
-.rptInput {
-	display: block;
-	width: 100%;
-	padding: 0;
-	padding-left: 3px;
-	font-size: 1rem;
-	line-height: 20px;
-	color: #55595C;
-	background-color: #FFF;
-	background-image: none;
-	background-clip: padding-box;
-	border: 1px solid rgba(0, 0, 0, 0.15);
-	border-radius: 0.25rem;
-}
-.rptButton {
-	left:0px;
-	top:0px;
-	height:20px;
-	background:inherit;
-	background-color:#000921;
-	line-height: 20px;
-	text-align: center;
-	vertical-align: middle;
-	box-sizing:border-box;
-	border-width:1px;
-	border-style:solid;
-	border-color:#07256F;
-	border-radius:5px;
-	-webkit-box-shadow:none;
-	box-shadow:none;
-	font-family:'Arial Bold', 'Arial Regular', 'Arial';
-	font-weight:700;
-	font-style:normal;
-	font-size:14px;
-	color:#FFFFFF;
-}
-.rptButton:hover {
-	cursor: pointer;
-	color: #ffff00;
-	background-color:#01133F;
-}
-.error{
-	line-height: 20px;
-	text-align: center;
-	vertical-align: top;
-	box-sizing:border-box;
-	border-width:1px;
-	border-style:solid;
-	border-color:#f00;
-	border-radius:5px;
-	-webkit-box-shadow:none;
-	box-shadow:none;
-	font-family:'Arial Bold', 'Arial Regular', 'Arial';
-	font-weight:400;
-	font-style:normal;
-	font-size:14px;
-	color:#f00;
-}
-.cntrAlign {
-	text-align: center;
-}
-.rghtAlign {
-	text-align: right;
-}
+/* End - app/views/[SubFolder]/[All Primary Pages].html.erb */
 
+
+/* Start - app/views/[SubFolder]/[All Form Partials].html.erb */
+/* Start - Bootstrap table CSS Overrides */
+.table-condensed {
+	width: auto !important;
+	margin: 0 auto;
+	line-height: 12px;
+	table-layout:fixed;
+	word-wrap:break-word;
+}
+/* End - Bootstrap table CSS Overrides */
+
+#rptControls {
+	font-size: 13x;
+	line-height: 20px;
+	width: 920px;
+	background: transparent;
+}
+#rptResults {
+	font-size:12px;
+	background: transparent;
+}
+#rptResults thead {
+	line-height: 14px;
+	padding-bottom:0px;
 }
 #rptResults thead th {
 	padding-bottom:3px;
