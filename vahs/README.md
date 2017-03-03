@@ -60,7 +60,19 @@ sudo cp ../apache/ssl.conf /etc/httpd/conf.d/
 ```
 
 ## Installing Phusion Passenger
+```
+cd /home/testing/.rbenv/versions/2.3.0/lib/ruby/gems/2.3.0/gems/passenger-5.1.2/bin
+./passenger-install-apache2-module
+```
+*just keep hitting enter*
 
-### TODO
+### Enable passenger access for SELinux
+```
+sudo setsebool -P httpd_read_user_content 1
+sudo semodule -i ../apache/my-httpd.pp
+sudo semodule -i ../apache/passenger.pp
+sudo semodule -i ../apache/passenger-agent.pp
+```
+
 
 # BVA Hearing Schedule
