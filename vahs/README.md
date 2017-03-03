@@ -85,6 +85,11 @@ sudo cp ../apache/vaca_fullpath.pem /etc/pki/tls/certs/
 # The following line is for development purposes only.
 sudo openssl req -x509 -newkey rsa:4096 -nodes -keyout /etc/ssl/certs/server.key -out /etc/pki/tls/certs/server.crt -days 365
 ```
+
+## Restart apache
+```
+sudo systemctl restart httpd
+```
 *Enter certificate information*
 
 # BVA Hearing Schedule
