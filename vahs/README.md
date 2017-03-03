@@ -72,7 +72,7 @@ sudo setsebool -P httpd_read_user_content 1
 sudo semodule -i ../apache/my-httpd.pp
 sudo semodule -i ../apache/passenger.pp
 sudo semodule -i ../apache/passenger-agent.pp
-sudo semodule -i ../apache/utils-rb.pp
+chcon -R -t httpd_sys_rw_content_t tmp
 ```
 
 
