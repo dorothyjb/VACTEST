@@ -1,5 +1,7 @@
 # Setup
 
+*NOTE:* This documentation assumes you're in the vahs directory.
+
 ## Update packages to latest.
 ```
 sudo yum update
@@ -56,7 +58,7 @@ bundle install
 ```
 sudo cp ../apache/httpd.conf /etc/httpd/conf/
 sudo cp ../apache/tdd.conf /etc/httpd/conf.d/
-sudo cp ../apache/ssl.conf /etc/httpd/conf.d/
+sudo rm -f /etc/httpd/conf.d/ssl.conf /etc/httpd/conf.d/welcome.conf
 ```
 
 ## Installing Phusion Passenger
@@ -72,8 +74,17 @@ sudo setsebool -P httpd_read_user_content 1
 sudo semodule -i ../apache/my-httpd.pp
 sudo semodule -i ../apache/passenger.pp
 sudo semodule -i ../apache/passenger-agent.pp
+sudo semodule -i ../apache/utils-rb.pp
 chcon -R -t httpd_sys_rw_content_t tmp
+chcon -t httpd_sys_rw_content_t db/development.sqlite3
 ```
 
+## Setting up SSL
+```
+sudo cp ../apache/vaca_fullpath.pem /etc/pki/tls/certs/
+# The following line is for development purposes only.
+sudo openssl req -x509 -newkey rsa:4096 -nodes -keyout /etc/ssl/certs/server.key -out /etc/pki/tls/certs/server.crt -days 365
+```
+*Enter certificate information*
 
 # BVA Hearing Schedule
