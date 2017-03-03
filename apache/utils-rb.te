@@ -1,0 +1,14 @@
+
+module utils-rb 1.0;
+
+require {
+	type mysqld_port_t;
+	type httpd_t;
+	type user_home_t;
+	class file write;
+	class tcp_socket name_connect;
+}
+
+#============= httpd_t ==============
+allow httpd_t mysqld_port_t:tcp_socket name_connect;
+allow httpd_t user_home_t:file write;
