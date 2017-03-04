@@ -1,6 +1,9 @@
 class ReportsController < ApplicationController
 
   # Docket Range Reporting 
+  
+  #@rsType is never used or referenced and can be removed eventually.
+  #Do not currently have the time to go remove it from all method calls
   def docket
     @docdate = params[:docdate]
 	@hType = params[:hType]
@@ -93,7 +96,7 @@ class ReportsController < ApplicationController
 		when "6"
 			# The additional subtraction of 12 is because of ??? Holidays ???
 			# Excel Example: 1331 = ((( 57 * 2.25 ) * 12 ) - 12 ) - 196 
-			@judgeDays = (((@numJudge.to_f * @judgeMult.to_f) * 12)-12)-@coDays.to_i
+			@judgeDays = (((@numJudge.to_f * @judgeMult.to_f) * 12))-@coDays.to_i
   	end
 	
 	begin		

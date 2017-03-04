@@ -1,0 +1,14 @@
+
+module passenger 1.0;
+
+require {
+	type httpd_t;
+	type user_home_t;
+	class file { execute execute_no_trans read };
+}
+
+#============= httpd_t ==============
+allow httpd_t user_home_t:file execute_no_trans;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_t user_home_t:file { execute read };
