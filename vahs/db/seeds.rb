@@ -6,10 +6,21 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-Dir[File.join(Rails.root, 'app', 'models', 'vacols', '*.rb')].each do |f|
-  require f
-end
+# yanked from:
+#   https://panupan.com/2013/01/18/seed-your-rails-app-by-importing-from-sql/
+unless Rails.env.production?
+  connection = ActiveRecord::Base.connection
+  connection.tables.each do |table|
+    connection.execute("TRUNCATE #{table}") unless table == "schema_migrations"
+  end
 
-Dir[File.join(Rails.root, 'db', 'seeds', '*.rb')].each do |f|
-  load f
+  sql = File.read('db/data.sql')
+  statements = sql.split(/;$/)
+  statements.pop
+
+  ActiveRecord::Base.transaction do
+    statements.each do |statement|
+      connection.execute(statement)
+    end
+  end
 end

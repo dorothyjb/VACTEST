@@ -1,4 +1,0 @@
-Vacols::Mail.create!([
-  {MLFOLDER: "MAILER", MLSEQ: 111234455, MLCORKEY: "123S3232", MLSOURCE: "A", MLTYPE: "DW", MLCORRDATE: nil, MLRECVDATE: nil, MLDUEDATE: nil, MLCOMPDATE: nil, MLACTION: "WQ", MLASSIGNEE: "admin", MLNOTES: "pending as in progress", MLADDUSER: "system", MLADDTIME: nil, MLMODUSER: "configuration", MLMODTIME: nil, MLCONTROL: "D", MLEDMS: "testing", MLACTDATE: nil, MLREQLAST: "Willis", MLREQFIRST: "Tom", MLREQMI: "F", MLREQREL: "E", MLACCESS: "D", MLAMEND: "S", MLLIT: "A", MLFEE: 2547.32, MLPAGES: 2544, MLADDR1: "456 Tyson street", MLADDR2: "Suite 300", MLCITY: "Richmond", MLST: "VA", MLZIP: "20004", MLFOIADATE: nil, MLREQFAC: "Testing", MLTRACK: "Q", MLDUE2ND: nil, MLAUTH: "Y"}
-])
-

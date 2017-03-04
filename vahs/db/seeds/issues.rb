@@ -1,4 +1,0 @@
-Vacols::Issues.create!([
-  {ISSKEY: "32434SD", ISSSEQ: 11123452, ISSPROG: "QS1223", ISSCODE: "SE3412", ISSLEV1: "SD341", ISSLEV2: "FE345", ISSLEV3: "AQ123", ISSDC: "D", ISSDCLS: nil, ISSADTIME: nil, ISSADUSER: "admin", ISSMDTIME: nil, ISSMDUSER: "system", ISSDESC: "working knowledge", ISSSEL: "X", ISSGR: "D", ISSDEV: "G"}
-])
-

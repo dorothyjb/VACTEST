@@ -9,9 +9,9 @@ default: &default
   pool: 5
   timeout: 5000
 
-development:
-  <<: *default
-  database: db/development.sqlite3
+#development:
+#  <<: *default
+#  database: db/development.sqlite3
 
 fake_vacols_development:
   adapter: mysql2
@@ -23,12 +23,12 @@ fake_vacols_development:
   socket: /var/lib/mysql/mysql.sock
   port: 3306
 
-local_vacols_development:
+development:
   adapter: mysql2
   encoding: utf8
   username: root
-  password: qwerty!23
-  database: vac
+  password: classic1
+  database: test
   socket: /var/lib/mysql/mysql.sock
   
 # Warning: The database defined as "test" will be erased and
