@@ -1,0 +1,10 @@
+class Vacols::Brieff < Vacols::Record
+  self.table_name = "BRIEFF"
+
+  def self.limit_docdate(docdate,htype)
+  	where("BFD19 < ?", docdate)
+  end
+
+
+
+end

@@ -1,0 +1,42 @@
+<table ID='exportResults'>
+	<tr>
+		<th>RO</th>
+		<th>Type</th>
+		<th>Pending</th>
+		<th>Pre-FY2000</th>
+		<th>FY01-05</th>
+		<th>FY06-10</th>
+		<th>FY11-15</th>
+		<th>FY16</th>
+		<th>FY17</th>
+	</tr>
+	<% @records.each do |rec| %>
+		<tr>
+			<td><%= rec["BFREGOFF"] %></td>
+			<td>Video</td>
+			<td><%= rec["BFKEY"] %></td>
+			<td>0</td>
+			<td>0</td>
+			<td>0</td>
+			<td>0</td>
+			<td>0</td>
+			<td>0</td>
+		</tr>
+	<% end %>
+</tr></table>
+<script>
+	$( document ).ready(function() {
+	
+	
+	
+		$("#exportResults").table2excel({
+			exclude: ".excludeThisClass",
+			name: "ReportExport",
+			filename: "ExportReport"
+		});
+		window.location.replace("/");
+	});
+</script>
+
+
+
