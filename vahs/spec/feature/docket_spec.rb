@@ -16,4 +16,32 @@ RSpec.feature "Docket Page" do
                                                           'Video Hearing (VH)'
                                                         ])
   end
+
+  it "Displays an error if I fail to select a Hearing type" do
+    visit "/docket"
+    select "[Select Below]", from: 'hType'
+    click_button "btnView"
+    expect(find(".error")).to have_text("An error has occurred")
+  end
+
+  it "Displays Central office type when I select Central Office" do
+    visit "/docket"
+    select "Central Office (CO)", from: 'hType'
+    click_button "btnView"
+    expect(page.all(:xpath, ".//table/tbody/tr[1]/td[2]").first.text).to have_content("Central Office")
+  end
+
+  it "Displays Travel board type when I select Travel Board" do
+    visit "/docket"
+    select "Travel Board (TB)", from: 'hType'
+    click_button "btnView"
+    expect(page.all(:xpath, ".//table/tbody/tr[1]/td[2]").first.text).to have_content("Travel Board")
+  end
+
+  it "Displays Video hearing type when I select Video Hearing" do
+    visit "/docket"
+    select "Video Hearing (VH)", from: 'hType'
+    click_button "btnView"
+    expect(page.all(:xpath, ".//table/tbody/tr[1]/td[2]").first.text).to have_content("Video")
+  end
 end
