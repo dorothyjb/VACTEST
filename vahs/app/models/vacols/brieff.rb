@@ -1,50 +1,6 @@
 class Vacols::Brieff < Vacols::Record
 	self.table_name = "BRIEFF"
 
-	alias_attribute :folder_number, :BFKEY
-	alias_attribute :date_of_decision, :BFDDEC
-	alias_attribute :corres_key, :BFCORKEY
-	alias_attribute :appellant_id, :BFCORLID
-	alias_attribute :stays_indicator, :BFDCN
-	alias_attribute :vid_hearing_req_indicator, :BFDOCIND
-	alias_attribute :insurance_loan_number, :BFPDNUM
-	alias_attribute :date_of_prior_decision, :BFDPDCN
-	alias_attribute :thurber_date, :BFDTHURB #obsolete
-	alias_attribute :date_of_disagreement_received, :BFDNOD
-	alias_attribute :date_of_statement_case_issued, :BFDSOC
-	alias_attribute :date_of_form_9_received, :BFD19
-	alias_attribute :date_of_certified_bva, :BF41STAT
-	alias_attribute :mail_status, :BFMSTAT
-	alias_attribute :appeal_status, :BFMPRO
-	alias_attribute :date_mail_control, :BFDMCON
-	alias_attribute :regional_office, :BFREGOFF
-	alias_attribute :number_of_issues, :BFISSNR
-	alias_attribute :remand_destination, :BFRDMREF
-	alias_attribute :appeal_program_area, :BFCASEV
-	alias_attribute :decission_team, :BFBOARD
-	alias_attribute :date_assigned_to_decission_team, :BFBSASGN
-	alias_attribute :attorney_id, :BFATTID
-	alias_attribute :date_assigned_to_attorney, :BFDASGN
-	alias_attribute :cavc_folder_number, :BFCCLKID
-	alias_attribute :date_sent_to_quality_review, :BFDQRSNT
-	alias_attribute :date_location_in, :BFDLOCIN
-	alias_attribute :date_location_out, :BFDLOCOUT
-	alias_attribute :medical_facility, :BFSTASGN
-	alias_attribute :current_location_of_case_file, :BFCURLOC
-	alias_attribute :number_copies_of_duplication, :BFNRCOPY
-	alias_attribute :board_members_id, :BFMEMID
-	alias_attribute :board_date_assigned_boardmember, :BFDMEM
-	alias_attribute :number_copies_of_congressional_interest, :BFNRCI
-	alias_attribute :outbased_travel_board_ind, :BFCALLUP
-	alias_attribute :capri_patient_list_adddel_indicator, :BFCALLYYMM
-	alias_attribute :ats_status, :BFHINES # No longer used
-	alias_attribute :dro_informal_hearing, :BFDCFLD1
-	alias_attribute :dro_formal_hearing, :BFDCFLD2
-	alias_attribute :dro, :BFDCFLD3
-	alias_attribute :type_action, :BFAC
-	alias_attribute :disposition_of_appeal, :BFDC
-	alias_attribute 
-
 	scope :form_completed, -> {where.not(:BFD19 => nil)}
 	scope :check_action, -> {where("BFHA = 3 OR BFHA IS NULL")}
 	scope :is_advanced, -> {where(:BFMPRO => 'ADV')}

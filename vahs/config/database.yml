@@ -9,9 +9,9 @@ default: &default
   pool: 5
   timeout: 5000
 
-#development:
-#  <<: *default
-#  database: db/development.sqlite3
+development:
+  <<: *default
+  database: db/development.sqlite3
 
 fake_vacols_development:
   adapter: mysql2
@@ -23,7 +23,7 @@ fake_vacols_development:
   socket: /var/lib/mysql/mysql.sock
   port: 3306
 
-development:
+local_vacols_development:
   adapter: mysql2
   encoding: utf8
   username: root
