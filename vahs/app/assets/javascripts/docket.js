@@ -32,8 +32,4 @@ $( document ).ready(function() {
 		$('#docdate').datepicker("option","defaultDate",d);
 		$('#docdate').datepicker("setDate",d);
 	}
-
-	$('table.hearingtable').floatThead({
-		position: 'fixed'
-	});
 });

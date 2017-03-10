@@ -45,8 +45,4 @@ $( document ).ready(function() {
 	if($('#coDays').val().length == 0){
 		$('#coDays').val("196");
 	}
-
-	$('table.hearingtable').floatThead({
-		position: 'fixed'
-	});
 });

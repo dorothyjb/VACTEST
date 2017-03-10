@@ -12,7 +12,7 @@ body{
 	font-size: 75%;
 	height: 100%;
 	overflow:hidden;
-	overflow-x:auto;
+	overflow-x:hidden;
 	overflow-y:scroll;
 	width: 100%;
 	height: auto;
@@ -95,7 +95,6 @@ label{
 	background-repeat: repeat-x;
 	background-position: left top;
 	padding: 12px 10px 10px 10px;
-	width: 950px;
 	border-radius: 8px;
 }
 .wrapper{
@@ -119,7 +118,6 @@ label{
 #rptControls {
 	font-size: 13x;
 	line-height: 20px;
-	width: 920px;
 	background: transparent;
 }
 #rptResults {
@@ -137,13 +135,6 @@ label{
 	margin-top:15px;
 	font-size:28px;
 	font-weight: bold;
-	line-height:36px;
-	text-align:center;
-	width:100%
-}
-.rptResultsHeader2{
-	margin-top:15px;
-	font-size:18px;
 	line-height:36px;
 	text-align:center;
 	width:100%

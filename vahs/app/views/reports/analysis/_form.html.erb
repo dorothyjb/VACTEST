@@ -3,9 +3,9 @@
 		<div class="row">
 			<div class="col-sm-2"><%= label_tag("docdate","Docket Range", alt:"Docket Range") %></div>
 			<div class="col-sm-2"><%= label_tag("hType","Hearing Type", alt:"Hearing Type") %></div>
-			<div class="col-sm-2"><%= label_tag("numJudge","Number of Judges", alt:"Number of Judges") %></div>
-			<div class="col-sm-2"><%= label_tag("judgeMult","Hearing Days/Month", alt:"Hearing Days per Month") %></div>
-			<div class="col-sm-4"><%= label_tag("coDays","Central Office Judge Days", alt:"Central Office Judge Days") %></div>
+			<div class="col-sm-2"><%= label_tag("numJudge","# of Judges", alt:"Number of Judges") %></div>
+			<div class="col-sm-2"><%= label_tag("judgeMult","Hearings Per Month", alt:"Hearings Per Month") %></div>
+			<div class="col-sm-4"><%= label_tag("coDays","CO Judge Days", alt:"CO Judge Days") %></div>
 		</div>
 		<div class="row">
 			<div class="col-sm-2 vertical-top"><%= text_field_tag("docdate",params[:docdate],class: "rptInput", alt:"Docket Range Date") %></div>
