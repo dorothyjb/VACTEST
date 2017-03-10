@@ -1,7 +1,7 @@
 <% title " - Central Office" %>
 <div id="rptResults" class="wrapper" style="background-color:#fff;" >
 <div class="rptResultsHeader">Central Office Allocation Analysis</div>
-<table class="table table-condensed">
+<table class="table table-condensed hearingtable">
 	<thead class="thead-inverse">
 		<tr>
 			<th>Regional<br/>Office</th>
@@ -10,7 +10,6 @@
 			<th class='cntrAlign'>Percentage</th>
 			<th class='cntrAlign'>Judge Days Added</th>
 			<th class='cntrAlign'>Total Hearings Added</th>
-			<th class='cntrAlign'>TBD</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -40,7 +39,6 @@
 			<td class="cntrAlign"><%= @pctOf %>%</td>
 			<td class="cntrAlign"><%= @jdgDays %></td>
 			<td class="cntrAlign"><%= @addedDays  %></td>
-			<td class="cntrAlign">??</td>
 		</tr>
 		<% end %>
 		<tr class="rptTotals">
@@ -50,7 +48,6 @@
 			<td class="cntrAlign"></td>
 			<td class="cntrAlign"><%= @ttls["ttlJudgeDays"] %></td>
 			<td class="cntrAlign"><%= @ttls["ttlAdded"] %></td>
-			<td class="cntrAlign"></td>
 		</tr>
 	</tbody>
 </table>
