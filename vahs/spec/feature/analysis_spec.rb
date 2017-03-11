@@ -31,4 +31,32 @@ RSpec.feature "Analysis Page" do
     visit "/analysis"
     expect(find("#content")).to have_field('coDays')
   end
+
+  it "Displays an error if I don't select a Hearing type" do
+    visit "/analysis"
+    select "[Select Below]", from: 'hType'
+    click_button "btnView"
+    expect(find(".error")).to have_text("An error has occurred")
+  end
+
+  it "Displays Central Office Analysis" do
+    visit "/analysis"
+    select "Central Office (CO)", from: 'hType'
+    click_button "btnView"
+    expect(find(".rptResultsHeader")).to have_content("Central Office Allocation Analysis")
+  end
+
+  it "Displays Travel Board Analysis" do
+    visit "/analysis"
+    select "Travel Board (TB)", from: 'hType'
+    click_button "btnView"
+    expect(find(".rptResultsHeader")).to have_content("Travel Board Allocation Analysis")
+  end
+
+  it "Displays Video Hearing Analysis" do
+    visit "/analysis"
+    select "Video Hearing (VH)", from: 'hType'
+    click_button "btnView"
+    expect(find(".rptResultsHeader")).to have_content("Video Hearing Allocation Analysis")
+  end
 end
