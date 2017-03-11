@@ -38,7 +38,7 @@ RSpec.feature "Docket Page" do
     expect(page.all(:xpath, ".//table/tbody/tr[1]/td[2]").first.text).to have_content("Travel Board")
   end
 
-  it "Displays Video hearing type when I select Video Hearing" do
+  it "Displays Video type when I select Video Hearing" do
     visit "/docket"
     select "Video Hearing (VH)", from: 'hType'
     click_button "btnView"
