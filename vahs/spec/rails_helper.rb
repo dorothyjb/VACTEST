@@ -30,7 +30,7 @@ require "capybara"
 # TODO: Use sniffybara
 #Capybara.default_driver = :sniffybara
 Capybara.register_driver(:poltergeist) do |app|
-  Capybara::Poltergeist::Driver.new(app, js_errors: false)
+  Capybara::Poltergeist::Driver.new(app, js_errors: false, timeout: 1.minute)
 end
 Capybara.default_driver = :poltergeist
 
