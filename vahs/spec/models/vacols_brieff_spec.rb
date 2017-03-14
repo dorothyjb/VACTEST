@@ -53,6 +53,12 @@ RSpec.describe Vacols::Brieff, :type => :model do
     v.fiscal_year.should_not == 5
   end
 
+  it "raises an exception if I enter a year later than 2017" do
+    v = Vacols::Brieff.new
+    v[:BFD19] = Date.new(2020, 1, 30)
+    expect { v.fiscal_year }.to raise_exception(Exception)
+  end
+
   it "raises an exception when I pass an invalid hType to do_work" do
     expect { Vacols::Brieff.do_work("12", nil) }.to raise_exception(Exception)
   end
