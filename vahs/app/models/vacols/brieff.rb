@@ -85,8 +85,6 @@ class Vacols::Brieff < Vacols::Record
     end
 
     result.each { |key, rst| ttlBfDocDate += rst.docdate_total }
-    # eww
-    result.each { |key, rst| rst.total = ttlBfDocDate }
 
     [ result, ttlBfDocDate, brieffs.length ]
   end
