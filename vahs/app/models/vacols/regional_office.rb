@@ -1,6 +1,6 @@
 class Vacols::RegionalOffice
   attr_reader :station_id, :regional_office, :tz_value
-  attr_accessor :fiscal_years, :total_pending, :docdate_total, :total
+  attr_accessor :fiscal_years, :total_pending, :docdate_total
 
   STATIONS = {
     "301" => "RO01",
@@ -179,15 +179,14 @@ class Vacols::RegionalOffice
     @fiscal_years = [0,0,0,0,0,0]
     @total_pending = 0
     @docdate_total = 0
-    @total = 1.0
   end
 
-  def percentage
+  def percentage total=1.0
     docdate_total / total.to_f
   end
 
-  def percentage_s
-    "%.4f%%" % [ (percentage * 100).round(4) ]
+  def percentage_s total=1.0
+    "%.4f%%" % [ (percentage(total) * 100).round(4) ]
   end
 
   #Function to return collection of info about a Regional Office
