@@ -72,19 +72,20 @@ class Vacols::Brieff < Vacols::Record
   end
 
   def self.get_report(docdate, htype, rstype)
-    result = {}
+    result = Hash.new(nil)
     ttlBfDocDate = 0
     brieffs = Vacols::Brieff.do_work(htype)
 
     brieffs.each do |brieff|
       roID = brieff.regional_office
-      result[roID] = Vacols::RegionalOffice.new(roID)
+      result[roID] ||= Vacols::RegionalOffice.new(roID)
       result[roID].fiscal_years[brieff.fiscal_year] += 1
       result[roID].total_pending += 1
       result[roID].docdate_total += 1 if brieff.in_docdate?(docdate)
     end
 
     result.each { |key, rst| ttlBfDocDate += rst.docdate_total }
+    # eww
     result.each { |key, rst| rst.total = ttlBfDocDate }
 
     [ result, ttlBfDocDate, brieffs.length ]

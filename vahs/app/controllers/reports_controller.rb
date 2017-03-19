@@ -29,6 +29,7 @@ class ReportsController < ApplicationController
     
     #Get the data 
     @output, @ttls["bfDocDate"], @ttls["ttlPending"] = Vacols::Brieff.get_report(@docdate, @hType, @rsType)
+    @output = @output.sort_by { |h, obj| obj.total_pending }.sort_by { |h, obj| obj.docdate_total }.reverse
 
     #Parse the data to a JSON object and sum up the FY columns for the Totals row
     @output.each do |roName,obj|
@@ -39,7 +40,7 @@ class ReportsController < ApplicationController
         @ttls["fyCol"][4] += obj.fiscal_years[4]
         @ttls["fyCol"][5] += obj.fiscal_years[5]
     end
-    
+
     #Partials execute based on what 'exists'
     if params[:ViewResults]
         #User clicked the View Results button

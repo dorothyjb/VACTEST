@@ -187,11 +187,15 @@ class Vacols::RegionalOffice
   end
 
   def percentage_s
-    "%.4f" % [ (percentage * 100).round(4) ]
+    "%.4f%%" % [ (percentage * 100).round(4) ]
   end
 
-	#Function to return collection of info about a Regional Office
-	def self.roInfo(ro)
-		return STATIONS.find{|k,v| Array(v).include?(ro)}.try(:first), CITIES[ro], VHTZ[CITIES[ro][:timezone]]  
+  #Function to return collection of info about a Regional Office
+  def self.roInfo(ro)
+    [
+      STATIONS.find{|k,v| Array(v).include?(ro)}.try(:first),
+      CITIES[ro],
+      VHTZ[CITIES[ro][:timezone]]
+    ]
   end
 end

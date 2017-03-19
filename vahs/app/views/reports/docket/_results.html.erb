@@ -17,9 +17,9 @@
                 </tr>
               </thead>
               <tbody>
-                <% @output.sort_by { |h, obj| obj.total_pending }.sort_by { |h,obj| obj.docdate_total }.reverse.each do |h,obj| %>
+                <% @output.each do |h, obj| %>
                 <tr>
-                  <td><%= obj.station_id %>-<%= obj.regional_office['city'] %></td>
+                  <td><%= obj.station_id %>-<%= obj.regional_office[:city] %></td>
                   <td><%= @shType %></td>
                   <td class="rghtAlign"><%= obj.total_pending %></td>
                   <td class="rghtAlign"><%= obj.docdate_total %></td>
