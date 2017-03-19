@@ -4,24 +4,20 @@
 <!--[if IE 8 ]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9 ]> <html lang="en" class="ie9"> <![endif]-->
 <!--[if (gt IE 9)|!(IE)]><!--> <html lang="en"> <!--<![endif]-->
-
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title><%=(yield(:title)) %></title>
-	<%= csrf_meta_tags %>
-
-	<%= stylesheet_link_tag    "application", media: "all"%>
-	<%= javascript_include_tag "application" %>
-	<%= javascript_tag do %>
-    <% end %>
-</head>
-<body id="vahs">  
-<div class="main">
-	<%= render "layouts/header" %>
-	<%= render "layouts/menu" %>
-	<%= yield %>
-</div>	
-</body>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= yield(:title) %></title>
+    <%= csrf_meta_tags %>
+    <%= stylesheet_link_tag    "application", media: "all"%>
+    <%= javascript_include_tag "application" %>
+  </head>
+  <body id="vahs">  
+    <div class="main">
+      <%= render "layouts/header" %>
+      <%= render "layouts/menu" %>
+      <%= yield %>
+    </div>	
+  </body>
 </html>

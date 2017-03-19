@@ -1,6 +1,8 @@
 class Vacols::RegionalOffice
+  attr_reader :station_id, :regional_office, :tz_value
+  attr_accessor :fiscal_years, :total_pending, :docdate_total, :total
 
-    STATIONS = {
+  STATIONS = {
     "301" => "RO01",
     "402" => "RO02",
     "304" => "RO04",
@@ -169,12 +171,27 @@ class Vacols::RegionalOffice
     "America/New_York" => 11,
     "Asia/Manila" => 7
   }.freeze
-    ROS = CITIES.keys.freeze
+
+  ROS = CITIES.keys.freeze
+
+  def initialize regional_office
+    @station_id, @regional_office, @tz_value = Vacols::RegionalOffice.roInfo(regional_office)
+    @fiscal_years = [0,0,0,0,0,0]
+    @total_pending = 0
+    @docdate_total = 0
+    @total = 1.0
+  end
+
+  def percentage
+    docdate_total / total.to_f
+  end
+
+  def percentage_s
+    "%.4f" % [ (percentage * 100).round(4) ]
+  end
 
 	#Function to return collection of info about a Regional Office
 	def self.roInfo(ro)
-		#will fail if does not find result, also no need for array of arrays  
-		#return STATIONS.find{|k,v| [v].flatten.include?(ro)}.first, CITIES[ro], VHTZ[CITIES[ro][:timezone]]  
 		return STATIONS.find{|k,v| Array(v).include?(ro)}.try(:first), CITIES[ro], VHTZ[CITIES[ro][:timezone]]  
-    end
+  end
 end

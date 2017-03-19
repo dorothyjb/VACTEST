@@ -1,8 +1,6 @@
 class Vacols::Brieff < Vacols::Record
   self.table_name = "BRIEFF"
 
-  alias_attribute :dt_form9_received, :BFD19
-
   scope :form_completed, -> {where.not(:BFD19 => nil)}
   scope :check_action, -> {where("BFHA = 3 OR BFHA IS NULL")}
   scope :is_advanced, -> {where(:BFMPRO => 'ADV')}
@@ -23,6 +21,14 @@ class Vacols::Brieff < Vacols::Record
     #form_completed.check_action.is_advanced.limit_docdate(docdate)
     #where{(form_completed.check_action.is_advanced.limit_docdate(docdate)) | (is_remanded.tb_request.new_tb_request.docdate(docdate))}
 
+  # Where
+  #   date form 9 received is not NULL
+  #   appeal status is 'ADV'
+  #   and hearing action is 3 or hearing action is NULL
+  #   or
+  #   appeal status is 'REM'
+  #   and date/time of travel board request is greater than date/time of
+  #   decision.
   scope :check_pending, -> {where("((`BRIEFF`.`BFD19` IS NOT NULL"\
     " AND `BRIEFF`.`BFMPRO` = 'ADV' AND (`BRIEFF`.`BFHA` = 3 OR"\
     "`BRIEFF`.`BFHA` IS NULL)) OR (`BRIEFF`.`BFMPRO` = 'REM'"\
@@ -31,13 +37,13 @@ class Vacols::Brieff < Vacols::Record
   #Docket date is always based on the Last Day of the selected Month/Year
   #Add one month to the selected date in order to test for Less Than (<) 
   # the first day of the following month
-  def in_docdate(docdate)
+  def in_docdate?(docdate)
     self[:BFD19] <= Date.parse(docdate) + 1.month
   end
 
   #Hack to ensure the data from the database is stripped of any leading/trailing whitespace
-  def get_regional_office()
-    self.BFREGOFF.to_s.lstrip
+  def regional_office
+    self[:BFREGOFF].to_s.lstrip
   end
 
   #Test case for use in compiling which FY column the Docket entry fits into
@@ -61,12 +67,30 @@ class Vacols::Brieff < Vacols::Record
     end
   end
 
-  def self.get_report(docdate, htype, rstype)
-    temp = BrieffReport.new(docdate, htype, rstype)
-    temp.get_pending_results
+  def total_pending
+    self.length
   end
 
-  def self.do_work(hType, rsType)
+  def self.get_report(docdate, htype, rstype)
+    result = {}
+    ttlBfDocDate = 0
+    brieffs = Vacols::Brieff.do_work(htype)
+
+    brieffs.each do |brieff|
+      roID = brieff.regional_office
+      result[roID] = Vacols::RegionalOffice.new(roID)
+      result[roID].fiscal_years[brieff.fiscal_year] += 1
+      result[roID].total_pending += 1
+      result[roID].docdate_total += 1 if brieff.in_docdate?(docdate)
+    end
+
+    result.each { |key, rst| ttlBfDocDate += rst.docdate_total }
+    result.each { |key, rst| rst.total = ttlBfDocDate }
+
+    [ result, ttlBfDocDate, brieffs.length ]
+  end
+
+  def self.do_work(hType)
     case hType
       when "1"
         central_office

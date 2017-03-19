@@ -1,12 +1,12 @@
-<% title "FY Analysis" %>
-<%= javascript_include_tag "analysis" %>
-<div id="content" class="container">
+      <% title "FY Analysis" %>
+      <%= javascript_include_tag "analysis" %>
+      <div id="content" class="container">
 	<%= render :partial => "reports/analysis/form" %>
 	<% if @json.present? %>
-			<%= render :partial => "reports/analysis/co" if @hType == "1"  %>
-			<%= render :partial => "reports/analysis/travel" if @hType == "2"  %>
-			<%= render :partial => "reports/analysis/video" if @hType == "6"  %>
+        <%= render :partial => "reports/analysis/co" if @hType == "1"  %>
+        <%= render :partial => "reports/analysis/travel" if @hType == "2"  %>
+        <%= render :partial => "reports/analysis/video" if @hType == "6"  %>
 	<% end %>
 	<%= render :partial => "reports/analysis/export" if @exportXLS.present?  %>
 	<%= render :partial => "base/error" if @err.present?  %>
-</div>
+      </div>

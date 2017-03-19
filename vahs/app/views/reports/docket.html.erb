@@ -1,8 +1,7 @@
-<% title "Docket Reports" %>
-<%= javascript_include_tag "docket" %>
-<div id="content" class="container">
-	<%= render :partial => "reports/docket/form" %>
-	<%= render :partial => "reports/docket/results" if @json.present?  %>
-	<%= render :partial => "reports/docket/export" if @exportXLS.present?  %>
-	<%= render :partial => "base/error" if @err.present?  %>
-</div>
+      <% title "Docket Reports" %>
+      <%= javascript_include_tag "docket" %>
+      <div id="content" class="container">
+        <%= render :partial => "reports/docket/form" %>
+        <%= render :partial => "reports/docket/results" if @output.present?  %>
+        <%= render :partial => "base/error" if @err.present?  %>
+      </div>
