@@ -50,9 +50,9 @@ class ReportsController < ApplicationController
         @exportXLS = JSON.parse(@output.to_json)
     end
     render :docket
-  #rescue Exception
-    #@err = true
-    #render :docket
+  rescue Exception
+    @err = true
+    render :docket
   end
 
   # Docket FY Analysis Reporting 
