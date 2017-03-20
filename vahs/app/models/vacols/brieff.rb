@@ -1,89 +1,83 @@
 class Vacols::Brieff < Vacols::Record
-	self.table_name = "BRIEFF"
+  self.table_name = "BRIEFF"
 
-	scope :form_completed, -> {where.not(:BFD19 => nil)}
-	scope :check_action, -> {where("BFHA = 3 OR BFHA IS NULL")}
-	scope :is_advanced, -> {where(:BFMPRO => 'ADV')}
-	scope :is_remanded, -> {where(:BFMPRO => 'REM')}
-	scope :limit_docdate, ->(docdate) {where("BFD19 < ?", docdate)}
-	scope :new_tb_request, -> {where("BFDTB > BFDDEC")}
-	scope :tb_request, -> {where.not(:BFDTB => nil)}
+  alias_attribute :dt_form9_received, :BFD19
 
-	scope :travel_board, -> {check_pending.where(:BFHR => 2)}
-	scope :central_office2, ->{check_pending.where(:BFHR => 1)}
-	scope :central_office, -> {central_office2.where(:BFDOCIND => nil)}
-	scope :video, -> {check_pending.where(:BFHR => 1,:BFDOCIND => 'V')}
+  scope :form_completed, -> {where.not(:BFD19 => nil)}
+  scope :check_action, -> {where("BFHA = 3 OR BFHA IS NULL")}
+  scope :is_advanced, -> {where(:BFMPRO => 'ADV')}
+  scope :is_remanded, -> {where(:BFMPRO => 'REM')}
+  scope :limit_docdate, ->(docdate) {where("BFD19 < ?", docdate)}
+  scope :new_tb_request, -> {where("BFDTB > BFDDEC")}
+  scope :tb_request, -> {where.not(:BFDTB => nil)}
 
-	#This is not a great way to do this but the OR was causing issues.
-	#Also am unsure how to check vacols.hearing_held_postrem(bfkey, bfddec) <> 'Y'
+  scope :travel_board, -> {check_pending.where(:BFHR => 2)}
+  scope :central_office2, ->{check_pending.where(:BFHR => 1)}
+  scope :central_office, -> {central_office2.where(:BFDOCIND => nil)}
+  scope :video, -> {check_pending.where(:BFHR => 1,:BFDOCIND => 'V')}
+
+  #This is not a great way to do this but the OR was causing issues.
+  #Also am unsure how to check vacols.hearing_held_postrem(bfkey, bfddec) <> 'Y'
 
     #is_remanded.tb_request.new_tb_request.limit_docdate(docdate)
     #form_completed.check_action.is_advanced.limit_docdate(docdate)
     #where{(form_completed.check_action.is_advanced.limit_docdate(docdate)) | (is_remanded.tb_request.new_tb_request.docdate(docdate))}
 
-	scope :check_pending, -> {where("((`BRIEFF`.`BFD19` IS NOT NULL"\
+  scope :check_pending, -> {where("((`BRIEFF`.`BFD19` IS NOT NULL"\
     " AND `BRIEFF`.`BFMPRO` = 'ADV' AND (`BRIEFF`.`BFHA` = 3 OR"\
     "`BRIEFF`.`BFHA` IS NULL)) OR (`BRIEFF`.`BFMPRO` = 'REM'"\
       " AND `BRIEFF`.`BFDTB` IS NOT NULL AND BFDTB > BFDDEC))")}
 
-	#Docket date is always based on the Last Day of the selected Month/Year
-	#Add one month to the selected date in order to test for Less Than (<) 
-	# the first day of the following month
-	def in_docdate(docdate)
-		self.BFD19 <= Date.parse(docdate) + 1.month
-	end
+  #Docket date is always based on the Last Day of the selected Month/Year
+  #Add one month to the selected date in order to test for Less Than (<) 
+  # the first day of the following month
+  def in_docdate(docdate)
+    self[:BFD19] <= Date.parse(docdate) + 1.month
+  end
 
-	#Hack to ensure the data from the database is stripped of any leading/trailing whitespace
-	def get_regional_office()
-		self.BFREGOFF.to_s.lstrip
-	end
+  #Hack to ensure the data from the database is stripped of any leading/trailing whitespace
+  def get_regional_office()
+    self.BFREGOFF.to_s.lstrip
+  end
 
-	#Test case for use in compiling which FY column the Docket entry fits into
-	def fiscal_year
-		begin
-			temp = Date.new(2000, 9, 30)
-			case
-				when (self.BFD19 <= temp)
-				0
-				when (self.BFD19 <= temp + 5.years)
-				1
-				when (self.BFD19 <= temp + 10.years)
-				2
-				when (self.BFD19 <= temp + 15.years)
-				3
-				when (self.BFD19 <= temp + 16.years)
-				4
-				when (self.BFD19 <= temp + 17.years)
-				5
-			else
-				puts "error"
-			end
-		rescue
-			puts "error"
-		end
-	end
+  #Test case for use in compiling which FY column the Docket entry fits into
+  def fiscal_year
+    temp = Date.new(2000, 9, 30)
+    case
+      when (self.BFD19 <= temp)
+        0
+      when (self.BFD19 <= temp + 5.years)
+        1
+      when (self.BFD19 <= temp + 10.years)
+        2
+      when (self.BFD19 <= temp + 15.years)
+        3
+      when (self.BFD19 <= temp + 16.years)
+        4
+      when (self.BFD19 <= temp + 17.years)
+        5
+      else
+        raise Exception, "Invalid fiscal year"
+    end
+  end
 
-	def self.get_report(docdate, htype, rstype)
-		temp = BrieffReport.new(docdate, htype, rstype)
-		temp.get_pending_results
-	end
+  def self.get_report(docdate, htype, rstype)
+    temp = BrieffReport.new(docdate, htype, rstype)
+    temp.get_pending_results
+  end
 
-	def self.do_work(hType, rsType)
-		begin
-			case hType
-				when "1"
-					central_office
-				when "2"
-					travel_board
-				when "6"
-					video
-				when 0
-					limit_docdate
-				else
-					puts "error"
-			end
-		rescue
-			puts "error"
-		end
-	end
+  def self.do_work(hType, rsType)
+    case hType
+      when "1"
+        central_office
+      when "2"
+        travel_board
+      when "6"
+        video
+      when 0
+        limit_docdate
+      else
+        raise Exception, "invalid hType"
+    end
+  end
 end

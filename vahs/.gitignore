@@ -20,3 +20,7 @@
 
 # Ignore precompiled assets
 public/assets/**
+
+# Ignore vim swap files
+.*.swp
+.*.swo
