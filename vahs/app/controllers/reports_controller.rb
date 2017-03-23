@@ -119,6 +119,10 @@ class ReportsController < ApplicationController
     render :analysis
   end
 
+  def fiscalyears
+    render layout: false
+  end
+
   #Function for returning the string for the type of hearing selected
   def getHearingType(hType)
     result = Hash.new("")
