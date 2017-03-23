@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]> <html lang="en" class="ie6"> <![endif]-->
+<!--[if IE 7 ]> <html lang="en" class="ie7"> <![endif]-->
+<!--[if IE 8 ]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9 ]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fiscal Year Selection</title>
+    <%= csrf_meta_tags %>
+    <%= stylesheet_link_tag "fiscalyear", media: 'all' %>
+    <%= javascript_include_tag "fiscalyear" %>
+  </head>
+  <body>
+    <form method="POST" action="fiscalyear">
+      <div id="fiscal-years-list">
+        <span class="fiscal-year-header">Begin Year</span>
+        <span class="fiscal-year-header">End Year</span>
+        <span class="fiscal-year-header">Remove</span>
+        <% session[:docket_fiscal_years].each_with_index do |dfy, i| %>
+        <div class="fiscal-year-entry">
+          <%= text_field_tag "fy_begin[]", dfy[0], id: '', alt: 'Begin Date', class: 'fy-date-entry' %>
+          <%= text_field_tag "fy_end[]", dfy[1], id: '', alt: 'End Date', class: 'fy-date-entry'  %>
+          <%= check_box_tag "fy[]", "#{i}", false, id: '', alt: 'Remove Fiscal Year range', class: 'fy-date-remove-checkbox' %>
+        </div>
+        <% end %>
+      </div>
+      <div class="fiscal-year-actions">
+        <%= button_tag 'Remove', type: 'button', class: 'fyButton', name: 'btnRemoveFY', id: 'btnRemoveFY', alt: 'Remove Fiscal Year' %>
+        <%= button_tag 'Add', type: 'button', class: 'fyButton', name: 'btnAddFY', id: 'btnAddFY', alt: 'Add Fiscal Year' %>
+        <br><br>
+        <div class="fiscal-year-actions-close">
+          <%= button_tag 'Save & Close', type: 'submit', class: 'fyButton', name: 'btnCloseFY', id: 'btnCloseFY', alt: 'Save & Close Fiscal Year Selection' %>
+        </div>
+      </div>
+    </form>
+  </body>
+</html>
