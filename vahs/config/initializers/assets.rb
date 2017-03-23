@@ -13,6 +13,8 @@ Rails.application.config.assets.precompile += %w( analysis.js )
 Rails.application.config.assets.precompile += %w( docket.js )
 Rails.application.config.assets.precompile += %w( menu.js )
 Rails.application.config.assets.precompile += %w( vahs.js )
+Rails.application.config.assets.precompile += %w( fiscalyear.js )
 
 Rails.application.config.assets.precompile += %w( menu.css )
 Rails.application.config.assets.precompile += %w( vahs.css )
+Rails.application.config.assets.precompile += %w( fiscalyear.css )
