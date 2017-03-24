@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   get 'analysis', to: 'reports#analysis'
   get 'fiscalyears', to: 'reports#fiscalyears'
   
+  post 'fiscalyears', to: 'reports#update_fiscalyears'
   post 'docket', to: 'reports#getDocket'
   post 'analysis', to: 'reports#getAnalysis'
 
