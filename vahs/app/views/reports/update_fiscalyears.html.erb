@@ -15,5 +15,24 @@
   </head>
   <body>
     <div>Close this window if it did not automatically close.</div>
+    <hr>
+    <table>
+      <thead>
+        <tr>
+          <td align="center">Index</td>
+          <td align="center">Begin</td>
+          <td align="center">End</td>
+        </tr>
+      </thead>
+      <tbody>
+      <% session[:docket_fiscal_years].each_with_index do |dfy, i| %>
+        <tr>
+          <td align="center"><%= i %></td>
+          <td align="center"><%= dfy[0] %></td>
+          <td align="center"><%= dfy[1] %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
   </body>
 </html>
