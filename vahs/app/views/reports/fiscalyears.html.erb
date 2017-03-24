@@ -14,13 +14,14 @@
     <%= javascript_include_tag "fiscalyear" %>
   </head>
   <body>
-    <form method="POST" action="fiscalyear">
+    <form method="POST" action="fiscalyears">
+      <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
       <div id="fiscal-years-list">
         <span class="fiscal-year-header">Begin Year</span>
         <span class="fiscal-year-header">End Year</span>
         <span class="fiscal-year-header">Remove</span>
         <% session[:docket_fiscal_years].each_with_index do |dfy, i| %>
-        <div class="fiscal-year-entry">
+        <div id="fiscal-year-entry_<%= i %>" class="fiscal-year-entry">
           <%= text_field_tag "fy_begin[]", dfy[0], id: '', alt: 'Begin Date', class: 'fy-date-entry' %>
           <%= text_field_tag "fy_end[]", dfy[1], id: '', alt: 'End Date', class: 'fy-date-entry'  %>
           <%= check_box_tag "fy[]", "#{i}", false, id: '', alt: 'Remove Fiscal Year range', class: 'fy-date-remove-checkbox' %>
