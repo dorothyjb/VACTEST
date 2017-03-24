@@ -124,15 +124,17 @@ class ReportsController < ApplicationController
   end
 
   def update_fiscalyears
-    fy_begin = params['fy_begin'] || []
-    fy_end   = params['fy_end'] || []
-    fys = []
+    fys = [
+            params['fy_begin'] || [],
+            params['fy_end'] || []
+          ].transpose
 
-    fy_begin.each_index { |i| fys << [ fy_begin[i], fy_end[i] ] }
     fys.each do |fy|
       fy[0] = "1970-09-30" if fy[0].empty?
       fy[1] = Date.today.to_s if fy[1].empty?
     end
+
+    fys.sort! { |a,b| Date.parse(a[0]) <=> Date.parse(b[0]) }
 
     session[:docket_fiscal_years] = fys
 
