@@ -1,6 +1,17 @@
 //= require jquery
 //= require jquery-ui
 
+function selectDate(input)
+{
+	$('.fy-date-entry').datepicker({
+		changeDay: true,
+		changeMonth: true,
+		changeYear: true,
+		showButtonPanel: true,
+		dateFormat: 'yy-mm-dd',
+	});
+}
+
 $(document).ready(function()
 {
 	function enableDateEntry()
@@ -19,19 +30,28 @@ $(document).ready(function()
 
 	function addFiscalYear()
 	{
-		var fy_list = document.getElementById('fiscal-years-list');
-		var rand_id = 1000 + Math.floor(Math.random() * 100);
+		var len_id = $('.fiscal-year-entry').length + 1;
 
-		fy_list.innerHTML += '<div class="fiscal-year-entry">\n';
-		fy_list.innerHTML += '  <input type="text" name="fy_begin[]" id="" value="" alt="Begin Date" class="fy-date-entry">\n';
-		fy_list.innerHTML += '  <input type="text" name="fy_end[]" id="" value="" alt="End Date" class="fy-date-entry">\n';
-		fy_list.innerHTML += '  <input type="checkbox" name="fy[]" id="" value="' + rand_id + '" alt="Remove Fiscal Year range" class="fy-date-remove-checkbox">\n';
-		fy_list.innerHTML += '</div>\n';
+		$('#fiscal-years-list').append(
+			'<div id="fiscal-year-entry_' + len_id + '" class="fiscal-year-entry">\n' +
+			'  <input type="text" name="fy_begin[]" id="" value="" alt="Begin Date" class="fy-date-entry">\n' +
+			'  <input type="text" name="fy_end[]" id="" value="" alt="End Date" class="fy-date-entry">\n' +
+			'  <input type="checkbox" name="fy[]" id="" value="' + len_id + '" alt="Remove Fiscal Year range" class="fy-date-remove-checkbox">\n' +
+			'</div>\n');
 
 		enableDateEntry();
 	}
 
-	
+	function removeFiscalYear()
+	{
+		$('input[type=checkbox]').each(function() {
+			if(this.checked) {
+				$('#fiscal-year-entry_' + this.value).remove();
+			}
+		});
+	}
+
 	enableDateEntry();
 	$('#btnAddFY').on('click', addFiscalYear);
+	$('#btnRemoveFY').on('click', removeFiscalYear);
 });
