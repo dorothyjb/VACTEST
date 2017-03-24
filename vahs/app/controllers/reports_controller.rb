@@ -123,6 +123,22 @@ class ReportsController < ApplicationController
     render layout: false
   end
 
+  def update_fiscalyears
+    fy_begin = params['fy_begin'] || []
+    fy_end   = params['fy_end'] || []
+    fys = []
+
+    fy_begin.each_index { |i| fys << [ fy_begin[i], fy_end[i] ] }
+    fys.each do |fy|
+      fy[0] = "1970-09-30" if fy[0].empty?
+      fy[1] = Date.today.to_s if fy[1].empty?
+    end
+
+    session[:docket_fiscal_years] = fys
+
+    render layout:  false
+  end
+
   #Function for returning the string for the type of hearing selected
   def getHearingType(hType)
     result = Hash.new("")
