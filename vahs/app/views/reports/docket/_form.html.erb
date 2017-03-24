@@ -1,4 +1,5 @@
         <form method="POST" action="docket">
+          <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
           <div id="rptControls" class="wrapper" >
             <div class="row">
               <div class="col-sm-2"><%= label_tag("docdate","Docket Range", alt:"Docket Range") %></div>
