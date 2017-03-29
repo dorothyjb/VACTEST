@@ -1,1 +1,54 @@
 //= require jquery-ui
+
+body {
+	font-family: 'Arial';
+	font-style: normal;
+}
+
+td.fiscal-year-header {
+	font-weight: bold;
+	font-size: 16px;
+	text-align: center;
+	padding-left: 2px;
+	padding-right: 2px;
+}
+
+tr.fiscal-year-entry td {
+	text-align: center;
+	padding-left: 2px;
+	padding-right: 2px;
+}
+
+div.fiscal-year-actions {
+	padding-top: 12px;
+	padding-right: 2%;
+	text-align: right;
+}
+
+.fyButton {
+	left:0px;
+	top:0px;
+	width: 30%;
+	line-height: 20px;
+	background:inherit;
+	background-color:#000921;
+	text-align: center;
+	box-sizing: border-box;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #07256f;
+	border-radius: 5px;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	font-family: 'Arial Bold', 'Arial Regular', 'Arial';
+	font-weight: 700;
+	font-style: normal;
+	font-size: 14px;
+	color: #ffffff;
+}
+
+.fyButton:hover {
+	cursor: pointer;
+	color: #ffff00;
+	background-color: #01133f;
+}
