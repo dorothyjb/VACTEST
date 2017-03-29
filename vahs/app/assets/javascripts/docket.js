@@ -5,7 +5,7 @@
 
 $( document ).ready(function() {
 	$('#docket_fiscal_years').on('click', function() {
-		window.open('/fiscalyears', '', 'location=no,menubar=no,resizable=no,scrollbars=yes,width=375,height=500');
+		window.open('/fiscalyears', '', 'location=no,menubar=no,resizable=no,scrollbars=yes,width=400,height=500');
 		return false;
         });
 
