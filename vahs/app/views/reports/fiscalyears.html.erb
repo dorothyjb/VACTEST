@@ -16,25 +16,29 @@
   <body>
     <form method="POST" action="fiscalyears">
       <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-      <div id="fiscal-years-list">
-        <span class="fiscal-year-header">Begin Year</span>
-        <span class="fiscal-year-header">End Year</span>
-        <span class="fiscal-year-header">Remove</span>
+      <table>
+        <thead>
+          <tr>
+            <td class="fiscal-year-header">Remove</td>
+            <td class="fiscal-year-header">Begin Date</td>
+            <td class="fiscal-year-header">End Date</td>
+          </tr>
+        </thead>
+        <tbody id="fiscal-years-list">
         <% session[:docket_fiscal_years].each_with_index do |dfy, i| %>
-        <div id="fiscal-year-entry_<%= i %>" class="fiscal-year-entry">
-          <%= text_field_tag "fy_begin[]", dfy[0], id: '', alt: 'Begin Date', class: 'fy-date-entry' %>
-          <%= text_field_tag "fy_end[]", dfy[1], id: '', alt: 'End Date', class: 'fy-date-entry'  %>
-          <%= check_box_tag "fy[]", "#{i}", false, id: '', alt: 'Remove Fiscal Year range', class: 'fy-date-remove-checkbox' %>
-        </div>
+          <tr id="fiscal-year-entry_<%= i %>" class="fiscal-year-entry">
+            <td><%= check_box_tag "fy[]", "#{i}", false, id: '', alt: 'Remove Fiscal Year range', class: 'fy-date-remove-checkbox' %></td>
+            <td><%= text_field_tag "fy_begin[]", dfy[0], id: '', alt: 'Begin Date', class: 'fy-date-entry' %></td>
+            <td><%= text_field_tag "fy_end[]", dfy[1], id: '', alt: 'End Date', class: 'fy-date-entry'  %></td>
+          </tr>
         <% end %>
-      </div>
+        </tbody>
+      </table>
       <div class="fiscal-year-actions">
-        <%= button_tag 'Remove', type: 'button', class: 'fyButton', name: 'btnRemoveFY', id: 'btnRemoveFY', alt: 'Remove Fiscal Year' %>
         <%= button_tag 'Add', type: 'button', class: 'fyButton', name: 'btnAddFY', id: 'btnAddFY', alt: 'Add Fiscal Year' %>
+        <%= button_tag 'Remove', type: 'button', class: 'fyButton', name: 'btnRemoveFY', id: 'btnRemoveFY', alt: 'Remove Fiscal Year' %>
         <br><br>
-        <div class="fiscal-year-actions-close">
-          <%= button_tag 'Save & Close', type: 'submit', class: 'fyButton', name: 'btnCloseFY', id: 'btnCloseFY', alt: 'Save & Close Fiscal Year Selection' %>
-        </div>
+        <%= button_tag 'Save', type: 'submit', class: 'fyButton', name: 'btnCloseFY', id: 'btnCloseFY', alt: 'Save & Close Fiscal Year Selection' %>
       </div>
     </form>
   </body>
