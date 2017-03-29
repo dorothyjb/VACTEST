@@ -33,11 +33,11 @@ $(document).ready(function()
 		var len_id = $('.fiscal-year-entry').length + 1;
 
 		$('#fiscal-years-list').append(
-			'<div id="fiscal-year-entry_' + len_id + '" class="fiscal-year-entry">\n' +
-			'  <input type="text" name="fy_begin[]" id="" value="" alt="Begin Date" class="fy-date-entry">\n' +
-			'  <input type="text" name="fy_end[]" id="" value="" alt="End Date" class="fy-date-entry">\n' +
-			'  <input type="checkbox" name="fy[]" id="" value="' + len_id + '" alt="Remove Fiscal Year range" class="fy-date-remove-checkbox">\n' +
-			'</div>\n');
+			'<tr id="fiscal-year-entry_' + len_id + '" class="fiscal-year-entry">\n' +
+			'  <td><input type="checkbox" name="fy[]" id="" value="' + len_id + '" alt="Remove Fiscal Year range" class="fy-date-remove-checkbox"></td>\n' +
+			'  <td><input type="text" name="fy_begin[]" id="" value="" alt="Begin Date" class="fy-date-entry"></td>\n' +
+			'  <td><input type="text" name="fy_end[]" id="" value="" alt="End Date" class="fy-date-entry"></td>\n' +
+			'</tr>\n');
 
 		enableDateEntry();
 	}
