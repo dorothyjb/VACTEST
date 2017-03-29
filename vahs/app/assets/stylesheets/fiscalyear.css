@@ -5,7 +5,7 @@ body {
 	font-style: normal;
 }
 
-td.fiscal-year-header {
+th.fiscal-year-header {
 	font-weight: bold;
 	font-size: 16px;
 	text-align: center;
