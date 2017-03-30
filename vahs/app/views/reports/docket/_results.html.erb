@@ -8,12 +8,9 @@
                   <th class="cntrAlign">Total<br/>Pending</th>
                   <th class="cntrAlign">Pending<br/>(Pre <%= params[:docdate] %> )</th>
                   <th class="cntrAlign">Percentage</th>
-                  <th>Pre-FY2000</th>
-                  <th>FY01-05</th>
-                  <th>FY06-10</th>
-                  <th>FY11-15</th>
-                  <th>FY16</th>
-                  <th>FY17</th>
+                  <% @fiscal_years.each do |fy| %>
+                  <th><%= fy[:display] %></th>
+                  <% end %>
                 </tr>
               </thead>
               <tbody>
@@ -24,12 +21,9 @@
                   <td class="rghtAlign"><%= obj.total_pending %></td>
                   <td class="rghtAlign"><%= obj.docdate_total %></td>
                   <td class="rghtAlign"><%= obj.percentage_s @ttls["bfDocDate"] %></td>
-                  <td class="cntrAlign"><%= obj.fiscal_years[0] %></td>
-                  <td class="cntrAlign"><%= obj.fiscal_years[1] %></td>
-                  <td class="cntrAlign"><%= obj.fiscal_years[2] %></td>
-                  <td class="cntrAlign"><%= obj.fiscal_years[3] %></td>
-                  <td class="cntrAlign"><%= obj.fiscal_years[4] %></td>
-                  <td class="cntrAlign"><%= obj.fiscal_years[5] %></td>
+                  <% obj.fiscal_years.each do |fy| %>
+                  <td class="cntrAlign"><%= fy[:total] %></td>
+                  <% end %>
                 </tr>
                 <% end %>
                 <tr class="rptTotals">
