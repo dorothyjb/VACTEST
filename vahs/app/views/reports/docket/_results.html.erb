@@ -32,12 +32,9 @@
                   <td class="rghtAlign"><%= @ttls["ttlPending"] %></td>
                   <td class="rghtAlign"><%= @ttls["bfDocDate"] %></td>
                   <td class="rghtAlign"></td>
-                  <td class="cntrAlign"><%= @ttls["fyCol"][0] %></td>
-                  <td class="cntrAlign"><%= @ttls["fyCol"][1] %></td>
-                  <td class="cntrAlign"><%= @ttls["fyCol"][2] %></td>
-                  <td class="cntrAlign"><%= @ttls["fyCol"][3] %></td>
-                  <td class="cntrAlign"><%= @ttls["fyCol"][4] %></td>
-                  <td class="cntrAlign"><%= @ttls["fyCol"][5] %></td>
+                  <% @ttls['fyCol'].each do |ttl| %>
+                  <td class="cntrAlign"><%= ttl %></td>
+                  <% end %>
                 </tr>
               </tbody>
             </table>
