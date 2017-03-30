@@ -1,6 +1,6 @@
 class Vacols::RegionalOffice
   attr_reader :station_id, :regional_office, :tz_value
-  attr_accessor :fiscal_years, :total_pending, :docdate_total
+  attr_accessor :fiscal_years, :total_pending, :docdate_total, :sql_regoff
 
   STATIONS = {
     "301" => "RO01",
@@ -174,11 +174,33 @@ class Vacols::RegionalOffice
 
   ROS = CITIES.keys.freeze
 
-  def initialize regional_office
+  def initialize regional_office, fiscal_years
     @station_id, @regional_office, @tz_value = Vacols::RegionalOffice.roInfo(regional_office)
-    @fiscal_years = [0,0,0,0,0,0]
     @total_pending = 0
     @docdate_total = 0
+    @fiscal_years  = parse_fiscal_years(fiscal_years)
+  end
+
+  # fiscal_yrs is assumed to be sorted
+  def parse_fiscal_years fiscal_yrs
+    fiscal_years = []
+
+    fiscal_yrs.each do |range|
+      fiscal_years << {
+        display: "FY#{Date.parse(range[0]).strftime("%y")}-FY#{Date.parse(range[1]).strftime("%y")}",
+        begin: Date.parse(range[0]),
+        end: Date.parse(range[1]),
+        total: 0,
+      }
+    end
+
+    fiscal_years
+  end
+
+  def update_fiscal_year brieff
+    @fiscal_years.each do |fy|
+      fy[:total] += 1 if brieff[:BFD19] >= fy[:begin] and brieff[:BFD19] <= fy[:end]
+    end
   end
 
   def percentage total=1.0
