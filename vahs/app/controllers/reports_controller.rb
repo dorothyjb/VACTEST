@@ -7,14 +7,12 @@ class ReportsController < ApplicationController
   def docket
     @docdate = params[:docdate]
     @hType = params[:hType]
-    @rsType = params[:rsType]
   end
 
   # POST function for docket
   def getDocket
     @docdate = params[:docdate]+"-01"
     @hType = params[:hType]
-    @rsType = params[:rsType]
     @shType = getHearingType(@hType)
     
     #Object to hold totals
@@ -28,18 +26,19 @@ class ReportsController < ApplicationController
     }
     
     #Get the data 
-    @output, @ttls["bfDocDate"], @ttls["ttlPending"] = Vacols::Brieff.get_report(@docdate, @hType, @rsType)
+    @output, @ttls["bfDocDate"], @ttls["ttlPending"] = Vacols::Brieff.get_report(@docdate, @hType, session[:docket_fiscal_years])
     @output = @output.sort_by { |h, obj| obj.total_pending }.sort_by { |h, obj| obj.docdate_total }.reverse
+    @fiscal_years = @output.first[1].fiscal_years
 
     #Parse the data to a JSON object and sum up the FY columns for the Totals row
-    @output.each do |roName,obj|
-        @ttls["fyCol"][0] += obj.fiscal_years[0]
-        @ttls["fyCol"][1] += obj.fiscal_years[1]
-        @ttls["fyCol"][2] += obj.fiscal_years[2]
-        @ttls["fyCol"][3] += obj.fiscal_years[3]
-        @ttls["fyCol"][4] += obj.fiscal_years[4]
-        @ttls["fyCol"][5] += obj.fiscal_years[5]
-    end
+    #@output.each do |roName,obj|
+    #    @ttls["fyCol"][0] += obj.fiscal_years[0]
+    #    @ttls["fyCol"][1] += obj.fiscal_years[1]
+    #    @ttls["fyCol"][2] += obj.fiscal_years[2]
+    #    @ttls["fyCol"][3] += obj.fiscal_years[3]
+    #    @ttls["fyCol"][4] += obj.fiscal_years[4]
+    #    @ttls["fyCol"][5] += obj.fiscal_years[5]
+    #end
 
     #Partials execute based on what 'exists'
     if params[:ViewResults]
@@ -50,9 +49,9 @@ class ReportsController < ApplicationController
         @exportXLS = JSON.parse(@output.to_json)
     end
     render :docket
-  rescue Exception
-    @err = true
-    render :docket
+  #rescue Exception
+  #  @err = true
+  #  render :docket
   end
 
   # Docket FY Analysis Reporting 
