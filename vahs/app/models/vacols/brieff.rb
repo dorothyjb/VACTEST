@@ -46,27 +46,6 @@ class Vacols::Brieff < Vacols::Record
     self[:BFREGOFF].to_s.lstrip
   end
 
-  #Test case for use in compiling which FY column the Docket entry fits into
-  def fiscal_year
-    temp = Date.new(2000, 9, 30)
-    case
-      when (self.BFD19 <= temp)
-        0
-      when (self.BFD19 <= temp + 5.years)
-        1
-      when (self.BFD19 <= temp + 10.years)
-        2
-      when (self.BFD19 <= temp + 15.years)
-        3
-      when (self.BFD19 <= temp + 16.years)
-        4
-      when (self.BFD19 <= temp + 17.years)
-        5
-      else
-        raise Exception, "Invalid fiscal year"
-    end
-  end
-
   def self.get_report(docdate, htype, fiscal_years)
     result = Hash.new(nil)
     ttlBfDocDate = 0
