@@ -186,12 +186,17 @@ class Vacols::RegionalOffice
     fiscal_years = []
 
     fiscal_yrs.each do |range|
-      fiscal_years << {
-        display: "FY#{Date.parse(range[0]).strftime("%y")}-FY#{Date.parse(range[1]).strftime("%y")}",
+      bgn = Date.parse(range[0]).strftime("%y").to_i + 1
+      ed  = Date.parse(range[1]).strftime("%y").to_i
+      tmp = {
+        display: "FY%02d-FY%02d" % [ bgn, ed ],
         begin: Date.parse(range[0]),
         end: Date.parse(range[1]),
         total: 0,
       }
+
+      tmp[:display] = "FY%02d" % [ ed ] if bgn == ed 
+      fiscal_years << tmp
     end
 
     fiscal_years
