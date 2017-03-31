@@ -44,4 +44,11 @@ RSpec.feature "Docket Page" do
     click_button "btnView"
     expect(page.all(:xpath, ".//table/tbody/tr[1]/td[2]").first.text).to have_content("Video")
   end
+
+  it "Exports an XLS file" do
+    visit "/docket"
+    select "Central Office (CO)", from: 'hType'
+    click_button "btnExport"
+    expect(page.response_headers['Content-Type']).to have_content("application/vnd.ms-excel")
+  end
 end
