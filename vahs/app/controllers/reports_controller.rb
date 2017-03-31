@@ -46,9 +46,9 @@ class ReportsController < ApplicationController
       render :docket
     end
 
-  #rescue Exception
-  #  @err = true
-  #  render :docket
+  rescue Exception
+    @err = true
+    render :docket
   end
 
   # Docket FY Analysis Reporting 
@@ -143,24 +143,38 @@ class ReportsController < ApplicationController
     book = Spreadsheet::Workbook.new
     sheet = book.create_worksheet(name: @shType)
     fyrs = @fiscal_years.collect { |fy| fy[:display] }
-    header = [ 'Regional Office', 'Type', "Pending (Pre #{@docdate})", 'Percentage' ]
+    header = [ 'Regional Office', 'Type', 'Total Pending', "Pending (Pre #{@docdate})", 'Percentage' ]
+    boldfmt = Spreadsheet::Format.new({weight: :bold})
 
-    sheet.row(0).default_format = Spreadsheet::Format.new({weight: :bold})
+    sheet.row(0).default_format = boldfmt
     sheet.row(0).concat header + fyrs
 
     idx = 1
     @output.each do |roID, obj|
-      entry = [ "#{obj.station_id}-#{obj.regional_office[:city]}", @shType, obj.docdate_total, obj.percentage_s(@ttls['bfDocDate']), ]
+      entry = [ "#{obj.station_id}-#{obj.regional_office[:city]}", @shType, obj.total_pending, obj.docdate_total, obj.percentage_s(@ttls['bfDocDate']), ]
       entry += obj.fiscal_years.collect { |fy| fy[:total] }
 
-      entry.each_with_index { |e, i| sheet.column(i).width = e.to_s.length + 5 if sheet.column(i).width <= e.to_s.length }
+      xls_resize_column sheet, entry
       sheet.row(idx).concat entry
 
       idx += 1
     end
 
+    entry = [ "", "Totals", @ttls['ttlPending'], @ttls['bfDocDate'], "" ] + @ttls['fyCol']
+    xls_resize_column sheet, entry
+
+    sheet.row(idx).concat Array.new(sheet.row(0).length, "")
+    sheet.row(idx+1).default_format = boldfmt
+    sheet.row(idx+1).concat entry
+
     book.write data
     data
+  end
+
+  def xls_resize_column sheet, entry
+    entry.each_with_index do |e, i|
+      sheet.column(i).width = e.to_s.length + 5 if sheet.column(i).width < (e.to_s.length + 5)
+    end
   end
 
   #Function for returning the string for the type of hearing selected
