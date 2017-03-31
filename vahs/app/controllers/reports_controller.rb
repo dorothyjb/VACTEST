@@ -100,7 +100,8 @@ class ReportsController < ApplicationController
     end
     
     #Get the data 
-    @output, @ttls["bfDocDate"], @ttls["ttlPending"] = Vacols::Brieff.get_report(@docdate, @hType, 0)
+    @output, @ttls["bfDocDate"], @ttls["ttlPending"] = Vacols::Brieff.get_report(@docdate, @hType, session[:docket_fiscal_years])
+    @output = @output.sort_by { |h, obj| obj.total_pending }.sort_by { |h, obj| obj.docdate_total }.reverse
 
     #Partials execute based on what 'exists'
     if params[:ViewResults]
