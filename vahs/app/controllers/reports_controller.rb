@@ -38,18 +38,17 @@ class ReportsController < ApplicationController
       end
     end
 
-    #Partials execute based on what 'exists'
-    if params[:ViewResults]
-        #User clicked the View Results button
-        @json = JSON.parse(@output.to_json)
+    # XLS Export
+    unless params[:ViewResults]
+      xls = docket_xls_export
+      send_data xls.string, filename: 'docket.xls', type: 'application/vnd.ms-excel'
     else
-        #User clicked the View Results button
-        @exportXLS = JSON.parse(@output.to_json)
+      render :docket
     end
-    render :docket
-  rescue Exception
-    @err = true
-    render :docket
+
+  #rescue Exception
+  #  @err = true
+  #  render :docket
   end
 
   # Docket FY Analysis Reporting 
@@ -137,6 +136,31 @@ class ReportsController < ApplicationController
     session[:docket_fiscal_years] = fys
 
     render layout:  false
+  end
+
+  def docket_xls_export
+    data = StringIO.new
+    book = Spreadsheet::Workbook.new
+    sheet = book.create_worksheet(name: @shType)
+    fyrs = @fiscal_years.collect { |fy| fy[:display] }
+    header = [ 'Regional Office', 'Type', "Pending (Pre #{@docdate})", 'Percentage' ]
+
+    sheet.row(0).default_format = Spreadsheet::Format.new({weight: :bold})
+    sheet.row(0).concat header + fyrs
+
+    idx = 1
+    @output.each do |roID, obj|
+      entry = [ "#{obj.station_id}-#{obj.regional_office[:city]}", @shType, obj.docdate_total, obj.percentage_s(@ttls['bfDocDate']), ]
+      entry += obj.fiscal_years.collect { |fy| fy[:total] }
+
+      entry.each_with_index { |e, i| sheet.column(i).width = e.to_s.length + 5 if sheet.column(i).width <= e.to_s.length }
+      sheet.row(idx).concat entry
+
+      idx += 1
+    end
+
+    book.write data
+    data
   end
 
   #Function for returning the string for the type of hearing selected
