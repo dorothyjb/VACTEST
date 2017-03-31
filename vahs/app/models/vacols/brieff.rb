@@ -72,8 +72,6 @@ class Vacols::Brieff < Vacols::Record
         travel_board
       when "6"
         video
-      when 0
-        limit_docdate
       else
         raise Exception, "invalid hType"
     end
