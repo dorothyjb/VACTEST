@@ -1,58 +1,59 @@
-<% title " - Video Hearings" %>
-<div id="rptResults" class="wrapper" style="background-color:#fff;" >
-<div class="rptResultsHeader">Video Hearing Allocation Analysis</div>
-<div class="rptResultsHeader2"> (<%= params[:numJudge]%> judges * <%= params[:judgeMult]%> monthly hearing days * 12 months) - <%= params[:coDays]%> CO days= <%= @judgeDays%> video days</div>
-<table class="table table-condensed hearingtable">
-	<thead class="thead-inverse">
-		<tr>
-			<th>Regional<br/>Office</th>
-			<th class="cntrAlign">Total<br/>Pending</th>
-			<th class="cntrAlign">Pending<br/>(Pre <%= params[:docdate] %> )</th>
-			<th class="cntrAlign">Percentage</th>
-			<th class="cntrAlign">Judge Days Added</th>
-			<th class="cntrAlign">Total Hearings Added</th>
-			<th class="cntrAlign">Hearings Per Day<br/>(Based on TimeZone)</th>
-		</tr>
-	</thead>
-	<tbody>
-	<% @json.sort_by{|h,obj| obj["ttlPending"]}.sort_by{|h,obj| obj["bfDocDate"]}.reverse.each do |h,obj| 
-		#Some quick math and totals
-		
-		#Determine this RO"s percentage
-		@pctRO = (obj["bfDocDate"].to_f / @ttls["bfDocDate"].to_f)
-		
-		#Determine Judge Days for this RO based on the calculated percentage
-		@jdgDays = (@pctRO*@judgeDays.to_f).round(0)
+        <% title " - Video Hearings" %>
+        <div id="rptResults" class="wrapper" style="background-color:#fff;" >
+          <div class="rptResultsHeader">Video Hearing Allocation Analysis</div>
+            <div class="rptResultsHeader2"> (<%= params[:numJudge]%> judges * <%= params[:judgeMult]%> monthly hearing days * 12 months) - <%= params[:coDays]%> CO days= <%= @judgeDays%> video days</div>
+              <table class="table table-condensed hearingtable">
+                <thead class="thead-inverse">
+                  <tr>
+                    <th>Regional<br/>Office</th>
+                    <th class="cntrAlign">Total<br/>Pending</th>
+                    <th class="cntrAlign">Pending<br/>(Pre <%= params[:docdate] %> )</th>
+                    <th class="cntrAlign">Percentage</th>
+                    <th class="cntrAlign">Judge Days Added</th>
+                    <th class="cntrAlign">Total Hearings Added</th>
+                    <th class="cntrAlign">Hearings Per Day<br/>(Based on TimeZone)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @output.each do |h, obj|
+                    #Some quick math and totals
+                
+                    @pctRO = obj.percentage(@ttls['bfDocDate'].to_f)
+                    
+                    #Determine Judge Days for this RO based on the calculated percentage
+                    @jdgDays = (@pctRO*@judgeDays.to_f).round(0)
 
-		#Determine Total Hearings Added for this RO based on the calculated Judge Days
-		@addedDays = @jdgDays * obj["tzValue"]
-		
-		#Convert to string and format for displaying the Percentage of the RO
-		@pctOf = "%.4f" % (@pctRO*100).round(4)
-		
-		#Do some accumulation for the Totals Row
-		@ttls["ttlJudgeDays"] += @jdgDays.round(0)
-		@ttls["ttlAdded"] += @addedDays
-	%>
-		<tr>
-			<td><%=obj["staID"]%>-<%=obj["ro"]["city"] %></td>
-			<td class="cntrAlign"><%= obj["ttlPending"]  %></td>
-			<td class="cntrAlign"><%= obj["bfDocDate"]  %></td>
-			<td class="cntrAlign"><%= @pctOf %>%</td>
-			<td class="cntrAlign"><%= @jdgDays %></td>
-			<td class="cntrAlign"><%= @addedDays  %></td>
-			<td class="cntrAlign"><%= obj["tzValue"]  %></td>
-		</tr>
-	<% end %>
-		<tr class="rptTotals">
-			<td>Totals</td>
-			<td class="cntrAlign"><%= @ttls["ttlPending"] %></td>
-			<td class="cntrAlign"><%= @ttls["bfDocDate"] %></td>
-			<td class="cntrAlign"></td>
-			<td class="cntrAlign"><%= @ttls["ttlJudgeDays"] %></td>
-			<td class="cntrAlign"><%= @ttls["ttlAdded"] %></td>
-			<td class="cntrAlign"></td>
-		</tr>
-	</tbody>
-</table>
-</div>
+                    #Determine Total Hearings Added for this RO based on the calculated Judge Days
+                    @addedDays = @jdgDays * obj.tz_value
+                    
+                    #Convert to string and format for displaying the Percentage of the RO
+                    @pctOf = "%.4f" % (@pctRO*100).round(4)
+                    
+                    #Do some accumulation for the Totals Row
+                    @ttls["ttlJudgeDays"] += @jdgDays.round(0)
+                    @ttls["ttlAdded"] += @addedDays
+                  %>
+                  <tr>
+                    <td><%= obj.station_id %>-<%= obj.regional_office[:city] %></td>
+                    <td class="cntrAlign"><%= obj.total_pending %></td>
+                    <td class="cntrAlign"><%= obj.docdate_total  %></td>
+                    <td class="cntrAlign"><%= @pctOf %>%</td>
+                    <td class="cntrAlign"><%= @jdgDays %></td>
+                    <td class="cntrAlign"><%= @addedDays  %></td>
+                    <td class="cntrAlign"><%= obj.tz_value  %></td>
+                  </tr>
+                  <% end %>
+                  <tr class="rptTotals">
+                    <td>Totals</td>
+                    <td class="cntrAlign"><%= @ttls["ttlPending"] %></td>
+                    <td class="cntrAlign"><%= @ttls["bfDocDate"] %></td>
+                    <td class="cntrAlign"></td>
+                    <td class="cntrAlign"><%= @ttls["ttlJudgeDays"] %></td>
+                    <td class="cntrAlign"><%= @ttls["ttlAdded"] %></td>
+                    <td class="cntrAlign"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
