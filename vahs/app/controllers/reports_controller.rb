@@ -1,9 +1,6 @@
 class ReportsController < ApplicationController
 
   # Docket Range Reporting 
-  
-  #@rsType is never used or referenced and can be removed eventually.
-  #Do not currently have the time to go remove it from all method calls
   def docket
     @docdate = params[:docdate]
     @hType = params[:hType]
@@ -31,7 +28,6 @@ class ReportsController < ApplicationController
     @fiscal_years = @output.first[1].fiscal_years
     @ttls['fyCol'] = Array.new(@fiscal_years.length, 0)
 
-    #Parse the data to a JSON object and sum up the FY columns for the Totals row
     @output.each do |roName,obj|
       obj.fiscal_years.each_with_index do |fy, i|
         @ttls['fyCol'][i] += fy[:total]
