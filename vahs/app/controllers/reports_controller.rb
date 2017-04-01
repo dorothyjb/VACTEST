@@ -104,9 +104,9 @@ class ReportsController < ApplicationController
     else
       render :analysis
     end
-  #rescue Exception
-  #  @err = true
-  #  render :analysis
+  rescue Exception
+    @err = true
+    render :analysis
   end
 
   def fiscalyears
