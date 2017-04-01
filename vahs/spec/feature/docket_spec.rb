@@ -51,4 +51,11 @@ RSpec.feature "Docket Page" do
     click_button "btnExport"
     expect(page.response_headers['Content-Type']).to have_content("application/vnd.ms-excel")
   end
+
+  it "Displays an error if I attempt to export no Hearing type" do
+    visit "/docket"
+    select "[Select Below]", from: 'hType'
+    click_button "btnExport"
+    expect(find(".error")).to have_text("An error has occurred")
+  end
 end

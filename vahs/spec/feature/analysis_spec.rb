@@ -59,4 +59,32 @@ RSpec.feature "Analysis Page" do
     click_button "btnView"
     expect(find(".rptResultsHeader")).to have_content("Video Hearing Allocation Analysis")
   end
+
+  it "Exports an XLS file for Video Hearing" do
+    visit "/analysis"
+    select "Video Hearing (VH)", from: 'hType'
+    click_button 'btnExport'
+    expect(page.response_headers['Content-Type']).to have_content('application/vnd.ms-excel')
+  end
+
+  it "Exports an XLS file for Travel Board" do
+    visit "/analysis"
+    select "Travel Board (TB)", from: 'hType'
+    click_button "btnExport"
+    expect(page.response_headers['Content-Type']).to have_content('application/vnd.ms-excel')
+  end
+
+  it "Exports an XLS file for Central Office" do
+    visit "/analysis"
+    select "Central Office (CO)", from: 'hType'
+    click_button "btnExport"
+    expect(page.response_headers['Content-Type']).to have_content('application/vnd.ms-excel')
+  end
+
+  it "Displays an error if I attempt to export no Hearing type" do
+    visit "/analysis"
+    select "[Select Below]", from: 'hType'
+    click_button "btnExport"
+    expect(find(".error")).to have_text("An error has occurred")
+  end
 end
