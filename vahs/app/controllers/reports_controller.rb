@@ -60,7 +60,7 @@ class ReportsController < ApplicationController
   def getAnalysis
     @docdate = params[:docdate]+"-01"
     @hType = params[:hType]
-    @shType = @hType
+    @shType = getHearingType(@hType)
     
     #Temporary Hack to get values from the form
     # - The form fields will be replaced once an analysis 
@@ -98,18 +98,15 @@ class ReportsController < ApplicationController
     @output, @ttls["bfDocDate"], @ttls["ttlPending"] = Vacols::Brieff.get_report(@docdate, @hType, session[:docket_fiscal_years])
     @output = @output.sort_by { |h, obj| obj.total_pending }.sort_by { |h, obj| obj.docdate_total }.reverse
 
-    #Partials execute based on what 'exists'
-    if params[:ViewResults]
-      #User clicked the View Results button
-      @json = JSON.parse(@output.to_json)
+    unless params[:ViewResults]
+      xls = analysis_xls_export
+      send_data xls.string, filename: 'analysis.xls', type: 'application/vnd.ms-excel'
     else
-      #User clicked the View Results button
-      @exportXLS = JSON.parse(@output.to_json)
+      render :analysis
     end
-    render :analysis
-  rescue Exception
-    @err = true
-    render :analysis
+  #rescue Exception
+  #  @err = true
+  #  render :analysis
   end
 
   def fiscalyears
@@ -141,9 +138,12 @@ class ReportsController < ApplicationController
     fyrs = @fiscal_years.collect { |fy| fy[:display] }
     header = [ 'Regional Office', 'Type', 'Total Pending', "Pending (Pre #{@docdate})", 'Percentage' ]
     boldfmt = Spreadsheet::Format.new({weight: :bold})
+    header += fyrs
 
     sheet.row(0).default_format = boldfmt
-    sheet.row(0).concat header + fyrs
+    sheet.row(0).concat header
+
+    xls_resize_column sheet, header
 
     idx = 1
     @output.each do |roID, obj|
@@ -167,10 +167,86 @@ class ReportsController < ApplicationController
     data
   end
 
+  def analysis_xls_export
+    data = StringIO.new
+    book = Spreadsheet::Workbook.new
+    boldfmt = Spreadsheet::Format.new({weight: :bold})
+    sheet = book.create_worksheet(name: @shType)
+
+    header = [ 'Regional Office', 'Total Pending', "Pending (Pre #{@docdate})", 'Percentage' ]
+    header += analysis_header
+
+    sheet.row(0).default_format = boldfmt
+    sheet.row(0).concat header
+
+    xls_resize_column sheet, header
+
+    idx = 1
+    @output.each do |roID, obj|
+      entry = [ "#{obj.station_id}-#{obj.regional_office[:city]}", obj.total_pending, obj.docdate_total, obj.percentage_s(@ttls['bfDocDate']), ]
+      entry += analysis_content(obj)
+
+      xls_resize_column sheet, entry
+      sheet.row(idx).concat entry
+
+      idx += 1
+    end
+
+    entry = [ "Totals", @ttls['ttlPending'], @ttls['bfDocDate'], '', @ttls['ttlJudgeDays'], @ttls['ttlAdded'] ]
+
+    sheet.row(idx).concat Array.new(sheet.row(0).length, "")
+    sheet.row(idx+1).default_format = boldfmt
+    sheet.row(idx+1).concat entry
+
+    book.write data
+    data
+  end
+
+  def analysis_content ro
+    pct_ro = ro.percentage(@ttls['bfDocDate'].to_f)
+    judge_days = (pct_ro * @judgeDays.to_f).round(0) 
+
+    case @hType
+      when '1'
+        added_days = judge_days * 11
+        @ttls['ttlJudgeDays'] += judge_days
+        @ttls['ttlAdded'] += added_days
+
+        entry = [ judge_days.to_s, added_days.to_s ]
+      when '2'
+        entry = []
+      when '6'
+        added_days = judge_days * ro.tz_value
+        @ttls['ttlJudgeDays'] += judge_days
+        @ttls['ttlAdded'] += added_days
+
+        entry = [ judge_days.to_s, added_days.to_s, ro.tz_value ]
+      else
+        entry = []
+    end
+
+    entry
+  end
+
   def xls_resize_column sheet, entry
     entry.each_with_index do |e, i|
       sheet.column(i).width = e.to_s.length + 5 if sheet.column(i).width < (e.to_s.length + 5)
     end
+  end
+
+  def analysis_header
+    result = Hash.new([])
+
+    # Central Office
+    result['1'] = [ 'Judge Days Added', 'Total Hearings Added' ]
+
+    # Travel Board
+    result['2'] = [ 'Judge Trips Added', 'Total Hearings Added', 'TBD' ]
+
+    # Video
+    result['6'] = [ 'Judge Days Added', 'Total Hearings Added', 'Hearings Per Day (Based on Timezone)' ]
+
+    result[@hType]
   end
 
   #Function for returning the string for the type of hearing selected
