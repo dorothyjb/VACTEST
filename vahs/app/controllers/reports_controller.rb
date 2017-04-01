@@ -37,7 +37,7 @@ class ReportsController < ApplicationController
     # XLS Export
     unless params[:ViewResults]
       xls = docket_xls_export
-      send_data xls.string, filename: 'docket.xls', type: 'application/vnd.ms-excel'
+      send_data xls.string, filename: "#{@shType} Docket.xls", type: 'application/vnd.ms-excel'
     else
       render :docket
     end
@@ -100,7 +100,7 @@ class ReportsController < ApplicationController
 
     unless params[:ViewResults]
       xls = analysis_xls_export
-      send_data xls.string, filename: 'analysis.xls', type: 'application/vnd.ms-excel'
+      send_data xls.string, filename: "#{@shType} Analysis.xls", type: 'application/vnd.ms-excel'
     else
       render :analysis
     end
