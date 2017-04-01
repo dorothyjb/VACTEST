@@ -15,4 +15,13 @@ class ApplicationController < ActionController::Base
                                          [ "2016-10-01", "2017-09-30" ],
                                        ]
   end
+
+  def get_hearing_type hearing_type
+    result = Hash.new("")
+    result['1'] = "Central Office"
+    result['2'] = "Travel Board"
+    result['6'] = "Video"
+
+    result[hearing_type]
+  end
 end

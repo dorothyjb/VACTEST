@@ -1,15 +1,15 @@
 Rails.application.routes.draw do
   get 'index', to: 'base#index'
   get 'about', to: 'base#about'
-  get 'docket', to: 'reports#docket'
-  get 'analysis', to: 'reports#analysis'
-  get 'fiscalyears', to: 'reports#fiscalyears'
-  
-  post 'fiscalyears', to: 'reports#update_fiscalyears'
-  post 'docket', to: 'reports#getDocket'
-  post 'analysis', to: 'reports#getAnalysis'
 
+  get 'docket', to: 'docket#get'
+  post 'docket', to: 'docket#post'
+
+  get 'analysis', to: 'analysis#get'
+  post 'analysis', to: 'analysis#post'
+
+  get 'fiscalyears', to: 'docket#fiscalyears'
+  post 'fiscalyears', to: 'docket#update_fiscalyears'
   
   root "base#index"
-  
 end
