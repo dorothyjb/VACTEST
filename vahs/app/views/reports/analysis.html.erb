@@ -7,6 +7,5 @@
         <%= render :partial => "reports/analysis/travel" if @hType == "2"  %>
         <%= render :partial => "reports/analysis/video" if @hType == "6"  %>
 	<% end %>
-	<%= render :partial => "reports/analysis/export" if @exportXLS.present?  %>
 	<%= render :partial => "base/error" if @err.present?  %>
       </div>
