@@ -1,9 +1,6 @@
 module XLSHelper
   extend ActiveSupport::Concern
 
-  def xls_resize_column sheet, entry
-      end
-
   class XLSSpreadsheet
     attr_accessor :data, :book, :sheet, :format
 
