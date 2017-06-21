@@ -26,5 +26,8 @@ module RoadrunnerRails
     
     # Gzip files when possible
     config.middleware.use Rack::Deflater
+
+    config.autoload_paths << Rails.root.join('lib')
+    config.autoload_paths += Dir[Rails.root.join('app', 'models', '**/')]
   end
 end
