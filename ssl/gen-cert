@@ -1,0 +1,20 @@
+#! /bin/bash
+
+signkey='vahs.key'
+[ -f "$signkey" ] || signkey='testuser.key'
+
+# new key
+openssl genrsa -aes256 -out testuser.p.key
+
+# remove password
+openssl rsa -in testuser.p.key -out testuser.key
+
+# request certificate
+openssl req -new \
+            -key testuser.key \
+            -out testuser.csr \
+            -subj '/DC=gov/DC=va/O=internal/OU=people/UID=test.user@va.gov/CN=Test User 12345 (affiliate)'
+
+# sign certificate
+echo "Signing with \"$signkey\"."
+openssl x509 -req -days 1825 -in testuser.csr -signkey "$signkey" -out testuser.crt

@@ -1,0 +1,8 @@
+# ignore key files
+*.key
+
+# ignore certificates
+*.crt
+
+# ignore certificate requests
+*.csr

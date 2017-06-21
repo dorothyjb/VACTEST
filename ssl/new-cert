@@ -1,0 +1,13 @@
+#! /bin/bash
+
+# new key
+openssl genrsa -aes256 -out vahs.p.key
+
+# remove password
+openssl rsa -in vahs.p.key -out vahs.key
+
+# certificate request
+openssl req -new -key vahs.key -out vahs.csr
+
+# sign certificate request with key
+openssl x509 -req -days 365 -in vahs.csr -signkey vahs.key -out vahs.crt
