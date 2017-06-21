@@ -1,0 +1,199 @@
+div.search-wrapper {
+	font-size: 14px;
+	width: 100%;
+	overflow: hidden;
+}
+
+div.results-found {
+	padding-left: 10%;
+	font-style: italic;
+	float: left;
+}
+
+span.fmt-bold {
+	font-weight: bold;
+	text-decoration: none;
+}
+
+div.display-container {
+	display: table;
+}
+
+div.dsp-container-row {
+	display: table-row;
+}
+
+div.dsp-container-col {
+	display: table-cell;
+	padding-left: 45px;
+	padding-bottom: 25px;
+	width: 20%;
+}
+
+div.field {
+	padding-bottom: 20px;
+}
+
+span.field-title {
+	font-weight: bold;
+	font-size: 14px;
+}
+
+span.field-entry {
+	font-size: 12px;
+}
+
+div.entries {
+	display: table;
+	margin-left: 5%;
+	margin-right: 5%;
+	width: 90%;
+}
+
+div.tbl-row {
+	display: table-row;
+}
+
+/* header */
+div.tbl-row div.tbl-col {
+	font-weight: bold;
+	font-size: 14px;
+}
+
+/* alternate colour schema */
+a.tbl-row0 {
+	display: table-row;
+	background-color: #ccf;
+	color: #069;
+	font-weight: bold;
+	font-size: 12px;
+}
+
+a.tbl-row1 {
+	display: table-row;
+	background-color: #069;
+	color: #ccf;
+	font-weight: bold;
+	font-size: 12px;
+}
+
+div.tbl-col {
+	padding: 6px 6px 6px 6px;
+	display: table-cell;
+}
+
+div.search {
+	text-align: left;
+}
+
+/* pagination settings */
+div.pagination {
+	font-size: 12px;
+	font-weight: bold;
+	display: block;
+	text-align: center;
+}
+
+div.pagination span.previous_page {
+}
+
+div.pagination span.disabled {
+}
+
+div.pagination em.current {
+}
+
+div.pagination a {
+}
+
+div.pagination a:hover {
+}
+/* end pagination settings */
+
+/* modify employee record css */
+
+div.employee-legend {
+	text-align: right;
+}
+
+.ui-tabs-vertical {
+	width: 100%;
+}
+
+.ui-tabs-vertical .ui-tabs-nav {
+	padding: .2em .1em .2em .2em;
+	float: left;
+	width: 16em;
+}
+
+.ui-tabs-vertical .ui-tabs-nav li {
+	clear: left;
+	width: 100%;
+	border-bottom-width: 1px !important;
+	border-right-width: 0 !important;
+	margin: 0 -1px .2em 0;
+}
+
+.ui-tabs-vertical .ui-tabs-nav li a {
+	display: block;
+}
+
+.ui-tabs-vertical .ui-tabs-nav li.ui-tabs-active {
+	padding-bottom: 0;
+	padding-right: .1em;
+	border-right-width: 1px;
+}
+
+.ui-tabs-vertical .ui-tabs-panel {
+	//margin-left: 12em;
+	//float: right;
+	//width: 40em;
+}
+
+div.tab-panel {
+	padding-left: 2em;
+	float: left;
+}
+
+div.fieldset-left {
+	margin-right: 4em;
+	float: left;
+}
+
+div.fieldset-right {
+	float: left;
+}
+
+div.tab-panel br {
+	clear: both;
+}
+
+div.tab-panel label {
+	font-weight: bold;
+	display: block;
+}
+
+div.tab-panel input[type="text"] {
+	display: block;
+}
+
+div#tab-nav h2 {
+	text-align: center;
+	margin-bottom: 24px;
+}
+
+div#employee-buttons {
+	margin-top: 24px;
+	padding-left: 24px;
+	padding-right: 24px;
+}
+
+div#employee-buttons div.actions-left {
+	float: left;
+}
+
+div#employee-buttons div.actions-right {
+	float: right;
+}
+
+/* end modify employee record css */

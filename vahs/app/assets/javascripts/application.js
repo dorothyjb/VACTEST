@@ -20,3 +20,5 @@
 //= require angular-ui.min
 //= require 508ARIA
 //= require jquery.floatThead.min.js
+//= require select2.full.js
+//= require jquery.validate.min

@@ -19,3 +19,40 @@
     color: rgba(255, 255, 0, 1);
     background-color: rgba(1, 19, 63, 1);
 }
+
+nav#subnav-group {
+	padding-bottom: 0px;
+}
+
+nav#subnav-group div.navbar-nav a {
+	font-size: 12px;
+	background-color: #fff;
+	background-image: url("/assets/greyfade.png");
+	background-repeat: repeat-x;
+	background-position: left top;
+	border-radius: 8px 8px 0px 0px;
+	padding: 8px 8px 0px 8px;
+	font-weight: bold;
+	color: #00e;
+}
+
+nav#subnav-group div.navbar-nav a:hover {
+	font-weight: bolder;
+	text-decoration: none;
+}
+
+nav#subnav-group div.navbar-nav a.subnav-active {
+	font-size: 12px;
+	background-color: #fff;
+	background-image: url("/assets/greyfade.png");
+	background-repeat: repeat-x;
+	background-position: left top;
+	border-radius: 8px 8px 0px 0px;
+	padding: 8px 8px 0px 8px;
+	font-weight: bold;
+	color: #000;
+}
+
+nav#subnav-group div.navbar-nav a.subnav-active:hover {
+	text-decoration: none;
+}

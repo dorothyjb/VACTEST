@@ -9,3 +9,13 @@
 // 		},
 // 	});
 // });
+
+$(document).ready(function() {
+	$('#tab-nav').tabs();//.addClass("ui-tabs-vertical ui-helper-clearfix");
+	$('#tab-nav li');//.removeClass("ui-corner-top").addClass("ui-corner-left");
+
+	$('select').select2({
+		placeholder: "All",
+		allowClear: true
+	});
+});

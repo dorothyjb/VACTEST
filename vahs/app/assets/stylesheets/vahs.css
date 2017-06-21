@@ -231,3 +231,50 @@ label{
 	color:#f00;
 }
 /* End - Partial: app/views/base/_error.html.erb */
+
+/* Start - HR index */
+
+div.table-links-container {
+	display: table;
+	border-spacing: 24px;
+	margin-left: 24px;
+}
+
+div.table-links {
+	display: table-cell;
+	width: 270px;
+	border: 1px solid #000;
+}
+
+div.table-links div.header {
+	background-color: #a5a5a5;
+	border-bottom: 1px solid #000;
+	text-align: center;
+	font-weight: bold;
+	font-size: 14pt;
+	color: #002060;
+}
+
+div.table-links div.links {
+	margin-top: 12px;
+}
+
+div.table-links div.links ul {
+	list-style-type: none;
+}
+
+div.table-links div.links ul li {
+	margin-bottom: 12px;
+}
+
+div.table-links div.links ul li a {
+	color: #364e7e;
+	text-decoration: underline;
+	font-size: 10pt;
+	font-weight: bold;
+}
+
+div.table-links div.links ul li a:hover {
+	text-decoration: none;
+}
+/* End - HR index */
