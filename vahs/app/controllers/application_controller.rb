@@ -4,6 +4,12 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_filter :init_session
 
+  # Manage exceptions
+  rescue_from Rms::Error::UserAuthenticationError, with: :user_authentication_error
+  #rescue_from Exception, with: :generic_error
+
+  ###
+  # called when the session first starts.
   def init_session
     #reset_session
     session[:docket_fiscal_years] ||=  [
@@ -16,6 +22,8 @@ class ApplicationController < ActionController::Base
                                        ]
   end
 
+  ###
+  # a helper function for hearing reports.
   def get_hearing_type hearing_type
     result = Hash.new("")
     result['1'] = "Central Office"
@@ -23,5 +31,20 @@ class ApplicationController < ActionController::Base
     result['6'] = "Video"
 
     result[hearing_type]
+  end
+
+
+  ###
+  # User authentication error.
+  def user_authentication_error err
+    @error = err
+    render template: 'errors/authentication', status: 403
+  end
+
+  ###
+  # Generic exception
+  def generic_error err
+    @error = err
+    render template: 'errors/generic', status: 500
   end
 end

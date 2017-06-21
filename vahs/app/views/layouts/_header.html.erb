@@ -1,2 +1,22 @@
-      <div id="header"><span><%= image_tag("header-logo.png", alt:"VA Header Logo")%></span></div>
-      <div id="subheader"><span><%= label_tag( nil, "Veterans\' Appeals Hearing Schedule (VAHS)", alt:"Veterans\' Appeals Hearing Schedule (VAHS)")%></span></div>
+<div id="header">
+  <span>
+    <%= image_tag("header-logo.png", alt:"VA Header Logo")%>
+  </span>
+</div>
+
+<div id="subheader" role="heading">
+  <span>
+    <%
+       subheading = yield(:page_header)
+       heading = "BVA Resource Management System"
+       heading = "BVA Resource Management System - #{subheading}" unless subheading.nil? or subheading.empty?
+    %>
+    <%= label_tag nil, heading, alt: heading %>
+  </span>
+</div>
+
+<% if flash[:notice] %>
+  <div class="flash-banner alert alert-info"><%= flash[:notice] %></div>
+  <% flash.clear %>
+<% end %>
+

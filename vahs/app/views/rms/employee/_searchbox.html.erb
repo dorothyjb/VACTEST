@@ -1,0 +1,21 @@
+<div class="search-wrapper">
+  <div class="search">
+    <%= form_tag(rms_employee_search_path, :method => 'POST', id: "emp-search-form") do %>
+      <%= label_tag :search_type, "Search By:" %>
+      <%= select_tag :search_type, options_for_select([["Generic", "Generic"],
+          [ "Employee ID", "Employee ID" ], [ "Attorney ID", "Attorney ID" ],
+          [ "User ID", "User ID" ], [ "Login ID", "Login ID" ],
+          [ "Last Name", "Last Name" ], [ "First Name", "First Name" ],
+          [ "Grade", "Grade" ], [ "Work Group", "Work Group" ],
+          [ "Assignment Date", "Assignment Date" ],
+          [ "Service Completion Date", "Service Completion Date" ],
+          [ "Years of Service", "Years of Service" ], [ "BVA Title", "BVA Title" ],
+          [ "Paid Title", "Paid Title" ], [ "Job Code", "Job Code" ],
+          [ "Work Phone", "Work Phone" ], [ "Building Room", "Building Room" ],
+          [ "Position Number", "Position Number" ], [ "Employment Status", "Employment Status" ],
+          [ "Bar Member", "Bar Member" ] ], params[:search_type] || 'Generic') %>
+      <%= text_field_tag :search, params[:search], placeholder: "Search Employees" %>
+      <%= submit_tag "Search", :name => nil %>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,11 @@
+<div id="content" class="container" role="main">
+  <div class='error'>
+    <b>An Error Occurred</b>
+    <p>An error has occured and your request could not be processed.</p>
+
+    <% unless Rails.env.production? %>
+      <pre><%= @error.message %></pre>
+      <pre><%= @error.backtrace.join("\n") %></pre>
+    <% end %>
+  </div>
+</div>

@@ -1,3 +1,47 @@
-<div id="content" class="container">
-Index
+<% title "BVA Resource Management System" %>
+<div id="content" class="container" role="main">
+  <div class="table-links-container">
+    <%= auth_content_for :admin, :employee do %>
+      <div class="table-links">
+        <div class="header">Data Entry &amp; Maintenance</div>
+        <div class="links">
+          <ul role="menu">
+            <li role="menuitem"><%= auth_link_to "Create Employee Record", rms_employee_new_path, 'aria-label': 'Create an Employee Record' %></li>
+            <li role="menuitem"><%= auth_link_to "Modify Employee Record", rms_employee_search_path, 'aria-label': 'Find an Employee and update their record' %></li>
+          </ul>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="table-links">
+      <div class="header">Research &amp; Analysis</div>
+      <div class="links">
+        <ul role="menu">
+          <li role="menuitem"><%= auth_link_to "Employee Locator", rms_employee_locator_path, 'aria-label': 'Find and locate an employee' %></li>
+
+          <%= auth_content_for :admin, :employee do %>
+            <li role="menuitem"><%= auth_link_to "Employee Record Search", rms_employee_search_path, 'aria-label': 'Search for an employee' %></li>
+          <% end %>
+
+          <%= auth_content_for :admin, :report do %>
+            <li role="menuitem"><%= auth_link_to "Reports", rms_reports_path, 'aria-label': 'Reports Portal' %></li>
+            <li role="menuitem"><%= auth_link_to "PAID File Update Report", rms_reports_paid_exception_path, 'aria-label': 'PAID file exception report' %></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+
+    <%= auth_content_for :admin do %>
+      <div class="table-links">
+        <div class="header">Administrative Tools</div>
+        <div class="links">
+          <ul role="menu">
+            <li role="menuitem"><%= auth_link_to "Contact Us", contact_us_path, 'aria-label': 'Contact us' %></li>
+            <li role="menuitem"><%= auth_link_to "Resource Guide", resource_guide_path, 'aria-label': 'Resource Guide' %></li>
+            <li role="menuitem"><%= auth_link_to "Roles & Privileges", admin_roles_path, 'aria-label': 'Manage roles and privileges' %></li>
+          </ul>
+        </div>
+      </div>
+    <% end %>
+  </div>
 </div>

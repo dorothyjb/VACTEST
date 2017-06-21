@@ -12,9 +12,10 @@
     <%= csrf_meta_tags %>
     <%= stylesheet_link_tag    "application", media: "all"%>
     <%= javascript_include_tag "application" %>
+    <%= yield(:head) %>
   </head>
   <body id="vahs">  
-    <div class="main">
+    <div class="main" role="main">
       <%= render "layouts/header" %>
       <%= render "layouts/menu" %>
       <%= yield %>

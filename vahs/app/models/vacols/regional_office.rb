@@ -152,7 +152,8 @@ class Vacols::RegionalOffice
     "RO94" => { city: "St. Louis Education Center", state: "MO", timezone: "America/Chicago" },
     "RO98" => { city: "NCA", state: "DC", timezone: "America/New_York" },
     "RO99" => { city: "VHA CO", state: "DC", timezone: "America/New_York" },
-    "DSUSER" => { city: "Digital Service HQ", state: "DC", timezone: "America/New_York" }
+    "DSUSER" => { city: "Digital Service HQ", state: "DC", timezone: "America/New_York" },
+    "" => { city: "Unknown", state: "DC", timezone: "America/New_York" }
   }.freeze
 
 
@@ -204,7 +205,7 @@ class Vacols::RegionalOffice
 
   def update_fiscal_year brieff
     @fiscal_years.each do |fy|
-      fy[:total] += 1 if brieff[:BFD19] >= fy[:begin] and brieff[:BFD19] <= fy[:end]
+      fy[:total] += 1 if brieff.i9_received >= fy[:begin] and brieff.i9_received <= fy[:end]
     end
   end
 
@@ -223,5 +224,7 @@ class Vacols::RegionalOffice
       CITIES[ro],
       VHTZ[CITIES[ro][:timezone]]
     ]
+  rescue
+    raise Exception, "Invalid ro: #{ro.inspect}"
   end
 end

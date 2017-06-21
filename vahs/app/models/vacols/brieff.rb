@@ -1,5 +1,5 @@
 class Vacols::Brieff < Vacols::Record
-  self.table_name = "BRIEFF"
+  self.table_name = "VACOLS.BRIEFF"
 
   scope :form_completed, -> {where.not(:BFD19 => nil)}
   scope :check_action, -> {where("BFHA = 3 OR BFHA IS NULL")}
@@ -29,21 +29,25 @@ class Vacols::Brieff < Vacols::Record
   #   appeal status is 'REM'
   #   and date/time of travel board request is greater than date/time of
   #   decision.
-  scope :check_pending, -> {where("((`BRIEFF`.`BFD19` IS NOT NULL"\
-    " AND `BRIEFF`.`BFMPRO` = 'ADV' AND (`BRIEFF`.`BFHA` = 3 OR"\
-    "`BRIEFF`.`BFHA` IS NULL)) OR (`BRIEFF`.`BFMPRO` = 'REM'"\
-      " AND `BRIEFF`.`BFDTB` IS NOT NULL AND BFDTB > BFDDEC))")}
+  scope :check_pending, -> {where("((BRIEFF.BFD19 IS NOT NULL"\
+    " AND BRIEFF.BFMPRO = 'ADV' AND (BRIEFF.BFHA = 3 OR"\
+    " BRIEFF.BFHA IS NULL)) OR (BRIEFF.BFMPRO = 'REM'"\
+    " AND BRIEFF.BFDTB IS NOT NULL AND BFDTB > BFDDEC))")}
+
+  def i9_received
+    self[:BFD19] || self[:bfd19]
+  end
 
   #Docket date is always based on the Last Day of the selected Month/Year
   #Add one month to the selected date in order to test for Less Than (<) 
   # the first day of the following month
   def in_docdate?(docdate)
-    self[:BFD19] <= Date.parse(docdate) + 1.month
+    self.i9_received <= Date.parse(docdate) + 1.month
   end
 
   #Hack to ensure the data from the database is stripped of any leading/trailing whitespace
   def regional_office
-    self[:BFREGOFF].to_s.lstrip
+    (self[:BFREGOFF] || self[:bfregoff]).to_s.lstrip
   end
 
   def self.get_report(docdate, htype, fiscal_years)

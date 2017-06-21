@@ -1,0 +1,146 @@
+<h2>Personal Information 2</h2>
+
+<div class="tab-panel">
+  <div id="accordion">
+    <h3><a href="#" alt="Employee Information">Employee information</a></h3>
+    <div class="accordion-section">
+      <div class="fieldset-left">
+        <%= label_tag :name, "**Full Name:" %>
+        <%= text_field_tag :name, @employee.name, name: 'employee[name]', size: 35, readonly: true %>
+      </div>
+
+      <div class="fieldset-left">
+        <%= label_tag :prev_lname, "Previous Last Name:" %>
+        <%= text_field_tag :prev_lname, @employee.prev_lname, name: 'employee[prev_lname]', size: 30 %>
+      </div>
+
+      <div class="fieldset-right">
+        <%= label_tag :date_of_birth, "**Date of Birth:" %>
+        <%= text_field_tag :date_of_birth, @employee.date_of_birth.to_s, name: 'employee[date_of_birth]', size: 8, readonly: true %>
+      </div>
+
+      <br /><br />
+
+      <div class="fieldset-left">
+        <%= label_tag :ssn, "Social Security Number:" %>
+        <%= text_field_tag :ssn, @employee.ssn, name: 'employee[ssn]', size: 12 %>
+      </div>
+
+      <div class="fieldset-right">
+        <%= label_tag :gender, "Gender:" %>
+        <%= select_tag :gender, options_for_select([ [ '', nil ], [ 'Female', 'F' ], [ 'Male', 'M' ] ], @employee.gender || ''), name: 'employee[gender]' %>
+      </div>
+
+      <br /><br />
+
+      <div class="fieldset-left">
+        <%= label_tag :pob_city, "Place of Birth City:" %>
+        <%= text_field_tag :pob_city, @employee.pob_city, name: 'employee[pob_city]' %>
+      </div>
+
+      <div class="fieldset-left">
+        <%= label_tag :pob_state, "Place of Birth State:" %>
+        <%= text_field_tag :pob_state, @employee.pob_state, name: 'employee[pob_state]' %>
+      </div>
+
+      <div class="fieldset-right">
+        <%= label_tag :pob_country, "Place of Birth Country:" %>
+        <%= text_field_tag :pob_country, @employee.pob_country, name: 'employee[pob_country]', size: 30 %>
+      </div>
+    </div>
+
+    <h3><a href="#" alt="Employee Status"></a>Employee Status</h3>
+    <div class="accordion-section">
+      <div class="fieldset-left">
+        <%= label_tag :flsa, "**FLSA:" %>
+        <%= text_field_tag :flsa, @employee.flsa, name: 'employee[flsa]', size: 2, readonly: true %>
+      </div>
+
+      <div class="fieldset-left">
+        <%= label_tag :appt_type, "**Appointment Type:" %>
+        <%= text_field_tag :appt_type, @employee.appt_type, name: 'employee[appt_type]', size: 2, readonly: true %>
+      </div>
+
+      <div class="fieldset-left">
+        <%= label_tag :barg_client, "**BARG Client:" %>
+        <%= text_field_tag :barg_client, @employee.barg_client, name: 'employee[barg_client]', size: 4, readonly: true %>
+      </div>
+
+      <div class="fieldset-right">
+        <%= label_tag :srvce_comp_date, "**Service Comp Date:" %>
+        <%= text_field_tag :srvce_comp_date, @employee.srvce_comp_date, name: 'employee[srvce_comp_date]', size: 8, readonly: true %>
+      </div>
+
+      <br /><br />
+
+      <div class="fieldset-left">
+        <%= label_tag :cost_center, "**Cost Center:" %>
+        <%= text_field_tag :cost_center, @employee.cost_center, name: 'employee[cost_center]', readonly: true %>
+      </div>
+
+      <div class="fieldset-left">
+        <%= label_tag :time_leave_unit, "**Time Leave Unit:" %>
+        <%= text_field_tag :time_leave_unit, @employee.time_leave_unit, name: 'employee[time_leave_unit]', size: 6, readonly: true %>
+      </div>
+
+      <div class="fieldset-right">
+        <%= label_tag :duty_status, "Duty Status:" %>
+        <%= text_field_tag :duty_status, @employee.duty_status, name: 'employee[duty_status]' %>
+      </div>
+
+      <br /><br />
+
+      <div class="fieldset-left">
+        <%= label_tag :service, "Service:" %>
+        <%= text_field_tag :service, @employee.service, name: 'employee[service]' %>
+      </div>
+
+      <div class="fieldset-left">
+        <%= label_tag :eom, "EOM:" %>
+        <%= select_tag :eom, options_for_select(Bvadmin::RmsDropDownConfig.options_for(:employee, :eom, ''), @employee.eom || ''), name: 'employee[eom]' %>
+      </div>
+
+      <div class="fieldset-right">
+        <%= label_tag :vet_status, "Veteran Status:" %>
+        <%= select_tag :vet_status, options_for_select([ ['',nil], ['Non-Veteran', 'N'], ['Veteran', 'V'] ], @employee.vet_status || ''), name: 'employee[vet_status]', id: 'vet_status' %>
+      </div>
+
+      <br /><br />
+
+      <%
+        klass_attr = "fieldset-left"
+        klass_attr += " hide-element" unless @employee.vet_status == 'V'
+      %>
+
+      <div class="<%= klass_attr %>" id="military_svc_branch">
+        <%= label_tag :military_service_branch, "Military Service Branch:" %>
+        <%= select_tag :military_service_branch, options_for_select(Bvadmin::RmsDropDownConfig.options_for(:employee, :military_service_branch, ''), @employee.military_service_branch || ''), name: 'employee[military_service_branch]' %>
+      </div>
+    </div>
+
+    <h3><a href="#" alt="Employee Position Information">Employee Position Information</a></h3>
+    <div class="accordion-section">
+      <div class="fieldset-left">
+        <%= label_tag :bva_eod, "BVA EOD:" %>
+        <%= text_field_tag :bva_eod, @employee.current_bva_duty_date, name: 'employee[current_bva_duty_date]', class: 'datefield' %>
+      </div>
+
+      <div class="fieldset-left">
+        <%= label_tag :prior_bva_duty_date, "Prior BVA Duty Date:" %>
+        <%= text_field_tag :prior_bva_duty_date, @employee.prior_bva_duty_date, name: 'employee[prior_bva_duty_date]', class: 'datefield' %>
+      </div>
+
+      <br /><br />
+
+      <div class="fieldset-left">
+        <%= label_tag :position_detail, "Position Detail:" %>
+        <%= text_field_tag :position_detail, @employee.position_detail, name: 'employee[position_detail]' %>
+      </div>
+
+      <div class="fieldset-left">
+        <%= label_tag :supervisor, "Supervisor:" %>
+        <%= select_tag :supervisor, options_for_select([ ['',nil], ['False','FALSE'], ['True','TRUE'] ], @employee.supervisor || ''), name: 'employee[supervisor]' %>
+      </div>
+    </div>
+  </div>
+</div>

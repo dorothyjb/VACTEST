@@ -1,0 +1,73 @@
+<%= javascript_include_tag 'reports.tab.js' %>
+
+<h2>Pipeline</h2>
+
+<div class="report-search-header">
+  <%= form_tag(rms_reports_pipeline_path, :method => 'POST', id: "hr-reports-pipeline") do %>
+    <div class="group">
+      <%= label_tag :title, "Title:", class: 'title' %>
+      <%= select_tag :title, options_for_select(@titles, params[:title] || "ALL"), multiple: true, 'aria-describedby': 'search-by-hr-job-title' %><br>
+      <div class="subtext" id="search-by-hr-job-title" role="tooltip">Filter by HR Job Title</div>
+    </div>
+
+    <div class="group">
+      <%= label_tag :series, "Series:", class: 'title' %>
+      <%= select_tag :series, options_for_select(@series, params[:series] || "ALL"), multiple: true %><br>
+      <span class="subtext">Filter by Job Series</span>
+    </div>
+
+    <div class="group">
+      <%= label_tag :grade, "Grade:", class: 'title' %>
+      <%= select_tag :grade, options_for_select(@grades, params[:grade] || "ALL"), multiple: true %><br>
+      <span class="subtext">Filter by Grade</span>
+    </div>
+
+    <div class="padded-group">
+      <%= label_tag :effective_to, 'To:' %>
+      <%= label_tag :effective_from, 'From:' %>
+    </div>
+
+    <div class="group">
+      <%= field_set_tag "Effective:" do %>
+        <%= text_field_tag :effective_to, params[:effective_to], alt: "Effective Date To" %>
+        <%= text_field_tag :effective_from, params[:effective_from], alt: "Effective Date From" %><br>
+      <% end %>
+
+      <span class="subtext">Filter by Effective Date</span>
+    </div>
+
+    <div class="group">
+      <%= field_set_tag "Export Format:" do %>
+        <%= radio_button_tag :export_format, "HTML", true %>
+        <%= label_tag :export_format_HTML, "HTML", class: 'radio-tag' %>
+
+        <%= radio_button_tag :export_format, "MS Excel" %>
+        <%= label_tag :export_format_MS_Excel, "MS Excel", class: 'radio-tag' %>
+
+        <%= radio_button_tag :export_format, "PDF" %>
+        <%= label_tag :export_format_PDF, "PDF", class: 'radio-tag' %>
+      <% end %>
+
+      <span class="subtext">Select Export Format</span>
+    </div>
+
+    <div class="group">
+      <%= field_set_tag "Report Type:" do %>
+        <%= radio_button_tag :report_type, "Summary", true %>
+        <%= label_tag :report_type_Summary, "Summary", class: 'radio-tag' %>
+
+        <%= radio_button_tag :report_type, "Detailed" %>
+        <%= label_tag :report_type_Detailed, "Detailed", class: 'radio-tag' %>
+      <% end %>
+
+      <span class="subtext">Select Report Type</span>
+    </div>
+
+    <div class="button">
+      <%= field_set_tag do %>
+        <%= button_tag "Generate Report" %>
+        <%= button_tag "Cancel" %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

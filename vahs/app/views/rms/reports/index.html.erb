@@ -1,0 +1,17 @@
+<% title "BVA Resource Management System - Reports" %>
+<% page_header "Reports" %>
+
+<%= content_for :head do %>
+  <%= stylesheet_link_tag "reports", media: "all" %>
+  <%= javascript_include_tag "reports" %>
+<% end %>
+
+<div id="content" class="container">
+  <div id="tab-nav">
+    <ul>
+      <li><%= link_to "Snapshot Report", rms_reports_snapshot_path %></li>
+      <li><%= link_to "Pipeline Report", rms_reports_pipeline_path %></li>
+      <li><%= link_to "FTE Report", rms_reports_fte_path %></li>
+    </ul>
+  </div>
+</div>

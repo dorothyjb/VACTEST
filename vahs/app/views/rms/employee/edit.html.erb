@@ -1,0 +1,13 @@
+<% title "BVA Resource Management System - Update Employee" %>
+<% page_header "Update Employee" %>
+
+<%= content_for :head do %>
+  <%= stylesheet_link_tag "hr", media: 'all' %>
+  <%= javascript_include_tag "modify-employee" %>
+<% end %>
+
+<div id="content" class="container">
+  <%= form_tag rms_employee_edit_path(@employee), method: 'POST', multipart: true, id: 'employee-form' do %>
+    <%= render partial: 'rms/employee/tab' %>
+  <% end %>
+</div>

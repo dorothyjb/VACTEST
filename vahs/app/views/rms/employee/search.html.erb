@@ -1,0 +1,43 @@
+<% title "Human Resources - Employee Lookup" %>
+
+<%= content_for :head do %>
+  <%= stylesheet_link_tag "employee-search", media: 'all' %>
+<% end %>
+
+<div id="content" class="container">
+  <%= render :partial => "rms/employee/searchbox" %>
+
+  <% unless @employees.empty? %>
+    <div class="entries" role="presentation">
+      <div class="tbl-row" role="row">
+        <div class="tbl-col" role="columnheader">First Name</div>
+        <div class="tbl-col" role="columnheader">Last Name</div>
+        <div class="tbl-col" role="columnheader">User ID</div>
+        <div class="tbl-col" role="columnheader">Attorney ID</div>
+        <div class="tbl-col" role="columnheader">Login ID</div>
+        <div class="tbl-col" role="columnheader">FTE</div>
+        <div class="tbl-col" role="columnheader">Section</div>
+        <div class="tbl-col" role="columnheader">BVA Title</div>
+        <div class="tbl-col" role="columnheader">Grade</div>
+        <div class="tbl-col" role="columnheader">Step</div>
+      </div>
+
+      <% @employees.each_with_index do |employee, i| %>
+      <a class="tbl-row<%= i % 2 %>" href="<%= rms_employee_edit_path(employee) %>" role="row">
+        <div class="tbl-col" role="gridcell"><%= employee.fname %></div>
+        <div class="tbl-col" role="gridcell"><%= employee.lname %></div>
+        <div class="tbl-col" role="gridcell"><%= employee.user_id %></div>
+        <div class="tbl-col" role="gridcell"><%= employee.attorney_id %></div>
+        <div class="tbl-col" role="gridcell"><%= employee.login_id %></div>
+        <div class="tbl-col" role="gridcell"><%= employee.fte %></div>
+        <div class="tbl-col" role="gridcell"><%= employee.work_group %></div>
+        <div class="tbl-col" role="gridcell"><%= employee.bva_title %></div>
+        <div class="tbl-col" role="gridcell"><%= employee.grade %></div>
+        <div class="tbl-col" role="gridcell"><%= employee.step %></div>
+      </a>
+      <% end %>
+    </div>
+    <% # The following is a bit of a hack around will_paginate not inheriting POST data %>
+    <%= will_paginate @employees, params: { search: params[:search], search_type: params[:search_type] } %>
+  <% end %>
+</div>
