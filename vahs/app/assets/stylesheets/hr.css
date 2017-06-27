@@ -199,16 +199,16 @@ div#employee-buttons div.actions-right {
 	float: right;
 }
 
-div#accordion {
+div.accordion {
 }
 
-div#accordion h3 {
+div.accordion h3 {
   font-family: Arial, Helvetica, Sans-Serif;
   font-size: 14pt;
   font-weight: bold;
 }
 
-div#accordion div.accordion-section {
+div.accordion div.accordion-section {
   width: 100%;
 }
 
