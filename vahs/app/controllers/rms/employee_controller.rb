@@ -12,6 +12,7 @@ class Rms::EmployeeController < Rms::ApplicationController
       @employee.employee_id += 1
       @employee.reload
 
+      @attorney = Bvadmin::Attorney.create!(attorney_params.merge(employee_id: @employee.id))
       @employee.save_picture params[:employee_pic] if params[:employee_pic]
 
       flash[:notice] = "The employee \"#{@employee.lname}, #{@employee.fname}\" was created successfully."
@@ -22,6 +23,7 @@ class Rms::EmployeeController < Rms::ApplicationController
       redirect_to rms_employee_edit_path(@employee)
     else
       @employee = Bvadmin::Employee.new
+      @attorney = Bvadmin::Attorney.new
     end
 
   rescue ActiveRecord::RecordInvalid => e
@@ -35,9 +37,26 @@ class Rms::EmployeeController < Rms::ApplicationController
 
   def edit
     @employee = Bvadmin::Employee.find(params[:id])
+    @attorney = @employee.attorney || Bvadmin::Attorney.new
+    @org_code = Bvadmin::RmsOrgCode.find_by(employee_id: @employee.employee_id, rotation: false) || Bvadmin::RmsOrgCode.new
+    @org_code_2 = Bvadmin::RmsOrgCode.find_by(employee_id: @employee.employee_id, rotation: true) || Bvadmin::RmsOrgCode.new
+
     if params[:save]
       @employee.update! employee_params
       @employee.save_picture params[:employee_pic] if params[:employee_pic]
+      @attorney.update! attorney_params.merge(employee_id: @employee.employee_id, attorney_id: @employee.attorney_id)
+
+      if params[:org_code]
+        @org_code = @employee.update_org(params[:org_code])
+      else
+        @employee.remove_org
+      end
+
+      if params[:org_code_2]
+        @org_code_2 = @employee.update_org(params[:org_code_2], true)
+      else
+        @employee.remove_org true
+      end
 
       flash[:notice] = "Employee \"#{@employee.lname}, #{@employee.fname}\" was updated successfully."
     end
@@ -90,6 +109,19 @@ class Rms::EmployeeController < Rms::ApplicationController
     raise Rms::Error::UserAuthenticationError, "#{current_user.name} does not have access to this resource." unless current_user.has_role? :admin, :employee
   end
 
+  def attorney_params
+    # All of these are pulled from grade/positions tab.
+    params.require(:attorney).permit(:bar_member,
+                                     :board_appt_date,
+                                     :board_exp_date,
+                                     :board_reappt_date,
+                                     :notes,
+                                     :license,
+                                     :jurisdiction,
+                                     :lawschool,
+                                     :attorney_notes)
+  end
+
   def employee_params
     params.require(:employee).permit(# personal page 1
                                      :attorney_id,
@@ -118,7 +150,18 @@ class Rms::EmployeeController < Rms::ApplicationController
                                      :current_bva_duty_date,
                                      :prior_bva_duty_date,
                                      :position_detail,
-                                     :supervisor
+                                     # grade/position
+                                     :supervisor,
+                                     :paid_title,
+                                     :job_code,
+                                     :pay_sched,
+                                     :date_of_grade,
+                                     :promo_elig_date,
+                                     :fte,
+                                     :wig_date,
+                                     :last_wig_date,
+                                     :rotation_start,
+                                     :rotation_end
                                     )
   end
 
