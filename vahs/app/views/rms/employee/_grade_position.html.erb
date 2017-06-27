@@ -1,0 +1,195 @@
+<h2>Grade &amp; Position</h2>
+
+<div class="tab-panel">
+  <div class="accordion">
+    <h3><a href="#" alt="Orginization Position">Organization Position</a></h3>
+    <div class="accordion-selection">
+      <div class="fieldset-left">
+        <%= label_tag :office, "Office:" %>
+        <%= select_tag :office, options_for_select(Bvadmin::RmsOrgOffice.dropdown, @org_code.office_id), id: 'gp_field_office'  %>
+      </div>
+
+      <div class="fieldset-right">
+        <%= label_tag :division, "Division:" %>
+        <%= select_tag :division, options_for_select(Bvadmin::RmsOrgDivision.dropdown, @org_code.division_id), id: 'gp_field_division' %>
+      </div>
+
+      <br /><br />
+
+      <div class="fieldset-left">
+        <%= label_tag :branch, "Branch:" %>
+        <%= select_tag :branch, options_for_select(Bvadmin::RmsOrgBranch.dropdown, @org_code.branch_id), id: 'gp_field_branch' %>
+      </div>
+
+      <div class="fieldset-right">
+        <%= label_tag :unit, "Unit:" %>
+        <%= select_tag :unit, options_for_select(Bvadmin::RmsOrgUnit.dropdown, @org_code.unit_id), id: 'gp_field_unit' %>
+      </div>
+
+      <br /><br />
+
+      <div class="fieldset-left">
+        <%= label_tag :org_code, "Org Code:" %>
+        <%= select_tag :org_code, options_for_select(Bvadmin::RmsOrgCode.dropdown, @org_code.id), id: 'gp_field_org_code', name: 'org_code' %>
+      </div>
+
+      <div class="fieldset-left">
+        <%= label_tag :on_rotation, "Rotation:" %>
+        <%= check_box_tag :on_rotation, "", @employee.on_rotation?, id: 'gp_field_rotation' %>
+      </div>
+
+      <div id="gp_org_code_2" class="<%= @employee.on_rotation? ? "" : "hide-element" -%>">
+        <br /><br />
+        
+        <div class="fieldset-left">
+          <%= label_tag :rotation_start, "Rotation Start Date:" %>
+          <%= text_field_tag :rotation_start, @employee.rotation_start, name: 'employee[rotation_start]', class: 'datefield' %>
+        </div>
+
+        <div class="fieldset-right">
+          <%= label_tag :rotation_end, "Rotation End Date:" %>
+          <%= text_field_tag :rotation_end, @employee.rotation_end, name: 'employee[rotation_end]', class: 'datefield' %>
+        </div>
+
+        <br /><br />
+
+        <div class="fieldset-left">
+          <%= label_tag :org_code_2, "Org Code (rotation):" %>
+          <%= select_tag :org_code_2, options_for_select(Bvadmin::RmsOrgCode.dropdown(true), @org_code_2.id), name: 'org_code_2' %>
+        </div>
+      </div>
+    </div>
+
+    <h3><a href="#" alt="Grade &amp; Position">Grade &amp; Position</a></h3>
+    <div class="accordion-selection">
+      <div class="fieldset-left">
+        <%= label_tag :grade, "**Grade:" %>
+        <%= select_tag :grade, options_for_select(Bvadmin::RmsDropDownConfig.options_for(:employee, :grade, ''), @employee.grade || ''), name: 'employee[grade]', disabled: true %>
+      </div>
+
+      <div class="fieldset-left">
+        <%= label_tag :step, "**Step:" %>
+        <%= select_tag :step, options_for_select(Bvadmin::RmsDropDownConfig.options_for(:employee, :step, ''), @employee.step || ''), name: 'employee[step]', disabled: true %>
+      </div>
+
+      <div class="fieldset-left">
+        <%= label_tag :salary, "**Salary:" %>
+        <%= text_field_tag :salary, @employee.salary, name: 'employee[salary]', readonly: true %>
+      </div>
+
+      <div class="fieldset-left">
+        <%= label_tag :position_number, "**PD Number:" %>
+        <%= text_field_tag :position_number, @employee.position_num, readonly: true %>
+      </div>
+
+      <br /><br />
+
+      <div class="fieldset-left">
+        <%= label_tag :supervisor, "Supervisor:" %>
+        <%= select_tag :supervisor, options_for_select([ ['',nil], ['False','FALSE'], ['True','TRUE'] ], @employee.supervisor || ''), name: 'employee[supervisor]' %>
+      </div>
+
+      <div class="fieldset-left">
+        <%= label_tag :paid_title, "Paid Title:" %>
+        <%= select_tag :paid_title, options_for_select(Bvadmin::RmsDropDownConfig.options_for(:employee, :paid_title, ''), @employee.paid_title || ''), name: 'employee[paid_title]' %>
+      </div>
+
+      <div class="fieldset-left">
+        <%= label_tag :section, "Section:" %>
+        <%= select_tag :section, options_for_select(Bvadmin::RmsDropDownConfig.options_for(:employee, :job_code, ''), @employee.job_code || ''), name: 'employee[job_code]' %>
+      </div>
+
+      <div class="fieldset-right">
+        <%= label_tag :pay_sched, "Pay Schedule:" %>
+        <%= select_tag :pay_sched, options_for_select(Bvadmin::RmsDropDownConfig.options_for(:employee, :pay_sched, ''), @employee.pay_sched || ''), name: 'employee[pay_sched]' %>
+      </div>
+
+
+      <br /><br />
+
+      <div class="fieldset-left">
+        <%= label_tag :date_of_grade, "Date of Grade:" %>
+        <%= text_field_tag :date_of_grade, @employee.date_of_grade, name: 'employee[date_of_grade]', class: 'datefield' %>
+      </div>
+
+      <div class="fieldset-left">
+        <%= label_tag :promo_elig_date, "Promotion Eligibility Date:" %>
+        <%= text_field_tag :promo_elig_date, @employee.promo_elig_date, name: 'employee[promo_elig_date]', class: 'datefield' %>
+      </div>
+
+      <div class="fieldset-right">
+        <%= label_tag :fte, "FTE:" %>
+        <%= text_field_tag :fte, @employee.fte || '0.0', name: 'employee[fte]', size: 3 %>
+      </div>
+
+      <br /><br />
+
+      <div class="fieldset-left">
+        <%= label_tag :wig_date, "WIG Date:" %>
+        <%= text_field_tag :wig_date, @employee.wig_date, name: 'employee[wig_date]', class: 'datefield' %>
+      </div>
+
+      <div class="fieldset-right">
+        <%= label_tag :last_wig_date, "Last WIG Date:" %>
+        <%= text_field_tag :last_wig_date, @employee.last_wig_date, name: 'employee[last_wig_date]', class: 'datefield' %>
+      </div>
+    </div>
+
+    <h3><a href="#" alt="Board Member Information">Board Member Information</a></h3>
+    <div class="accordion-section">
+      <div class="fieldset-left">
+        <%= label_tag :board_appt_date, "Appointment Date:" %>
+        <%= text_field_tag :board_appt_date, @attorney.board_appt_date, name: 'attorney[board_appt_date]', class: 'datefield' %>
+      </div>
+
+      <div class="fieldset-left">
+        <%= label_tag :board_exp_date, "Expiration Date:" %>
+        <%= text_field_tag :board_exp_date, @attorney.board_exp_date, name: 'attorney[board_exp_date]', class: 'datefield' %>
+      </div>
+
+      <div class="fieldset-right">
+        <%= label_tag :board_reappt_date, "Re-Appointment Date:" %>
+        <%= text_field_tag :board_reappt_date, @attorney.board_reappt_date, name: 'attorney[board_reappt_date]', class: 'datefield' %>
+      </div>
+
+      <br /><br />
+
+      <div class="fieldset-left">
+        <%= label_tag :notes, "Notes:" %>
+        <%= text_area_tag :notes, @attorney.notes, name: 'attorney[notes]', rows: 6, cols: 100 %>
+      </div>
+    </div>
+
+    <h3><a href="#" alt="Attorney Information">Attorney Information</a></h3>
+    <div class="accordion-section">
+      <div class="fieldset-left">
+        <%= label_tag :license_number, "License Number:" %>
+        <%= text_field_tag :license_number, @attorney.license, name: 'attorney[license]' %>
+      </div>
+
+      <div class="fieldset-left">
+        <%= label_tag :jurisdiction, "Jurisdiction:" %>
+        <%= text_field_tag :jurisdiction, @attorney.jurisdiction, name: 'attorney[jurisdiction]' %>
+      </div>
+
+      <div class="fieldset-right">
+        <%= label_tag :lawschool, "Law School Attended:" %>
+        <%= text_field_tag :lawschool, @attorney.lawschool, name: 'attorney[lawschool]' %>
+      </div>
+
+      <br /><br />
+
+      <div class="fieldset-left">
+        <%= label_tag :bar_member, "Bar Member:" %>
+        <%= text_field_tag :bar_member, @attorney.bar_member, name: 'attorney[bar_member]' %>
+      </div>
+
+      <br /><br />
+
+      <div class="fieldset-left">
+        <%= label_tag :attorney_notes, "Notes:" %>
+        <%= text_area_tag :attorney_notes, @attorney.attorney_notes, name: 'attorney[attorney_notes]', rows: 6, cols: 100 %>
+      </div>
+    </div>
+  </div>
+</div>
