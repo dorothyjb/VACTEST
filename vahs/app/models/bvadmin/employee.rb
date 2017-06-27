@@ -6,6 +6,8 @@ class Bvadmin::Employee < Bvadmin::Record
   validates :fname, presence: true
   validates :lname, presence: true
 
+  has_one :attorney
+
   scope :paid_titles_list, -> { Bvadmin::Employee.select(:paid_title).distinct.order('PAID_TITLE ASC').
                                 collect { |e| [ e.paid_title, e.paid_title ] unless e.paid_title.nil? }.
                                 delete_if { |e| e.nil? } }
@@ -121,6 +123,38 @@ class Bvadmin::Employee < Bvadmin::Record
     !(self.picture_mime.nil? && self.picture_data.nil?)
   end
 
+  def on_rotation?
+    Bvadmin::RmsOrgCode.where(employee_id: self.employee_id).count > 1
+  end
+
+  def update_org new_org_id, rotation = false
+    org = Bvadmin::RmsOrgCode.find_by(employee_id: self.employee_id, rotation: rotation)
+
+    if org
+      return org if org.id == new_org_id
+
+      org.employee_id = nil
+      return nil unless org.save
+    end
+
+    org = Bvadmin::RmsOrgCode.find(new_org_id)
+    org.employee_id = self.employee_id
+    return org if org.save
+
+    nil
+  end
+
+  def remove_org rotation=false
+    org = Bvadmin::RmsOrgCode.find_by(employee_id: self.employee_id, rotation: rotation)
+    if org
+      org.employee_id = nil
+      return org if org.save
+    end
+
+    nil
+  end
+
+  ## Ewwww.... There HAS to be a better way.
   def current_bva_duty_date= date
     return super(date) unless date.is_a? String
 
@@ -131,6 +165,60 @@ class Bvadmin::Employee < Bvadmin::Record
   end
 
   def prior_bva_duty_date= date
+    return super(date) unless date.is_a? String
+
+    date = Date.strptime(date, "%m/%d/%Y") if date =~ /\d{1,2}\/\d{1,2}\/\d{4}/
+    date = Date.parse(date) if date =~ /\d{4}-\d{1,2}-\d{1,2}/
+
+    super date
+  end
+
+  def date_of_grade= date
+    return super(date) unless date.is_a? String
+
+    date = Date.strptime(date, "%m/%d/%Y") if date =~ /\d{1,2}\/\d{1,2}\/\d{4}/
+    date = Date.parse(date) if date =~ /\d{4}-\d{1,2}-\d{1,2}/
+
+    super date
+  end
+
+  def promo_elig_date= date
+    return super(date) unless date.is_a? String
+
+    date = Date.strptime(date, "%m/%d/%Y") if date =~ /\d{1,2}\/\d{1,2}\/\d{4}/
+    date = Date.parse(date) if date =~ /\d{4}-\d{1,2}-\d{1,2}/
+
+    super date
+  end
+
+  def wig_date= date
+    return super(date) unless date.is_a? String
+
+    date = Date.strptime(date, "%m/%d/%Y") if date =~ /\d{1,2}\/\d{1,2}\/\d{4}/
+    date = Date.parse(date) if date =~ /\d{4}-\d{1,2}-\d{1,2}/
+
+    super date
+  end
+
+  def last_wig_date= date
+    return super(date) unless date.is_a? String
+
+    date = Date.strptime(date, "%m/%d/%Y") if date =~ /\d{1,2}\/\d{1,2}\/\d{4}/
+    date = Date.parse(date) if date =~ /\d{4}-\d{1,2}-\d{1,2}/
+
+    super date
+  end
+
+  def rotation_start= date
+    return super(date) unless date.is_a? String
+
+    date = Date.strptime(date, "%m/%d/%Y") if date =~ /\d{1,2}\/\d{1,2}\/\d{4}/
+    date = Date.parse(date) if date =~ /\d{4}-\d{1,2}-\d{1,2}/
+
+    super date
+  end
+
+  def rotation_end= date
     return super(date) unless date.is_a? String
 
     date = Date.strptime(date, "%m/%d/%Y") if date =~ /\d{1,2}\/\d{1,2}\/\d{4}/
