@@ -39,6 +39,16 @@ Rails.application.routes.draw do
       get '/fte', to: 'reports#fte'
       get '/paid_exception', to: 'reports#paid_exception'
     end
+
+    scope :orginization, as: :orginization do
+      get '/', to: 'orginization#index'
+
+      get '/office(.:format)', to: 'orginization#office'
+      get '/division(.:format)', to: 'orginization#division'
+      get '/branch(.:format)', to: 'orginization#branch'
+      get '/unit(.:format)', to: 'orginization#unit'
+      get '/org_code(.:format)', to: 'orginization#org_code'
+    end
   end
 
   scope :admin do
