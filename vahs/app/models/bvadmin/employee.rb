@@ -8,6 +8,10 @@ class Bvadmin::Employee < Bvadmin::Record
 
   has_one :attorney
 
+  #fte report
+  scope :emp_fte_report, -> {where("fte > 0").order('name ASC')}
+  scope :fte_losses, -> (startdate,startdate2){where("fte = 0 and status_change_date >= ? or status_change_date2 >= ?", startdate, startdate2).order('name ASC')}
+
   scope :paid_titles_list, -> { Bvadmin::Employee.select(:paid_title).distinct.order('PAID_TITLE ASC').
                                 collect { |e| [ e.paid_title, e.paid_title ] unless e.paid_title.nil? }.
                                 delete_if { |e| e.nil? } }
