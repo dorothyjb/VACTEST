@@ -25,8 +25,18 @@ class Rms::ReportsController < Rms::ApplicationController
   end
 
   def fte
-    render layout: false
-  end
+     @empftes = Bvadmin::Employee.emp_fte_report
+     @cur_pp = Bvadmin::Payperiod.cur_pp
+     @next_pp = Bvadmin::Payperiod.next_pp
+     startdate = @cur_pp.first.startdate
+     next_startdate = @next_pp.first.startdate
+     next_enddate = @next_pp.first.enddate
+     @fte_losses = Bvadmin::Employee.fte_losses(startdate, startdate)
+     @fte_new_hires = Bvadmin::EmployeeApplicant.fte_new_hires(next_startdate, next_enddate)
+
+
+      render layout: false
+   end
 
   private
   def verify_access
