@@ -24,19 +24,32 @@ class Rms::ReportsController < Rms::ApplicationController
     render layout: false
   end
 
+  # GET /rms/reports/fte
   def fte
-     @empftes = Bvadmin::Employee.emp_fte_report
-     @cur_pp = Bvadmin::Payperiod.cur_pp
-     @next_pp = Bvadmin::Payperiod.next_pp
-     startdate = @cur_pp.first.startdate
-     next_startdate = @next_pp.first.startdate
-     next_enddate = @next_pp.first.enddate
-     @fte_losses = Bvadmin::Employee.fte_losses(startdate, startdate)
-     @fte_new_hires = Bvadmin::EmployeeApplicant.fte_new_hires(next_startdate, next_enddate)
+    render layout: false
+  end
 
+  # POST /rms/reports/fte
+  def fte_export
+    @fte_report = Rms::Reports::FTE.new
 
+    @empftes = Bvadmin::Employee.emp_fte_report
+    @cur_pp = Bvadmin::Payperiod.cur_pp
+    @next_pp = Bvadmin::Payperiod.next_pp
+    startdate = @cur_pp.first.startdate
+    next_startdate = @next_pp.first.startdate
+    next_enddate = @next_pp.first.enddate
+    @fte_losses = Bvadmin::Employee.fte_losses(startdate, startdate)
+    @fte_new_hires = Bvadmin::EmployeeApplicant.fte_new_hires(next_startdate, next_enddate)
+
+    case params[:export_format]
+    when "HTML"
       render layout: false
-   end
+    when "MS Excel"
+      send_data @fte_report.xls, filename: @fte_report.filename, type: @fte_report.filetype
+    when "PDF"
+    end
+  end
 
   private
   def verify_access
