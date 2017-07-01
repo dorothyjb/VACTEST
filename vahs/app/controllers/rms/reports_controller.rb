@@ -31,8 +31,6 @@ class Rms::ReportsController < Rms::ApplicationController
 
   # POST /rms/reports/fte
   def fte_export
-    @fte_report = Rms::Reports::FTE.new
-
     @empftes = Bvadmin::Employee.emp_fte_report
     @cur_pp = Bvadmin::Payperiod.cur_pp
     @next_pp = Bvadmin::Payperiod.next_pp
@@ -42,12 +40,25 @@ class Rms::ReportsController < Rms::ApplicationController
     @fte_losses = Bvadmin::Employee.fte_losses(startdate, startdate)
     @fte_new_hires = Bvadmin::EmployeeApplicant.fte_new_hires(next_startdate, next_enddate)
 
+    fte_report = Rms::Reports::FTE.new
+
     case params[:export_format]
     when "HTML"
       render layout: false
+
     when "MS Excel"
-      send_data @fte_report.xls, filename: @fte_report.filename, type: @fte_report.filetype
+      content = fte_report.xls
+      send_data content, filename: fte_report.filename,
+                         type: fte_report.filetype,
+                         disposition: 'attachment'
+
     when "PDF"
+      content = fte_report.pdf
+      send_data content, filename: fte_report.filename,
+                         type: fte_report.filetype,
+                         disposition: 'attachment'
+    else
+      redirect_to rms_reports_path
     end
   end
 
