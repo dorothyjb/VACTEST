@@ -1,0 +1,34 @@
+<table class="table table-condensed fte-report">
+  <thead class="thead-inverse">
+    <tr>
+      <th>Grade</th>
+      <th>Step</th>
+      <th>Name</th>
+      <th>Hours</th>
+      <th>FTE</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+  <% if employees.empty? %>
+    <tr>
+      <td colspan="2"></td>
+      <td><b>NONE</b></td>
+      <td colspan="2"></td>
+    </tr>
+  <% else %>
+    <% employees.each_with_index do |emp, idx| %>
+    <tr>
+      <td><%= emp.grade %></td>
+      <td><%= emp.step %></td>
+      <td><%= emp.name %></td>
+      <td><%= (emp.fte rescue 1.0) * 80 %></td>
+      <td><%= emp.fte rescue 1.0 %></td>
+      <td><%= (page.to_i - 1) * 10 + idx + 1 %></td>
+    </tr>
+    <% end %>
+  <% end %>
+  </tbody>
+</table>
+<% disable_pagination ||= false %>
+<%= js_will_paginate employees, param_name: page_key unless disable_pagination %>

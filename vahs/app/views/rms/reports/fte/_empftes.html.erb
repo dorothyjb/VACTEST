@@ -1,0 +1,35 @@
+<table class="table table-condensed fte-report">
+  <thead class="thead-inverse">
+    <tr>
+      <th>Grade</th>
+      <th>Step</th>
+      <th>Name</th>
+      <th>Hours</th>
+      <th>FTE</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+  <% employees.each_with_index do |emp, idx| %>
+    <tr>
+      <td><%= emp.grade %></td>
+      <td><%= emp.step %></td>
+      <td><%= emp.name %></td>
+      <td><%= emp.fte * 80 %></td>
+      <td><%= emp.fte %></td>
+      <td><%= (page.to_i - 1) * 10 + idx + 1 %></td>
+    </tr>
+  <% end %>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="2"></td>
+      <td><b>TOTALS</b></td>
+      <td></td>
+      <td><%= @empftes.sum(:fte) %></td>
+      <td><%= @empftes.count %></td>
+    </tr>
+  </tfoot>
+</table>
+<% disable_pagination ||= false %>
+<%= js_will_paginate employees, param_name: 'empfte_pg' unless disable_pagination %>
