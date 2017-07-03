@@ -1,10 +1,23 @@
 <%= javascript_include_tag 'reports.tab.js' %>
 
+<%
+  cur_date = Date.today.strftime("%m/%d/%Y")
+  cur_pp = @cur_pp.first.payperiod
+  next_pp = @next_pp.first.payperiod
+  cur_enddate = @cur_pp.first.enddate.strftime("%m/%d/%Y")
+  next_startdate = @next_pp.first.startdate
+  loss_date = @cur_pp.first.enddate + 1.weeks
+  eod_date = next_startdate.next_week(:monday)
+  ttl_fte = @empftes.sum(:fte)
+%>
+
 <h2>FTE Report</h2>
 
 <div class="report-search-header">
-  <%= form_tag rms_reports_fte_path, method: 'POST' do %>
-    <div class="group">
+  <%= form_tag rms_reports_fte_path, method: 'POST', target: 'fte_report',
+        onsubmit: "window.open('about:blank', 'fte_report', 'width=800,height=600,toolbar=yes,scrollbars=yes,location=no,titlebar=yes,resizable=yes');" do %>
+
+    <div class="group" style="text-align: center">
       <%= field_set_tag "Export Format:" do %>
         <%= radio_button_tag :export_format, "HTML", true %>
         <%= label_tag :export_format_HTML, "HTML", class: 'radio-tag' %>
@@ -14,16 +27,29 @@
 
         <%= radio_button_tag :export_format, "PDF" %>
         <%= label_tag :export_format_PDF, "PDF", class: 'radio-tag' %>
-      <% end %>
 
-      <span class="subtext">Select Export Format</span>
-    </div>
-
-    <div class="button">
-      <%= field_set_tag do %>
-        <%= button_tag "Export Report" %>
+        <%= button_tag "Export" %>
       <% end %>
     </div>
   <% end %>
 </div>
 
+<h3 class="fte-header">Pay period <%= cur_pp %> Ended <%= cur_enddate %></h3>
+<div id="empftes" class="fte-view">
+  <%= render partial: 'rms/reports/fte/empftes.html.erb', locals: { page: 1, employees: @pg_empftes } %>
+</div>
+
+<h3 class="fte-header">New hires added Pay period <%= next_pp %> EOD <%= eod_date.strftime("%m/%d/%Y") %></h3>
+<div id="fte_new_hires" class="fte-view">
+  <%= render partial: 'rms/reports/fte/fte_table.html.erb', locals: { page: 1, employees: @pg_fte_new_hires, page_key: 'fte_new_pg' } %>
+</div>
+
+<h3 class="fte-header">Losses subtracted Pay period <%= next_pp %> as of <%= loss_date.strftime("%m/%d/%Y") %></h3>
+<div id="fte_losses" class="fte-view">
+  <%= render partial: 'rms/reports/fte/fte_table.html.erb', locals: { page: 1, employees: @pg_fte_losses, page_key: 'fte_losses_pg' } %>
+</div>
+
+<h3 class="fte-right-header">
+  <b>Total FTE as of <%= cur_date %></b><%= ttl_fte + @fte_new_hires.count - @fte_losses.count %><br>
+  <b>Total Employees on board as of <%= cur_date %></b>&nbsp;&nbsp;&nbsp;<%= @empftes.count + @fte_new_hires.count - @fte_losses.count %>
+</h3>
