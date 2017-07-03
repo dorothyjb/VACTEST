@@ -53,7 +53,8 @@ div.report-search-header div.button {
   text-align: right;
 }
 
-div.report-search-header div.button button {
+div.report-search-header div.button button,
+div.report-search-header div.group fieldset button {
   margin: 10px;
   line-height: 20px;
   background: inherit;
@@ -84,3 +85,34 @@ div.tab-panel {
   float: left;
 }
 /* end tabs */
+
+/* fte report */
+h3.fte-header {
+  margin-top: 35px;
+  text-align: center;
+}
+
+h3.fte-right-header {
+  margin-top: 35px;
+  text-align: right;
+}
+
+h3.fte-right-header b {
+  margin-right: 30px;
+}
+
+div.fte-view div.pagination {
+  width: 100%;
+  text-align: center;
+}
+
+div.fte-view div.pagination a {
+  font-size: 12pt;
+}
+
+div.fte-view div.pagination em.current {
+  font-size: 14pt;
+  font-weight: bold;
+  font-style: italic;
+}
+/* fte report */ 
