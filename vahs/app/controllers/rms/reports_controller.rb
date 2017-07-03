@@ -26,7 +26,23 @@ class Rms::ReportsController < Rms::ApplicationController
 
   # GET /rms/reports/fte
   def fte
-    render layout: false
+    @empftes = Bvadmin::Employee.emp_fte_report
+    @cur_pp = Bvadmin::Payperiod.cur_pp
+    @next_pp = Bvadmin::Payperiod.next_pp
+    startdate = @cur_pp.first.startdate
+    next_startdate = @next_pp.first.startdate
+    next_enddate = @next_pp.first.enddate
+    @fte_losses = Bvadmin::Employee.fte_losses(startdate, startdate)
+    @fte_new_hires = Bvadmin::EmployeeApplicant.fte_new_hires(next_startdate, next_enddate)
+
+    @pg_empftes = @empftes.paginate(page: params['empfte_pg'], per_page: 10)
+    @pg_fte_losses = @fte_losses.paginate(page: params['fte_losses_pg'], per_page: 10)
+    @pg_fte_new_hires = @fte_new_hires.paginate(page: params['fte_new_pg'], per_page: 10)
+
+    respond_to do |format|
+      format.html { render layout: false }
+      format.js { render file: 'rms/reports/fte/update.js.erb' }
+    end
   end
 
   # POST /rms/reports/fte
@@ -44,7 +60,7 @@ class Rms::ReportsController < Rms::ApplicationController
 
     case params[:export_format]
     when "HTML"
-      render layout: false
+      render layout: 'plain'
 
     when "MS Excel"
       content = fte_report.xls
