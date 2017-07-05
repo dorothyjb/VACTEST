@@ -15,6 +15,7 @@
     <li><a href="#knowledge-management">Knowledge Management</a></li>
     <li><a href="#employee-records">Employee Records</a></li>
     <li><a href="#employee-benefits">Benefits</a></li>
+    <li><a href="#employee-attachments">Attachments</a></li>
   </ul>
 
   <div id="personal-information-1">
@@ -48,6 +49,10 @@
   </div>
 
   <div id="employee-benefits">
+  </div>
+
+  <div id="employee-attachments">
+    <%= render partial: 'rms/employee/attachments', employee: @employee %>
   </div>
 </div>
 
