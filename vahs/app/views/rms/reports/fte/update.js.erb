@@ -1,0 +1,23 @@
+<% if params['empfte_pg'] %>
+  $('#empftes').fadeOut(1000, function() {
+    $('#empftes').empty();
+    $('#empftes').html('<%= j render partial: 'rms/reports/fte/empftes.html.erb', locals: { page: params['empfte_pg'], employees: @pg_empftes } %>');
+    $('#empftes').fadeIn(1000);
+  });
+<% end %>
+
+<% if params['fte_new_pg'] %>
+  $('#fte_new_hires').fadeOut(1000, function() {
+    $('#fte_new_hires').empty();
+    $('#fte_new_hires').html('<%= j render partial: 'rms/reports/fte/fte_table.html.erb', locals: { page: params['fte_new_pg'], employees: @pg_fte_new_hires } %>');
+    $('#fte_new_hires').fadeIn(1000);
+  });
+<% end %>
+
+<% if params['fte_losses_pg'] %>
+  $('#fte_new_hires').fadeOut(1000, function() {
+    $('#fte_new_hires').empty();
+    $('#fte_new_hires').html('<%= j render partial: 'rms/reports/fte/fte_table.html.erb', locals: { page: params['fte_losses_pg'], employees: @pg_fte_losses } %>');
+    $('#fte_new_hires').fadeIn(1000);
+  });
+<% end %>

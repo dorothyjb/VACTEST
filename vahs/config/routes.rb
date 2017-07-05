@@ -36,7 +36,10 @@ Rails.application.routes.draw do
 
       get '/pipeline', to: 'reports#pipeline'
       get '/snapshot', to: 'reports#snapshot'
-      get '/fte', to: 'reports#fte'
+
+      get '/fte(.:format)', to: 'reports#fte'
+      post '/fte', to: 'reports#fte_export'
+
       get '/paid_exception', to: 'reports#paid_exception'
     end
 
