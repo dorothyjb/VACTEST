@@ -334,3 +334,10 @@ Bvadmin::RmsDropDownConfig.create(table_id: 'EMPLOYEE', field_id: 'MILITARY_SERV
 Bvadmin::RmsDropDownConfig.create(table_id: 'EMPLOYEE', field_id: 'MILITARY_SERVICE_BRANCH', content: 'Marine Corp', value: 'Marine Corp', created_by: 'root@rms.config')
 Bvadmin::RmsDropDownConfig.create(table_id: 'EMPLOYEE', field_id: 'MILITARY_SERVICE_BRANCH', content: 'Air Force', value: 'Air Force', created_by: 'root@rms.config')
 
+Bvadmin::RmsDropDownConfig.create(table_id: 'ATTACHMENT', field_id: 'ATTACHMENT_TYPE', content: 'Employment Agreement', value: 'Employment Agreement', created_by: 'root@rms.config')
+Bvadmin::RmsDropDownConfig.create(table_id: 'ATTACHMENT', field_id: 'ATTACHMENT_TYPE', content: 'MOU', value: 'MOU', created_by: 'root@rms.config')
+Bvadmin::RmsDropDownConfig.create(table_id: 'ATTACHMENT', field_id: 'ATTACHMENT_TYPE', content: 'Telework Agreement', value: 'Telework Agreement', created_by: 'root@rms.config')
+Bvadmin::RmsDropDownConfig.create(table_id: 'ATTACHMENT', field_id: 'ATTACHMENT_TYPE', content: 'Performance Document', value: 'Performance Document', created_by: 'root@rms.config')
+Bvadmin::RmsDropDownConfig.create(table_id: 'ATTACHMENT', field_id: 'ATTACHMENT_TYPE', content: 'Appraisel Document', value: 'Appraisel Document', created_by: 'root@rms.config')
+Bvadmin::RmsDropDownConfig.create(table_id: 'ATTACHMENT', field_id: 'ATTACHMENT_TYPE', content: 'Training Certificate', value: 'Training Certificate', created_by: 'root@rms.config')
+Bvadmin::RmsDropDownConfig.create(table_id: 'ATTACHMENT', field_id: 'ATTACHMENT_TYPE', content: 'Other', value: 'Other', created_by: 'root@rms.config')
