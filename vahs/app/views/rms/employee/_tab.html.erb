@@ -48,8 +48,12 @@
   </div>
 
   <div id="employee-benefits">
+     <% unless @view_private_info %>
+        <%= render partial: 'rms/employee/benefits_no_pii', employee: @employee %>
+     <% else %>
+        <%= render partial: 'rms/employee/benefits', employee: @employee %>
+     <% end %>
   </div>
-</div>
 
 <div id="employee-buttons">
   <div class="actions-left">

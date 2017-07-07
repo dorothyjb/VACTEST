@@ -1,0 +1,48 @@
+<h2>Benefits</h2>
+
+<div class="tab-panel">
+
+<div class="fieldset-left">
+   <%= label_tag :retirement_system, "**Retirement System:" %>
+   <%= text_field_tag :retirement_system, @employee.retirement_system, name: 'employee[retirement_system]' %>
+</div>
+
+<div class="fieldset-right">
+   <%= label_tag :Fegli, "**Fegli:" %>
+   <%= text_field_tag :fegli, @employee.fegli, name: 'employee[fegli]' %>
+</div>
+
+<br /><br />
+
+<div class="fieldset-left">
+   <%= label_tag :retired_military, "**Retired Military:" %>
+   <%= text_field_tag :retired_military, @employee.retired_military, name: 'employee[retired_military]' %>
+</div>
+
+<div class="fieldset-right">
+   <%= label_tag :vet_pref, "**Veteran Preference:" %>
+   <%= text_field_tag :vet_pref, @employee.veteran_preference, name: 'employee[veteran_preference]' %>
+</div>
+
+<br /><br />
+
+<div class="fieldset-left">
+   <%= label_tag :up_mob, "**Career Ladder Promotion:"%>
+   <%= text_field_tag :up_mob, @employee.upward_mobility_eff_date, name: 'employee[upward_mobility_eff_date]' %>
+</div>
+
+<div class="fieldset-right">
+   <%= label_tag :last_sal, "**Last Salary Change Date:"%>
+   <%= text_field_tag :last_sal, @employee.last_salary_change_date, name: 'employee[last_salary_change_date]' %>
+</div>
+
+<br /><br />
+
+<div class="fieldset-left">
+   <%= label_tag :fehb, "**Fehb:" %>
+   <%= text_field_tag :fehb, @employee.fehb, name: 'employee[fehb]' %>
+</div>
+
+<br /><br />
+
+
