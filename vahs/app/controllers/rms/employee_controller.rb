@@ -1,72 +1,80 @@
 class Rms::EmployeeController < Rms::ApplicationController
   before_filter :verify_access, except: [ :locator, :picture ]
-  before_filter :check_for_cancel, only: [ :new, :edit ]
+  before_filter :check_for_cancel, only: [ :create, :update ]
 
   rescue_from ActiveRecord::RecordNotFound, with: :employee_not_found
 
   def new
-    if params[:save]
-      @employee = Bvadmin::Employee.create!(employee_params)
+    @employee = Bvadmin::Employee.new
+    @attorney = Bvadmin::Attorney.new
+    @org_code = Bvadmin::RmsOrgCode.new
+    @org_code_2 = Bvadmin::RmsOrgCode.new
+  end
 
-      # This is to work around a bug right now. need to fix.
-      @employee.employee_id += 1
-      @employee.reload
+  def create
+    @employee = Bvadmin::Employee.new
 
-      @attorney = Bvadmin::Attorney.create!(attorney_params.merge(employee_id: @employee.id))
-      @employee.save_picture params[:employee_pic] if params[:employee_pic]
-
-      flash[:notice] = "The employee \"#{@employee.lname}, #{@employee.fname}\" was created successfully."
-
-      params.delete(:save)
-      params.delete(:employee)
-
-      redirect_to rms_employee_edit_path(@employee)
-    else
-      @employee = Bvadmin::Employee.new
-      @attorney = Bvadmin::Attorney.new
+    @employee.update employee_params
+    unless @employee.valid?
+      flash[:error] = @employee.errors
+      return render('rms/employee/new')
     end
 
-  rescue ActiveRecord::RecordInvalid => e
-    @employee = Bvadmin::Employee.new(employee_params)
-    flash[:notice] = "Please ensure the required fields have been filled out."
+    @employee.save
 
-  rescue ActiveRecord::RecordNotUnique => e
-    @employee = Bvadmin::Employee.new(employee_params)
-    flash[:notice] = "#{e.message}"
+    # XXX: Works around a bug.
+    # Believe there is a trigger in the DB that is causing this behavior.
+    @employee.employee_id += 1
+    @employee.reload
+
+    @employee.update_attorney(attorney_params)
+    @employee.update_picture(params[:employee_pic])
+
+    @employee.primary_org = params[:primary_org]
+    @employee.rotation_org = params[:rotation_org]
+
+    @employee.save_attachment attachment_params
+
+    if @employee.valid?
+      @employee.save
+      redirect_to rms_employee_edit_path(@employee), notice: 'The employee was updated successfully.'
+    else
+      flash[:error] = @employee.errors
+      render 'rms/employee/edit'
+    end
   end
 
   def edit
     @employee = Bvadmin::Employee.find(params[:id])
-    @attorney = @employee.attorney || Bvadmin::Attorney.new
-    @org_code = Bvadmin::RmsOrgCode.find_by(employee_id: @employee.employee_id, rotation: false) || Bvadmin::RmsOrgCode.new
-    @org_code_2 = Bvadmin::RmsOrgCode.find_by(employee_id: @employee.employee_id, rotation: true) || Bvadmin::RmsOrgCode.new
 
-    if params[:save]
-      @employee.update! employee_params
-      @employee.save_picture params[:employee_pic] if params[:employee_pic]
-      @attorney.update! attorney_params.merge(employee_id: @employee.employee_id, attorney_id: @employee.attorney_id)
+  rescue Exception
+    flash[:error] = { employee: 'Invalid ID' }
+    redirect_to rms_employee_new_path
+  end
 
-      if params[:org_code]
-        @org_code = @employee.update_org(params[:org_code])
-      else
-        @employee.remove_org
-      end
+  def update
+    @employee = Bvadmin::Employee.find(params[:id])
+    @employee.update_attributes!(employee_params)
+    @employee.update_attorney!(attorney_params)
+    @employee.primary_org = params[:primary_org]
+    @employee.rotation_org = params[:rotation_org]
+    @employee.update_picture(params[:employee_pic])
+    @employee.save_attachment attachment_params
 
-      if params[:org_code_2]
-        @org_code_2 = @employee.update_org(params[:org_code_2], true)
-      else
-        @employee.remove_org true
-      end
-
-      flash[:notice] = "Employee \"#{@employee.lname}, #{@employee.fname}\" was updated successfully."
+    respond_to do |format|
+      format.html { redirect_to rms_employee_edit_path(@employee), notice: 'The employee was saved successfully.' }
+      format.js { 
+        flash[:notice] = 'The employee was saved successfully.'
+        render 'rms/employee/success'
+      }
     end
 
-  rescue ActiveRecord::RecordInvalid => e
-    flash[:notice] = "Please ensure the required fields have been filled out."
-
-  rescue ActiveRecord::RecordNotUnique => e
-    field = $1 if e.message =~ /^.*SET "(.+)" = :a1.*$/
-    flash[:notice] = "Duplicate value not allowed for #{field}."
+  rescue Exception
+    flash[:error] = @employee.errors rescue { employee: 'Invalid ID' }
+    respond_to do |format|
+      format.html { render 'rms/employee/edit' }
+      format.js { render 'rms/employee/errors' }
+    end
   end
 
   def locator
@@ -163,6 +171,12 @@ class Rms::EmployeeController < Rms::ApplicationController
                                      :rotation_start,
                                      :rotation_end
                                     )
+  end
+
+  def attachment_params
+    params.require(:attachment).permit(:attachment_type,
+                                       :attachment,
+                                       :notes)
   end
 
   def employee_not_found
