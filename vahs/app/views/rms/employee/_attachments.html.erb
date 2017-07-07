@@ -1,8 +1,49 @@
 <h2>Attachments</h2>
 
 <div class="tab-panel">
-  <div class="fieldset-left">
-    <%= label_tag :attachment_type, "Attachment Type:" %>
-    <%= select_tag :attachment_type %>
+  <div class="accordion">
+    <h3><a href="#" alt="Upload Attachment">Upload Attachment</a></h3>
+    <div class="accordion-selection">
+      <div class="fieldset-left">
+        <%= label_tag :attachment_type, "Attachment Type:" %>
+        <%= select_tag :attachment_type, options_for_select(Bvadmin::RmsDropDownConfig.options_for(:attachment, :attachment_type)), name: 'attachment[attachment_type]' %>
+      </div>
+
+      <div class="fieldset-right">
+        <%= label_tag :attachment_filename, "Filename:" %>
+        <%= file_field_tag :attachment_filename, size: 60, name: 'attachment[attachment]' %>
+      </div>
+
+      <br /><br />
+
+      <div class="fieldset-left">
+        <%= label_tag :attachment_notes, "Notes:" %>
+        <%= text_area_tag :attachment_notes, "", name: 'attachment[notes]', rows: 6, cols: 100 %>
+      </div>
+    </div>
+
+    <h3><a href="#" alt="Employee Attachments">Employee Attachments</a></h3>
+    <div class="accordion-section">
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Filename</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+        <% @employee.attachments.each do |attachment| %>
+          <tr>
+            <td><%= attachment.date.strftime("%m/%d/%Y") %></td>
+            <td><%= attachment.attachment_type %></td>
+            <td><%= attachment.filename %></td>
+            <td><%= attachment.notes %></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
