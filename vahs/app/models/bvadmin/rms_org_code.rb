@@ -1,6 +1,8 @@
 class Bvadmin::RmsOrgCode < Bvadmin::Record
   self.table_name = "BVADMIN.RMS_ORG_CODE"
 
+  has_one :employee
+
   scope :offices, -> { Bvadmin::RmsOrgOffice.where('name is not null') }
   scope :divisions_by_office, -> (office_id) {
     Bvadmin::RmsOrgDivision.where('id in (?)',
