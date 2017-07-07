@@ -16,7 +16,17 @@
 </div>
 
 <% if flash[:notice] %>
-  <div class="flash-banner alert alert-info"><%= flash[:notice] %></div>
+  <div class="flash-banner alert alert-info" id="flash-alert"><%= flash[:notice] %></div>
+  <% flash.clear %>
+<% elsif flash[:error] %>
+  <div class="flash-banner alert alert-info" id="flash-alert">
+    <ul>
+    <% flash[:error].each do |k, v| %>
+      <li><b><%= k %>: <%= v %></b></li>
+    <% end %>
+    </ul>
+  </div>
   <% flash.clear %>
 <% end %>
+
 
