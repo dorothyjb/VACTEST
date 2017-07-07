@@ -48,7 +48,8 @@ module ApplicationHelper
 
     OpenSSL::X509::Certificate.new(cert).subject.to_s
   rescue
-    ""
+    # The test@localhost user when Rails.env == 'test'
+    { "test" => "UID=test@localhost" }.fetch(Rails.env, "")
   end
 
   def current_user
