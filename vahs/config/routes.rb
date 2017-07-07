@@ -17,10 +17,10 @@ Rails.application.routes.draw do
       get '/', to: 'employee#index'
 
       get '/new', to: 'employee#new'
-      post '/new', to: 'employee#new'
+      post '/new', to: 'employee#create'
 
       get '/edit/:id', to: 'employee#edit', as: :edit
-      post '/edit/:id', to: 'employee#edit'
+      post '/edit/:id(.:format)', to: 'employee#update'
 
       get '/search', to: 'employee#search'
       post '/search', to: 'employee#search'
