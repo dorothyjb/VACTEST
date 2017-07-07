@@ -6,9 +6,12 @@ class Bvadmin::Employee < Bvadmin::Record
   # validators
   validates :fname, presence: true
   validates :lname, presence: true
+  validates_uniqueness_of :attorney_id, allow_nil: true, allow_blank: true
 
   # associations
   has_one :attorney
+  has_many :attachments, class_name: Bvadmin::RmsAttachments
+  has_many :org_codes, class_name: Bvadmin::RmsOrgCode
 
   # FTE report
   scope :emp_fte_report, -> { where("fte > 0").order('name ASC') }
@@ -92,15 +95,16 @@ class Bvadmin::Employee < Bvadmin::Record
   # <tt>content_type</tt> should return the content type of the image data
   # <tt>read</tt> should return the bytes that make up the image.
   def save_picture pic
+    save if update_picture(pic)
+  end
+
+  def update_picture pic
     return nil if pic.nil? or !(pic.respond_to?(:content_type) and pic.respond_to?(:read))
 
     self.picture_mime = pic.content_type
     self.picture_data = pic.read
 
-    rst = nil
-    rst = self if self.save
-
-    rst
+    self
   end 
 
   # Check if an Employee record has a picture
@@ -114,48 +118,119 @@ class Bvadmin::Employee < Bvadmin::Record
   # Returns +true+ if the employee is on rotation
   # Return +false+ if the employee is not on rotation
   def on_rotation?
-    Bvadmin::RmsOrgCode.where(employee_id: self.employee_id).count > 1
+    org_codes.find_by(rotation: true)
   end
 
-  # Update the orginization code associated with this Employee Record
-  # Returns an RmsOrgCode object if the org code could be associated.
-  # Returns +nil+ if the given org code could not be associated.
-  #
-  # <tt>new_org_id</tt> The +ID+ of the org code to associate
-  # <tt>rotation</tt> Is this a rotation entry?
-  def update_org new_org_id, rotation = false
-    org = Bvadmin::RmsOrgCode.find_by(employee_id: self.employee_id, rotation: rotation)
+  # Uploads an attachment to associated with the Employee record.
+  def save_attachment attachment
+    return nil if attachment.nil?
+    return nil unless attachment.is_a? Hash
+    return nil unless attachment.has_key? :attachment
+    return nil unless attachment.has_key? :attachment_type
+    return nil unless attachment[:attachment].respond_to? :original_filename
+    return nil unless attachment[:attachment].respond_to? :content_type
+    return nil unless attachment[:attachment].respond_to? :read
 
-    if org
-      return org if org.id == new_org_id
+    attach = Bvadmin::RmsAttachments.new(employee_id: self.employee_id,
+                                         attachment_type: attachment[:attachment_type],
+                                         filename: attachment[:attachment].original_filename,
+                                         filetype: attachment[:attachment].content_type,
+                                         filedata: attachment[:attachment].read,
+                                         notes: attachment[:notes],
+                                         date: Date.today)
 
-      org.employee_id = nil
-      return nil unless org.save
+    if attach.valid?
+      attach.save
+      return attach
+    else
+      append_errors 'Attachment', attach
+      return nil
+    end
+  end
+
+  def attorney
+    super || Bvadmin::Attorney.new
+  end
+
+  def update_attorney! attributes
+    return nil if attorney_id.blank?
+
+    attributes.merge!(employee_id: employee_id, attorney_id: attorney_id)
+
+    attorney = Bvadmin::Attorney.find_by(attorney_id: attorney_id) || Bvadmin::Attorney.create!(attributes)
+    attorney.update_attributes! attributes
+
+  rescue Exception => e
+    append_errors 'attorney', attorney
+    raise
+  end
+
+  def update_attorney attributes
+    update_attorney! attributes rescue nil
+  end
+
+  # setter for primary org code
+  def primary_org= new_org
+    new_org = Bvadmin::RmsOrgCode.find(new_org.to_i) if new_org.to_i > 0
+    new_org = Bvadmin::RmsOrgCode.find_by(code: new_org) if new_org.is_a? String
+
+    if new_org.nil?
+      return nil if primary_org.new_record?
+
+      primary_org.update_attributes(employee_id: nil)
+      return nil
     end
 
-    org = Bvadmin::RmsOrgCode.find(new_org_id)
-    if org
-      org.employee_id = self.employee_id
-      return org if org.save
+    unless new_org.is_a? Bvadmin::RmsOrgCode
+      errors.add :primary_org, 'invalid data type'
+      return nil
     end
 
+    primary_org.update_attributes!(employee_id: nil) unless primary_org.new_record?
+    new_org.update_attributes!(employee_id: self.employee_id)
+    new_org
+
+  rescue Exception
+    errors.add :primary_org, 'could not update by given value'
     nil
   end
 
-  # Removes an associated org code with the Employee record
-  # Returns the org code object that was associated with this employee if the association could be removed
-  # Returns +nil+ if the org code could not be removed
-  #
-  # If <tt>rotation</tt> is +false+, Remove the primary org code associated with this employee
-  # If <tt>rotation</tt> is +true+, Remove the rotation org code associated with this employee
-  def remove_org rotation=false
-    org = Bvadmin::RmsOrgCode.find_by(employee_id: self.employee_id, rotation: rotation)
-    if org
-      org.employee_id = nil
-      return org if org.save
+  # getter for primary org code
+  def primary_org
+    org_codes.find_by(rotation: false) || Bvadmin::RmsOrgCode.new(employee_id: self.employee_id)
+  end
+
+  # setter for rotation org code
+  def rotation_org= new_org
+    new_org = Bvadmin::RmsOrgCode.find(new_org.to_i) if new_org.to_i > 0
+    new_org = Bvadmin::RmsOrgCode.find_by(code: new_org) if new_org.is_a? String
+
+    if new_org.nil?
+      return nil if rotation_org.new_record?
+
+      rotation_org.update_attributes(employee_id: nil)
+      return nil
     end
 
+    unless new_org.is_a? Bvadmin::RmsOrgCode
+      errors.add :rotation_org, 'invalid data type'
+      return nil
+    end
+
+    return new_org if rotation_org.id == new_org.id
+
+    rotation_org.update_attributes!(employee_id: nil) unless rotation_org.new_record?
+    new_org.update_attributes!(employee_id: self.employee_id)
+    new_org
+
+  rescue Exception
+    errors.add :rotation_org, 'could not update by given value'
     nil
+  end
+
+  # getting for rotation  org code
+  def rotation_org
+    org_codes.find_by(rotation: true) || Bvadmin::RmsOrgCode.new(employee_id: self.employee_id)
   end
 
   ## Ewwww.... There HAS to be a better way.
@@ -237,6 +312,15 @@ class Bvadmin::Employee < Bvadmin::Record
     date = Date.parse(date) if date =~ /\d{4}-\d{1,2}-\d{1,2}/
 
     super date
+  end
+
+  private
+
+  # Add errors from another model to this model.
+  def append_errors name, model
+    model.errors.each do |k, v|
+      errors["#{name}.#{k}"] << v
+    end
   end
 end
 
