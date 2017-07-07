@@ -6,31 +6,31 @@
     <div class="accordion-selection">
       <div class="fieldset-left">
         <%= label_tag :office, "Office:" %>
-        <%= select_tag :office, options_for_select(Bvadmin::RmsOrgOffice.dropdown, @org_code.office_id), id: 'gp_field_office'  %>
+        <%= select_tag :office, options_for_select(Bvadmin::RmsOrgOffice.dropdown, @employee.primary_org.office_id), id: 'gp_field_office'  %>
       </div>
 
       <div class="fieldset-right">
         <%= label_tag :division, "Division:" %>
-        <%= select_tag :division, options_for_select(Bvadmin::RmsOrgDivision.dropdown, @org_code.division_id), id: 'gp_field_division' %>
+        <%= select_tag :division, options_for_select(Bvadmin::RmsOrgDivision.dropdown, @employee.primary_org.division_id), id: 'gp_field_division' %>
       </div>
 
       <br /><br />
 
       <div class="fieldset-left">
         <%= label_tag :branch, "Branch:" %>
-        <%= select_tag :branch, options_for_select(Bvadmin::RmsOrgBranch.dropdown, @org_code.branch_id), id: 'gp_field_branch' %>
+        <%= select_tag :branch, options_for_select(Bvadmin::RmsOrgBranch.dropdown, @employee.primary_org.branch_id), id: 'gp_field_branch' %>
       </div>
 
       <div class="fieldset-right">
         <%= label_tag :unit, "Unit:" %>
-        <%= select_tag :unit, options_for_select(Bvadmin::RmsOrgUnit.dropdown, @org_code.unit_id), id: 'gp_field_unit' %>
+        <%= select_tag :unit, options_for_select(Bvadmin::RmsOrgUnit.dropdown, @employee.primary_org.unit_id), id: 'gp_field_unit' %>
       </div>
 
       <br /><br />
 
       <div class="fieldset-left">
-        <%= label_tag :org_code, "Org Code:" %>
-        <%= select_tag :org_code, options_for_select(Bvadmin::RmsOrgCode.dropdown, @org_code.id), id: 'gp_field_org_code', name: 'org_code' %>
+        <%= label_tag :primary_org, "Org Code:" %>
+        <%= select_tag :primary_org, options_for_select(Bvadmin::RmsOrgCode.dropdown, @employee.primary_org.id), id: 'gp_field_org_code', name: 'primary_org' %>
       </div>
 
       <div class="fieldset-left">
@@ -54,8 +54,8 @@
         <br /><br />
 
         <div class="fieldset-left">
-          <%= label_tag :org_code_2, "Org Code (rotation):" %>
-          <%= select_tag :org_code_2, options_for_select(Bvadmin::RmsOrgCode.dropdown(true), @org_code_2.id), name: 'org_code_2' %>
+          <%= label_tag :rotation_org, "Org Code (rotation):" %>
+          <%= select_tag :rotation_org, options_for_select(Bvadmin::RmsOrgCode.dropdown(true), @employee.rotation_org.id), name: 'rotation_org' %>
         </div>
       </div>
     </div>
@@ -139,24 +139,24 @@
     <div class="accordion-section">
       <div class="fieldset-left">
         <%= label_tag :board_appt_date, "Appointment Date:" %>
-        <%= text_field_tag :board_appt_date, @attorney.board_appt_date, name: 'attorney[board_appt_date]', class: 'datefield' %>
+        <%= text_field_tag :board_appt_date, @employee.attorney.board_appt_date, name: 'attorney[board_appt_date]', class: 'datefield' %>
       </div>
 
       <div class="fieldset-left">
         <%= label_tag :board_exp_date, "Expiration Date:" %>
-        <%= text_field_tag :board_exp_date, @attorney.board_exp_date, name: 'attorney[board_exp_date]', class: 'datefield' %>
+        <%= text_field_tag :board_exp_date, @employee.attorney.board_exp_date, name: 'attorney[board_exp_date]', class: 'datefield' %>
       </div>
 
       <div class="fieldset-right">
         <%= label_tag :board_reappt_date, "Re-Appointment Date:" %>
-        <%= text_field_tag :board_reappt_date, @attorney.board_reappt_date, name: 'attorney[board_reappt_date]', class: 'datefield' %>
+        <%= text_field_tag :board_reappt_date, @employee.attorney.board_reappt_date, name: 'attorney[board_reappt_date]', class: 'datefield' %>
       </div>
 
       <br /><br />
 
       <div class="fieldset-left">
         <%= label_tag :notes, "Notes:" %>
-        <%= text_area_tag :notes, @attorney.notes, name: 'attorney[notes]', rows: 6, cols: 100 %>
+        <%= text_area_tag :notes, @employee.attorney.notes, name: 'attorney[notes]', rows: 6, cols: 100 %>
       </div>
     </div>
 
@@ -164,31 +164,31 @@
     <div class="accordion-section">
       <div class="fieldset-left">
         <%= label_tag :license_number, "License Number:" %>
-        <%= text_field_tag :license_number, @attorney.license, name: 'attorney[license]' %>
+        <%= text_field_tag :license_number, @employee.attorney.license, name: 'attorney[license]' %>
       </div>
 
       <div class="fieldset-left">
         <%= label_tag :jurisdiction, "Jurisdiction:" %>
-        <%= text_field_tag :jurisdiction, @attorney.jurisdiction, name: 'attorney[jurisdiction]' %>
+        <%= text_field_tag :jurisdiction, @employee.attorney.jurisdiction, name: 'attorney[jurisdiction]' %>
       </div>
 
       <div class="fieldset-right">
         <%= label_tag :lawschool, "Law School Attended:" %>
-        <%= text_field_tag :lawschool, @attorney.lawschool, name: 'attorney[lawschool]' %>
+        <%= text_field_tag :lawschool, @employee.attorney.lawschool, name: 'attorney[lawschool]' %>
       </div>
 
       <br /><br />
 
       <div class="fieldset-left">
         <%= label_tag :bar_member, "Bar Member:" %>
-        <%= text_field_tag :bar_member, @attorney.bar_member, name: 'attorney[bar_member]' %>
+        <%= text_field_tag :bar_member, @employee.attorney.bar_member, name: 'attorney[bar_member]' %>
       </div>
 
       <br /><br />
 
       <div class="fieldset-left">
         <%= label_tag :attorney_notes, "Notes:" %>
-        <%= text_area_tag :attorney_notes, @attorney.attorney_notes, name: 'attorney[attorney_notes]', rows: 6, cols: 100 %>
+        <%= text_area_tag :attorney_notes, @employee.attorney.attorney_notes, name: 'attorney[attorney_notes]', rows: 6, cols: 100 %>
       </div>
     </div>
   </div>
