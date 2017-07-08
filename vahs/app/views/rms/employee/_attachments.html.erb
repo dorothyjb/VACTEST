@@ -24,10 +24,9 @@
 
     <h3><a href="#" alt="Employee Attachments">Employee Attachments</a></h3>
     <div class="accordion-section">
-      <table>
+      <table cellpadding="10" class="table table-condensed employee-attachments">
         <thead>
           <tr>
-            <th>Date</th>
             <th>Type</th>
             <th>Filename</th>
             <th>Notes</th>
@@ -36,9 +35,8 @@
         <tbody>
         <% @employee.attachments.each do |attachment| %>
           <tr>
-            <td><%= attachment.date.strftime("%m/%d/%Y") %></td>
             <td><%= attachment.attachment_type %></td>
-            <td><%= attachment.filename %></td>
+            <td><a href="/rms/attachment/<%= attachment.id %>" alt="<%= attachment.filename %>" aria-label="Download attachment <%= attachment.attachment_type %> as <%= attachment.filename %>"><%= attachment.filename %></a></td>
             <td><%= attachment.notes %></td>
           </tr>
         <% end %>
