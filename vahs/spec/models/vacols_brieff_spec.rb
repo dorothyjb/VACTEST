@@ -1,3 +1,4 @@
+=begin
 require 'rails_helper'
 
 RSpec.describe Vacols::Brieff, :type => :model do
@@ -8,4 +9,4 @@ RSpec.describe Vacols::Brieff, :type => :model do
   it "raises an exception when I pass an invalid hType to do_work" do
     expect { Vacols::Brieff.do_work("12", nil) }.to raise_exception(Exception)
   end
-end
+=end

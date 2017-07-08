@@ -1,3 +1,4 @@
+=begin
 require 'rails_helper'
 
 RSpec.describe Vacols::RegionalOffice, :type => :model do
@@ -60,4 +61,4 @@ RSpec.describe Vacols::RegionalOffice, :type => :model do
     @ro.fiscal_years[5][:total].should > 0
     @ro.fiscal_years[6][:total].should == 0
   end
-end
+=end
