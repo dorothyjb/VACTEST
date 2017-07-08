@@ -11,10 +11,10 @@
 // about supported directives.
 //
 //= require jquery
+//= require tether.min
 //= require jquery_ujs
 //= require jquery.form-validator
 //= require jquery-ui
-//= require tether.min
 //= require bootstrap
 //= require angular.min
 //= require angular-ui.min
