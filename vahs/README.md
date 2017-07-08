@@ -1,4 +1,3 @@
-
 # Setup
 
 *NOTE:* This documentation assumes you're in the vahs directory.
