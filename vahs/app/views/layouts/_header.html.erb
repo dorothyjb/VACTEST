@@ -1,32 +1,22 @@
 <div id="header">
-  <span>
-    <%= image_tag("header-logo.png", alt:"VA Header Logo")%>
-  </span>
+  <%= image_tag("header-logo.png", alt:"VA Header Logo")%>
 </div>
 
 <div id="subheader" role="heading">
-  <span>
-    <%
-       subheading = yield(:page_header)
-       heading = "BVA Resource Management System"
-       heading = "BVA Resource Management System - #{subheading}" unless subheading.nil? or subheading.empty?
-    %>
-    <%= label_tag nil, heading, alt: heading %>
-  </span>
+  <h1><%= [ "BVA Resource Management System", yield(:page_header) ].reject(&:blank?).join(' - ') %></h1>
 </div>
 
-<% if flash[:notice] %>
-  <div class="flash-banner alert alert-info" id="flash-alert"><%= flash[:notice] %></div>
-  <% flash.clear %>
-<% elsif flash[:error] %>
+<% if flash[:notice] || flash[:error] %>
   <div class="flash-banner alert alert-info" id="flash-alert">
-    <ul>
-    <% flash[:error].each do |k, v| %>
-      <li><b><%= k %>: <%= v %></b></li>
+    <%= flash[:notice] || '' %>
+
+    <% if flash[:error] %>
+      <ul>
+      <% flash[:error].each do |k, v| %>
+        <li><b><%= k %></b>: <%= v %></li>
+      <% end %>
+      </ul>
     <% end %>
-    </ul>
   </div>
   <% flash.clear %>
 <% end %>
-
-
