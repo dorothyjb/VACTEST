@@ -1,3 +1,4 @@
+=begin
 require "rails_helper"
 
 RSpec.feature "Fiscal Years" do
@@ -32,4 +33,4 @@ RSpec.feature "Fiscal Years" do
     visit "/fiscalyears"
     expect(page).to have_xpath('//tbody/tr', count: 7)
   end
-end
+=end

@@ -1,9 +1,10 @@
+=begin
 require "rails_helper"
 
 RSpec.feature "Analysis Page" do
   it "Has docket range" do
     visit "/analysis"
-    expect(find("#content")).to have_field('docdate')
+    expect(page).to have_field('docdate')
   end
 
   it "Has Hearing Type" do
@@ -87,4 +88,4 @@ RSpec.feature "Analysis Page" do
     click_button "btnExport"
     expect(find(".error")).to have_text("An error has occurred")
   end
-end
+=end

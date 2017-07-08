@@ -1,3 +1,4 @@
+=begin
 require "rails_helper"
 
 RSpec.feature "Docket Page" do
@@ -58,4 +59,4 @@ RSpec.feature "Docket Page" do
     click_button "btnExport"
     expect(find(".error")).to have_text("An error has occurred")
   end
-end
+=end
