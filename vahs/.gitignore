@@ -24,3 +24,6 @@ public/assets/**
 # Ignore vim swap files
 .*.swp
 .*.swo
+
+# ignore schema.rb
+/db/schema.rb
