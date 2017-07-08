@@ -10,7 +10,7 @@ class Bvadmin::Employee < Bvadmin::Record
 
   # associations
   has_one :attorney
-  has_many :attachments, class_name: Bvadmin::RmsAttachments
+  has_many :attachments, class_name: Bvadmin::RmsAttachment
   has_many :org_codes, class_name: Bvadmin::RmsOrgCode
 
   # FTE report
@@ -131,13 +131,13 @@ class Bvadmin::Employee < Bvadmin::Record
     return nil unless attachment[:attachment].respond_to? :content_type
     return nil unless attachment[:attachment].respond_to? :read
 
-    attach = Bvadmin::RmsAttachments.new(employee_id: self.employee_id,
-                                         attachment_type: attachment[:attachment_type],
-                                         filename: attachment[:attachment].original_filename,
-                                         filetype: attachment[:attachment].content_type,
-                                         filedata: attachment[:attachment].read,
-                                         notes: attachment[:notes],
-                                         date: Date.today)
+    attach = Bvadmin::RmsAttachment.new(employee_id: self.employee_id,
+                                        attachment_type: attachment[:attachment_type],
+                                        filename: attachment[:attachment].original_filename,
+                                        filetype: attachment[:attachment].content_type,
+                                        filedata: attachment[:attachment].read,
+                                        notes: attachment[:notes],
+                                        date: Date.today)
 
     if attach.valid?
       attach.save
