@@ -1,16 +1,17 @@
 Rails.application.routes.draw do
   get '/', to: 'base#index'
   get '/index', to: 'base#index'
+
   root "base#index"
 
-  get 'docket', to: 'docket#get'
-  post 'docket', to: 'docket#post'
+  #get 'docket', to: 'docket#get'
+  #post 'docket', to: 'docket#post'
 
-  get 'analysis', to: 'analysis#get'
-  post 'analysis', to: 'analysis#post'
+  #get 'analysis', to: 'analysis#get'
+  #post 'analysis', to: 'analysis#post'
 
-  get 'fiscalyears', to: 'docket#fiscalyears'
-  post 'fiscalyears', to: 'docket#update_fiscalyears'
+  #get 'fiscalyears', to: 'docket#fiscalyears'
+  #post 'fiscalyears', to: 'docket#update_fiscalyears'
 
   namespace :rms, as: :rms do
     scope :employee, as: :employee do
@@ -29,6 +30,10 @@ Rails.application.routes.draw do
       post '/locator', to: 'employee#locator'
 
       get '/picture/(:id)', to: 'employee#picture'
+    end
+
+    scope :attachment, as: :attachment do
+      get '/:id', to: 'attachment#download'
     end
 
     scope :reports, as: :reports do
