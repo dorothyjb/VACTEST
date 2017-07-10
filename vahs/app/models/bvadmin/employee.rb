@@ -12,6 +12,7 @@ class Bvadmin::Employee < Bvadmin::Record
   has_one :attorney
   has_many :attachments, class_name: Bvadmin::RmsAttachment
   has_many :org_codes, class_name: Bvadmin::RmsOrgCode
+  has_many :trainings, class_name: Bvadmin::Training
 
   # FTE report
   scope :emp_fte_report, -> { where("fte > 0").order('name ASC') }
@@ -121,6 +122,20 @@ class Bvadmin::Employee < Bvadmin::Record
     org_codes.find_by(rotation: true)
   end
 
+  # Adds training class to employee's training record
+  def add_training training
+    return nil if training.nil?
+  train = Bvadmin::Training.new(classname: training[:class_name], classdate: training[:class_date])
+  if train.valid?
+      train.save
+      return train
+    else
+      append_errors 'Training', train
+      return nil
+    end
+  end
+
+
   # Uploads an attachment to associated with the Employee record.
   def save_attachment attachment
     return nil if attachment.nil?
@@ -147,6 +162,11 @@ class Bvadmin::Employee < Bvadmin::Record
       return nil
     end
   end
+
+  def training
+    super || Bvadmin::Training.new
+  end
+
 
   def attorney
     super || Bvadmin::Attorney.new
