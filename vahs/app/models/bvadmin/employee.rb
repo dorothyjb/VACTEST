@@ -125,7 +125,7 @@ class Bvadmin::Employee < Bvadmin::Record
   # Adds training class to employee's training record
   def add_training training
     return nil if training.nil?
-  train = Bvadmin::Training.new(classname: training[:class_name], classdate: training[:class_date])
+  train = Bvadmin::Training.new(user_id: @employee.user_id, class_name: training[:class_name], class_date: training[:class_date])
   if train.valid?
       train.save
       return train
@@ -161,10 +161,6 @@ class Bvadmin::Employee < Bvadmin::Record
       append_errors 'Attachment', attach
       return nil
     end
-  end
-
-  def training
-    super || Bvadmin::Training.new
   end
 
 
