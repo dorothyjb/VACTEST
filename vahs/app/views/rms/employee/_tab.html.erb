@@ -1,0 +1,73 @@
+<div style="text-align: right">
+  * denotes a required field<br />
+  ** denotes a field updated by PAID report<br />
+</div>
+
+<div id="tab-nav">
+  <ul>
+    <li><a href="#personal-information-1">Personal Information 1</a></li>
+    <li><a href="#personal-information-2">Personal Information 2</a></li>
+    <li><a href="#grade-position">Grade/Position</a></li>
+    <li><a href="#schedule">Schedule</a></li>
+    <li><a href="#performance">Performance</a></li>
+    <li><a href="#point-of-contact">Point of Contact</a></li>
+    <li><a href="#employee-status">Status</a></li>
+    <li><a href="#knowledge-management">Knowledge Management</a></li>
+    <li><a href="#employee-records">Employee Records</a></li>
+    <li><a href="#employee-benefits">Benefits</a></li>
+  </ul>
+
+  <div id="personal-information-1">
+    <%= render partial: 'rms/employee/personal_1', employee: @employee %>
+  </div>
+
+  <div id="personal-information-2">
+    <%= render partial: 'rms/employee/personal_2', employee: @employee %>
+  </div>
+
+  <div id="grade-position">
+    <%= render partial: 'rms/employee/grade_position', employee: @employee %>
+  </div>
+
+  <div id="schedule">
+  </div>
+
+  <div id="performance">
+  </div>
+
+  <div id="point-of-contact">
+  </div>
+
+  <div id="employee-status">
+  </div>
+
+  <div id="knowledge-management">     
+	<%= render partial: 'rms/employee/knowledge_management', employee: @employee %>
+  </div>
+
+  <div id="employee-records">
+  </div>
+
+  <div id="employee-benefits">
+     <% unless @view_private_info %>
+        <%= render partial: 'rms/employee/benefits_no_pii', employee: @employee %>
+     <% else %>
+        <%= render partial: 'rms/employee/benefits', employee: @employee %>
+     <% end %>
+  </div>
+</div>
+
+<div id="employee-buttons">
+  <div class="actions-left">
+    <% unless @employee.lname.nil? %>
+      <%= button_tag "Delete Employee Record", name: "delete" %>
+    <% end %>
+
+    <%= button_tag "Reset Altered Fields", type: 'reset' %>
+  </div>
+
+  <div class="actions-right">
+    <%= button_tag "Save", name: "save" %>
+    <%= button_tag "Cancel", name: "cancel" %>
+  </div>
+</div>
