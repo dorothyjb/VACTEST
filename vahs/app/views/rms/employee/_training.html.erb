@@ -6,14 +6,13 @@
 		<div class="accordion-selection">
 			<div class="fieldset-left">
         			<%= label_tag :classname, "Class Name:" %>
-				<%= text_field_tag :classname %>
+				<%= text_field_tag :classname,"", name: 'training[class_name]'  %>
       			</div>
 
       			<div class="fieldset-right">
         			<%= label_tag :classdate, "Class Date:" %>
-				<%= text_field_tag :classdate %>
+				<%= text_field_tag :classdate,"", name: 'training[class_date]' %>
 				<br></br>
-				<button type="button" style="float: right;" onclick="alert('button was clicked!')">Add</button>
 			</div>
 		</div>
     		<h3><a href="#" alt="Class Details">Class Details</a></h3>
@@ -25,8 +24,8 @@
 
 			<% @employee.trainings.each do |training| %>
         		<div class="tbl-row" role="row">
-          			<div class="tbl-col" role="gridcell"><%= training.class_name%></div>
-          			<div class="tbl-col" role="gridcell"><%= training.class_date%></div>
+          			<div class="tbl-col" role="gridcell" style="font-weight: normal;"><%= training.class_name%></div>
+          			<div class="tbl-col" role="gridcell" style="font-weight: normal;"><%= training.class_date%></div>
         		</div>
       			<% end %>
    		</div>
