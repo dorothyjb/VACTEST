@@ -1,4 +1,4 @@
-<h2>Attachments</h2>
+<h2>Employee Records</h2>
 
 <div class="tab-panel">
   <div class="accordion">
@@ -9,7 +9,9 @@
         <%= select_tag :attachment_type, options_for_select(Bvadmin::RmsDropDownConfig.options_for(:attachment, :attachment_type)), name: 'attachment[attachment_type]' %>
       </div>
 
-      <div class="fieldset-right">
+      <br /><br />
+
+      <div class="fieldset-left">
         <%= label_tag :attachment_filename, "Filename:" %>
         <%= file_field_tag :attachment_filename, size: 60, name: 'attachment[attachment]' %>
       </div>
