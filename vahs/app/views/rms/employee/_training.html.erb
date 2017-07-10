@@ -22,7 +22,7 @@
 				<div class="tbl-col" role="columnheader">Class Name</div>
 				<div class="tbl-col" role="columnheader">Class Date</div>
 			</div>
-			
+			<% @employee.trainings.each do |training| %>
 				<div class="tbl-col" role="gridcell"><%= @training.class_name%></div>
 				<div class="tbl-col" role="gridcell"><%= @training.class_date%></div>
 			<% end %>
