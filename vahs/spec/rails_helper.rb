@@ -28,6 +28,7 @@ require "rspec/rails"
 
 require "capybara"
 # TODO: Use sniffybara
+#Sniffybara::Driver.configuration_file = File.expand_path('../support/VA-axe-configuration.json', __FILE__)
 Capybara.default_driver = :sniffybara
 #Capybara.register_driver(:poltergeist) do |app|
 #  Capybara::Poltergeist::Driver.new(app, js_errors: false, timeout: 1.minute)
