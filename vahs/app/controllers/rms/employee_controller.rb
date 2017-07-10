@@ -131,8 +131,7 @@ class Rms::EmployeeController < Rms::ApplicationController
   end
 
   def training_params
-    params.require(:training).permit(:user_id,
-                                     :class_name,
+    params.require(:training).permit(:class_name,
                                      :class_date)
   end
 
