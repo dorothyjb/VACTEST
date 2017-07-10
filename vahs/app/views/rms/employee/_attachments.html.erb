@@ -5,7 +5,7 @@
     <h3><a href="#" alt="Upload Attachment">Upload Attachment</a></h3>
     <div class="accordion-selection">
       <div class="fieldset-left">
-        <%= label_tag :attachment_type, "Attachment Type:" %>
+        <%= label_tag :attachment_type, "Document Type:" %>
         <%= select_tag :attachment_type, options_for_select(Bvadmin::RmsDropDownConfig.options_for(:attachment, :attachment_type)), name: 'attachment[attachment_type]' %>
       </div>
 
