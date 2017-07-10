@@ -1,0 +1,35 @@
+<h2>Knowledge Management</h2>
+
+<div class="tab-panel">
+	<div class="accordion">
+		<h3><a href="#" alt="Add Class">Add Class</a></h3>
+		<div class="accordion-selection">
+			<div class="fieldset-left">
+        			<%= label_tag :classname, "Class Name:" %>
+				<%= text_field_tag :classname %>
+      			</div>
+
+      			<div class="fieldset-right">
+        			<%= label_tag :classdate, "Class Date:" %>
+				<%= text_field_tag :classdate %>
+				<br></br>
+				<button type="button" style="float: right;" onclick="alert('button was clicked!')">Add</button>
+			</div>
+		</div>
+    		<h3><a href="#" alt="Class Details">Class Details</a></h3>
+		<div class="entries" role="presentation">
+      			<div class="tbl-row" role="row">
+				<div class="tbl-col" role="columnheader">Class Name</div>
+				<div class="tbl-col" role="columnheader">Class Date</div>
+			</div>
+			
+				<div class="tbl-col" role="gridcell"><%= @training.class_name%></div>
+				<div class="tbl-col" role="gridcell"><%= @training.class_date%></div>
+			<% end %>
+   		</div>
+	</div>
+</div>
+
+
+
+
