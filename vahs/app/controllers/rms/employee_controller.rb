@@ -48,7 +48,7 @@ class Rms::EmployeeController < Rms::ApplicationController
 
   def edit
     @employee = Bvadmin::Employee.find(params[:id])
-    @training = Bvadmin::Training.find_by(user_id: @employee.user_id)||Bvadmin::Training.new
+    @training = @employee.trainings
 
 
   rescue Exception
