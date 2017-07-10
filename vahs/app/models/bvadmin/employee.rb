@@ -12,7 +12,7 @@ class Bvadmin::Employee < Bvadmin::Record
   has_one :attorney
   has_many :attachments, class_name: Bvadmin::RmsAttachment
   has_many :org_codes, class_name: Bvadmin::RmsOrgCode
-  has_many :trainings, class_name: Bvadmin::Training
+  has_many :trainings, class_name: Bvadmin::Training, foreign_key: :user_id, primary_key: :user_id
 
   # FTE report
   scope :emp_fte_report, -> { where("fte > 0").order('name ASC') }
