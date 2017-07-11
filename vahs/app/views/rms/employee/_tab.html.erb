@@ -45,10 +45,12 @@
   </div>
 
   <div id="knowledge-management">
+     <%= render partial: 'rms/employee/training', employee: @employee %>
   </div>
 
   <div id="employee-records">
     <%= render partial: 'rms/employee/attachments', employee: @employee %>
+
   </div>
 
   <div id="employee-benefits">
@@ -58,6 +60,7 @@
       <%= render partial: 'rms/employee/benefits', employee: @employee %>
     <% end %>
   </div>
+
 </div>
 
 <div id="employee-buttons">
