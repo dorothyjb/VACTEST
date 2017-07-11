@@ -64,7 +64,11 @@ class Rms::EmployeeController < Rms::ApplicationController
     @employee.rotation_org = params[:rotation_org]
     @employee.update_picture(params[:employee_pic])
     @employee.save_attachment attachment_params
+
+	@employee.save_award award_params
+
     @employee.add_training training_params
+
 
     respond_to do |format|
       format.html { redirect_to rms_employee_edit_path(@employee), notice: 'The employee was saved successfully.' }
@@ -196,6 +200,16 @@ class Rms::EmployeeController < Rms::ApplicationController
                                        :attachment,
                                        :notes)
   end
+  
+    def award_params
+    params.require(:award).permit(:special_award_amount,
+								  :special_award_date,
+								  :within_grade_date,
+								  :award_amount,
+								  :award_date,
+								  :quality_step_date
+								  )
+	end
 
   def employee_not_found
     render template: 'errors/employee_not_found'
