@@ -7,7 +7,7 @@
 <% end %>
 
 <div id="content" class="container">
-  <%= form_tag rms_employee_edit_path(@employee), method: 'POST', remote: true, multipart: true, id: 'employee-form' do %>
+  <%= form_tag rms_employee_edit_path(@employee), method: 'POST', remote: false, multipart: true, id: 'employee-form' do %>
     <%= render partial: 'rms/employee/tab' %>
   <% end %>
 </div>
