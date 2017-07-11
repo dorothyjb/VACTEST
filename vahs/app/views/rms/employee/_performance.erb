@@ -1,0 +1,94 @@
+<h2>Performance</h2>
+
+<div class="tab-panel">
+	<div class="accordion">
+		<h3><a href='#' alt="Employee Performance">Employee Performance</a></h3>
+		<div class="accordion-section">
+				<div class="fieldset-left">
+					<%= label_tag :pms_from_date, "From Date:" %>
+					<%= text_field_tag :pms_from_date, @employee.pms_from_date, name: 'employee[pms_from_date]' %>
+				</div>
+				
+				<div class="fieldset-left">
+					<%= label_tag :current_pms, "Current:" %>
+					<%= text_field_tag :current_pms, @employee.current_pms, name: 'employee[current_pms]' %>
+				</div>
+				
+				<div class="fieldset-right">
+					<%= label_tag :prev_pms2, "Prev 2:" %>
+					<%= text_field_tag :prev_pms2, @employee.prev_pms2, name: 'employee[prev_pms2]' %>
+				</div>
+	<br /><br />
+				<div class="fieldset-left">
+					<%= label_tag :pms_to_date, "To Date:" %>
+					<%= text_field_tag :pms_to_date, @employee.pms_to_date, name: 'employee[pms_to_date]' %>
+				</div>
+		  
+				<div class="fieldset-left">
+					<%= label_tag :prev_pms, "Previous:" %>
+					<%= text_field_tag :prev_pms, @employee.prev_pms, name: 'employee[prev_pms]' %>
+				</div>
+				
+				<div class="fieldset-right">
+					<%= label_tag :prev_pms3, "Prev 3:" %>
+					<%= text_field_tag :prev_pms3, @employee.prev_pms3, name: 'employee[prev_pms3]' %>
+				</div>
+		</div>
+
+			<h3><a href='#' alt="Employee Award">Award Pay</a></h3>
+			<div class="accordion-section">
+				<table cellpadding="10" class="table table-condensed employee-attachments">
+					<thead>
+					  <tr>
+						<th>Special Award Amount</th>
+						<th>Special Award Date</th>
+						<th>Within Grade Date</th>
+						<th>Award Amount</th>
+						<th>Award Date</th>
+						<th>Quality Step Date</th>
+					  </tr>
+					</thead>
+					<tbody>
+					<% @employee.employee_award_infos.each do |award| %>
+					  <tr>
+						<td><%= award.special_award_amount %></td>
+						<td><%= award.special_award_date %></td>
+						<td><%= award.within_grade_date %></td>
+						<td><%= award.award_amount %></td>
+						<td><%= award.award_date %></td>
+						<td><%= award.quality_step_date %></td>
+					  </tr>
+					<% end %>
+					</tbody>
+				  </table>
+			</div>
+			<h3><a href='#' alt="New Award">New Award</a></h3>
+			<div class="accordion-section">
+			<div class="fieldset-left">
+					<%= label_tag :special_award_amount, "Special Award Amount:" %>
+					<%= text_field_tag :special_award_amount, "", name: 'award[special_award_amount]' %>
+				</div>
+				<div class="fieldset-left">
+					<%= label_tag :special_award_date, "Special Award Date:" %>
+					<%= text_field_tag :special_award_date, "", name: 'award[special_award_date]' %>
+				</div>
+				<div class="fieldset-right">
+					<%= label_tag :within_grade_date, "Within Grade Date:" %>
+					<%= text_field_tag :within_grade_date, "", name: 'award[within_grade_date]' %>
+				</div>
+				<br /><br />
+				<div class="fieldset-left">
+					<%= label_tag :award_amount, "Award Amount:" %>
+					<%= text_field_tag :award_amount, "", name: 'award[award_amount]' %>
+				</div>
+				<div class="fieldset-left">
+					<%= label_tag :award_date, "Award Date:" %>
+					<%= text_field_tag :award_date, "", name: 'award[award_date]' %>
+				</div>
+				<div class="fieldset-right">
+					<%= label_tag :quality_step_date, "Quality Step Date:" %>
+					<%= text_field_tag :quality_step_date, "", name: 'award[quality_step_date]' %>
+				</div>
+			</div>
+	</div>
+</div>

@@ -12,6 +12,7 @@ class Bvadmin::Employee < Bvadmin::Record
   has_one :attorney
   has_many :attachments, class_name: Bvadmin::RmsAttachment
   has_many :org_codes, class_name: Bvadmin::RmsOrgCode
+  has_many :employee_award_infos, class_name: Bvadmin::EmployeeAwardInfo
 
   # FTE report
   scope :emp_fte_report, -> { where("fte > 0").order('name ASC') }
@@ -146,6 +147,25 @@ class Bvadmin::Employee < Bvadmin::Record
       append_errors 'Attachment', attach
       return nil
     end
+  end
+  
+  def save_award award
+	return nil if award.nil?
+	
+	output = Bvadmin::EmployeeAwardInfo.new(employee_id: self.employee_id,
+											special_award_amount: award[:special_award_amount],
+											special_award_date: award[:special_award_date],
+											within_grade_date: award[:within_grade_date],
+											award_date: award[:award_date],
+											award_amount: award[:award_amount],
+											quality_step_date: award[:quality_step_date])
+	if output.valid?
+		output.save
+		return output
+	else
+		append_errors 'Award', output
+		return nill
+	end
   end
 
   def attorney
