@@ -3,6 +3,10 @@ class Bvadmin::Training < Bvadmin::Record
 
   belongs_to :employee 
 
+  validates :user_id, presence: true, length: { maximum: 6 }
+  validates :class_name, presence: true, length: { maximum: 60 }
+  validates :class_date, presence: true
+
   def class_date= date
     return super(date) unless date.is_a? String
 
@@ -11,6 +15,4 @@ class Bvadmin::Training < Bvadmin::Record
 
     super date
   end
-
-
 end
