@@ -9,6 +9,7 @@ RSpec.feature 'Employee Attachment(s)' do
 
   before(:each) do
     visit '/rms/employee/edit/1'
+    click_link 'Employee Records'
   end
 
   after(:all) do
@@ -16,9 +17,14 @@ RSpec.feature 'Employee Attachment(s)' do
     user.update rms_roles: []
   end
 
-  let(:content) { find('#content') }
+  let(:content) { find('#employee-records') }
 
-  it 'should contain a field to upload attachments' do
-    expect(content).to have_field('attachment[attachment]')
+  it 'should have the header "Employee Records"' do
+    expect(content).to have_text 'Employee Records'
+  end
+
+  it 'should have a select for "Document Type"' do
+    expect(content).to have_text 'Document Type'
+    expect(content).to have_select :attachment_type
   end
 end
