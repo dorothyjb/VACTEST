@@ -12,6 +12,8 @@ class Bvadmin::Employee < Bvadmin::Record
   has_one :attorney
   has_many :attachments, class_name: Bvadmin::RmsAttachment
   has_many :org_codes, class_name: Bvadmin::RmsOrgCode
+  has_many :trainings, class_name: Bvadmin::Training, foreign_key: :user_id, primary_key: :user_id
+  has_many :employee_award_infos, class_name: Bvadmin::EmployeeAwardInfo
 
   # FTE report
   scope :emp_fte_report, -> { where("fte > 0").order('name ASC') }
@@ -121,6 +123,22 @@ class Bvadmin::Employee < Bvadmin::Record
     org_codes.find_by(rotation: true)
   end
 
+  # Adds training class to employee's training record
+  def add_training training
+    return nil if training.nil?
+    return nil unless training.is_a? Hash
+
+    train = Bvadmin::Training.new(user_id: self.user_id, class_name: training[:class_name], class_date: training[:class_date])
+    if train.valid?
+      train.save
+      return train
+    else
+      append_errors 'Training', train
+      raise Exception, "Training did not meet validations"
+    end
+  end
+
+
   # Uploads an attachment to associated with the Employee record.
   def save_attachment attachment
     return nil if attachment.nil?
@@ -147,6 +165,26 @@ class Bvadmin::Employee < Bvadmin::Record
       return nil
     end
   end
+  
+  def save_award award
+	return nil if award.nil?
+	
+	output = Bvadmin::EmployeeAwardInfo.new(employee_id: self.employee_id,
+											special_award_amount: award[:special_award_amount],
+											special_award_date: award[:special_award_date],
+											within_grade_date: award[:within_grade_date],
+											award_date: award[:award_date],
+											award_amount: award[:award_amount],
+											quality_step_date: award[:quality_step_date])
+	if output.valid?
+		output.save
+		return output
+	else
+		append_errors 'Award', output
+		return nill
+	end
+  end
+
 
   def attorney
     super || Bvadmin::Attorney.new
@@ -319,7 +357,7 @@ class Bvadmin::Employee < Bvadmin::Record
   # Add errors from another model to this model.
   def append_errors name, model
     model.errors.each do |k, v|
-      errors["#{name}.#{k}"] << v
+      self.errors.add "#{name}.#{k}", v
     end
   end
 end

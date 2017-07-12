@@ -35,6 +35,8 @@ class Rms::EmployeeController < Rms::ApplicationController
 
     @employee.save_attachment attachment_params
 
+    @employee.add_training training_params
+
     if @employee.valid?
       @employee.save
       redirect_to rms_employee_edit_path(@employee), notice: 'The employee was updated successfully.'
@@ -46,6 +48,8 @@ class Rms::EmployeeController < Rms::ApplicationController
 
   def edit
     @employee = Bvadmin::Employee.find(params[:id])
+    @training = @employee.trainings
+
 
   rescue Exception
     flash[:error] = { employee: 'Invalid ID' }
@@ -60,6 +64,11 @@ class Rms::EmployeeController < Rms::ApplicationController
     @employee.rotation_org = params[:rotation_org]
     @employee.update_picture(params[:employee_pic])
     @employee.save_attachment attachment_params
+
+	@employee.save_award award_params
+
+    @employee.add_training training_params
+
 
     respond_to do |format|
       format.html { redirect_to rms_employee_edit_path(@employee), notice: 'The employee was saved successfully.' }
@@ -125,6 +134,11 @@ class Rms::EmployeeController < Rms::ApplicationController
     end
   end
 
+  def training_params
+    params.require(:training).permit(:class_name,
+                                     :class_date)
+  end
+
   def attorney_params
     # All of these are pulled from grade/positions tab.
     params.require(:attorney).permit(:bar_member,
@@ -186,6 +200,16 @@ class Rms::EmployeeController < Rms::ApplicationController
                                        :attachment,
                                        :notes)
   end
+  
+    def award_params
+    params.require(:award).permit(:special_award_amount,
+								  :special_award_date,
+								  :within_grade_date,
+								  :award_amount,
+								  :award_date,
+								  :quality_step_date
+								  )
+	end
 
   def employee_not_found
     render template: 'errors/employee_not_found'
