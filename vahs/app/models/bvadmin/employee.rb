@@ -126,16 +126,15 @@ class Bvadmin::Employee < Bvadmin::Record
   # Adds training class to employee's training record
   def add_training training
     return nil if training.nil?
-    return nil if training.has_key? :class_name
-    return nil if training.has_key? :class_date
+    return nil unless training.is_a? Hash
 
-  train = Bvadmin::Training.new(user_id: self.user_id, class_name: training[:class_name], class_date: training[:class_date])
-  if train.valid?
+    train = Bvadmin::Training.new(user_id: self.user_id, class_name: training[:class_name], class_date: training[:class_date])
+    if train.valid?
       train.save
       return train
     else
       append_errors 'Training', train
-      return nil
+      raise Exception, "Training did not meet validations"
     end
   end
 
@@ -358,7 +357,7 @@ class Bvadmin::Employee < Bvadmin::Record
   # Add errors from another model to this model.
   def append_errors name, model
     model.errors.each do |k, v|
-      errors["#{name}.#{k}"] << v
+      self.errors.add "#{name}.#{k}", v
     end
   end
 end
