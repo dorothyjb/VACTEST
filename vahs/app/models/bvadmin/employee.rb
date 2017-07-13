@@ -127,6 +127,7 @@ class Bvadmin::Employee < Bvadmin::Record
   def add_training training
     return nil if training.nil?
     return nil unless training.is_a? Hash
+    return nil if training[:class_name].blank? && training[:class_date].blank?
 
     train = Bvadmin::Training.new(user_id: self.user_id, class_name: training[:class_name], class_date: training[:class_date])
     if train.valid?
