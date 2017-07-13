@@ -281,9 +281,3 @@ div.table-links div.links ul li a:hover {
 	text-decoration: none;
 }
 /* End - HR index */
-
-/* Employee Tabs */
-li.ui-state-active {
-  background-color: #0074e8 !important;
-}
-/* End - Employee Tabs */
