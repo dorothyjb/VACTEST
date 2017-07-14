@@ -1,0 +1,26 @@
+<br /><br />
+<div class="fieldset-left-status">
+	<%= label_tag :seperation_status, "Seperation Status:" %>
+	<%= select_tag :seperation_status, options_for_select(Bvadmin::RmsDropDownConfig.options_for(:employee, :seperation_status, ''), ''), name: 'status[seperation_status]'%>
+</div>
+
+<div class="fieldset-left">
+	<%= label_tag :effective_date, "Status Effective Date:" %>
+	<%= text_field_tag :effective_date,"",  name: 'status[seperation_effective_date]' %>
+</div>
+
+<div class="fieldset-right">
+	<%= label_tag :seperation_reason, "Reason for Seperation:" %>
+	<%= select_tag :seperation_reason, options_for_select(Bvadmin::RmsDropDownConfig.options_for(:employee, :seperation_reason, ''), ''), name: 'status[seperation_reason]'%>
+</div>
+
+<br /><br />
+
+<% 
+  klass_attr = "fieldset-left"
+  klass_attr += "hide-element"
+%>
+<div  class="hide-element"  id= "term_notes">
+  <%= label_tag :termination_notes, "Termination Notes:" %>
+  <%= text_area_tag :termination_notes, "", size: "93x3", name: 'status[termination_notes]'%>
+</div>

@@ -163,6 +163,11 @@ div.fieldset-left {
 	float: left;
 }
 
+div.fieldset-left-status {
+        margin-right: 5em;
+        float: left;
+}
+
 div.fieldset-right {
 	float: left;
 }

@@ -14,6 +14,7 @@ class Bvadmin::Employee < Bvadmin::Record
   has_many :org_codes, class_name: Bvadmin::RmsOrgCode
   has_many :trainings, class_name: Bvadmin::Training, foreign_key: :user_id, primary_key: :user_id
   has_many :employee_award_infos, class_name: Bvadmin::EmployeeAwardInfo
+  has_many :statuses, class_name: Bvadmin::RmsStatusInfo
 
   # FTE report
   scope :emp_fte_report, -> { where("fte > 0").order('name ASC') }
@@ -186,6 +187,44 @@ class Bvadmin::Employee < Bvadmin::Record
 	end
   end
 
+  def save_status status
+    return nil if status.nil?
+    output= Bvadmin::RmsStatusInfo.new(employee_id: self.employee_id,
+                                           status_type: status[:status_type],
+                                           rolls_date: status[:rolls_date],
+                                           appointment_onboard_date: status[:appointment_onboard_date],
+                                           appointment_notes: status[:appointment_notes],
+                                           seperation_status: status[:seperation_status],
+                                           seperation_reason: status[:seperation_reason],
+                                           seperation_effective_date: status[:seperation_effective_date],
+                                           termination_notes: status[:termination_notes],
+                                           promotion_date: status[:promotion_date],
+                                           promotion_notes: status[:promotion_notes])
+    if output.valid?
+      output.save
+      return output
+    else
+      append_errors 'Status', outuput
+      return nil
+    end
+  end
+
+  def status
+    super || Bvadmin::RmsStatusInfo.new
+  end
+
+  def update_status! attributes
+    attributes.merge!(employee_id: employee_id)
+    status = Bvadmin::RmsStatusInfo.find_by(employee_id: self.employee_id) || Bvadmin::RmsStatusInfo.create!(attributes)
+    status.update_attributes! attributes
+    rescue Exception => e
+      append_errors 'status', status    
+    raise
+  end
+
+  def update_status attributes
+    update_status! attributes rescue nil
+  end
 
   def attorney
     super || Bvadmin::Attorney.new

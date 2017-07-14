@@ -40,6 +40,43 @@ $(document).ready(function() {
     }
   });
 
+  $('#seperation_reason').change(function() {
+    alert("Got to change function");
+
+    var str = $(this).val();
+
+    alert(str);
+    if(str == "Termination") {
+      $('#term_notes').removeClass('hide-element');
+    } else {
+      $('#term_notes').addClass('hide-element');
+    }
+  });
+
+  $('#employment_action').change(function() {
+    $.ajax({
+      url: "/rms/employee/status_select",
+      data: {
+        partial: $(this).val(),
+        emp: $('#emp').val(),
+      },
+      dataType: "html",
+      method: "get",
+
+      success: function(data) {
+        $('#status_view').html("");
+        $('#status_view').html(data);
+
+
+      },
+
+      error: function(xhdr, text, thrown) {
+        alert(thrown);
+      }
+    });
+  });
+  
+
   $('#gp_field_office').change(function() {
     $.ajax({
       url: "/rms/orginization/office",

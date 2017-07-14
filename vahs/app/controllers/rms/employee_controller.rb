@@ -64,11 +64,9 @@ class Rms::EmployeeController < Rms::ApplicationController
     @employee.rotation_org = params[:rotation_org]
     @employee.update_picture(params[:employee_pic])
     @employee.save_attachment attachment_params
-
-	@employee.save_award award_params
-
+    @employee.save_award award_params
     @employee.add_training training_params
-
+    @employee.save_status status_params
 
     respond_to do |format|
       format.html { redirect_to rms_employee_edit_path(@employee), notice: 'The employee was saved successfully.' }
@@ -102,7 +100,15 @@ class Rms::EmployeeController < Rms::ApplicationController
 
     @employees = @employees.paginate(page: params['page'], per_page: 15)
   end
-
+  
+  def status_select
+    @employee = Bvadmin::Employee.find(params[:emp])
+    respond_to do |format|
+      format.html do
+        render partial: 'rms/employee/status/' + params[:partial].downcase, employee: @employee
+      end
+    end
+  end
   def picture
     @employee = Bvadmin::Employee.find(params[:id])
 
@@ -200,6 +206,19 @@ class Rms::EmployeeController < Rms::ApplicationController
                                        :attachment,
                                        :notes)
   end
+
+  def status_params
+    params.require(:status).permit(:status_type,
+                                   :rolls_date,
+                                   :appointment_onboard_date,
+                                   :appointment_notes,
+                                   :promotion_date,
+                                   :promotion_notes,
+                                   :seperation_status,
+                                   :seperation_effective_date,
+                                   :seperation_reason,
+                                   :termination_notes)                                
+  end
   
     def award_params
     params.require(:award).permit(:special_award_amount,
@@ -210,6 +229,7 @@ class Rms::EmployeeController < Rms::ApplicationController
 								  :quality_step_date
 								  )
 	end
+  
 
   def employee_not_found
     render template: 'errors/employee_not_found'
