@@ -209,23 +209,6 @@ class Bvadmin::Employee < Bvadmin::Record
     end
   end
 
-  def status
-    super || Bvadmin::RmsStatusInfo.new
-  end
-
-  def update_status! attributes
-    attributes.merge!(employee_id: employee_id)
-    status = Bvadmin::RmsStatusInfo.find_by(employee_id: self.employee_id) || Bvadmin::RmsStatusInfo.create!(attributes)
-    status.update_attributes! attributes
-    rescue Exception => e
-      append_errors 'status', status    
-    raise
-  end
-
-  def update_status attributes
-    update_status! attributes rescue nil
-  end
-
   def attorney
     super || Bvadmin::Attorney.new
   end
