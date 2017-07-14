@@ -30,6 +30,8 @@ Rails.application.routes.draw do
       post '/locator', to: 'employee#locator'
 
       get '/picture/(:id)', to: 'employee#picture'
+
+      get '/status_select/(:id)', to: 'employee#status_select'
     end
 
     scope :attachment, as: :attachment do
