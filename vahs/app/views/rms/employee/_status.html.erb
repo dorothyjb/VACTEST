@@ -7,7 +7,6 @@
           <table cellpadding="10" class="table table-condensed">
           <thead>
             <tr>
-              <th>On Rolls Date</th>
               <th>Onboard Date</th>
               <th>Notes</th>
             </tr>
@@ -16,7 +15,6 @@
           <%@employee.statuses.each do |status| %>
             <%if status.status_type == 'Appointment' %>
               <tr>
-                <td><%= status.rolls_date %></td>
                 <td><%= status.appointment_onboard_date %></td>
                 <td><%= status.appointment_notes %></td>
               </tr>
@@ -30,7 +28,6 @@
           <table cellpadding="10" class="table table-condensed">
           <thead>
             <tr>
-              <th>On Rolls Date</th>
               <th>Promotion Date</th>
               <th>Notes</th>
             </tr>
@@ -39,7 +36,6 @@
           <%@employee.statuses.each do |status| %>
             <%if status.status_type == 'Promotion' %>
               <tr>
-                <td><%= status.rolls_date %></td>
                 <td><%= status.promotion_date %></td>
                 <td><%= status.promotion_notes %></td>
               </tr>
@@ -53,10 +49,9 @@
           <table cellpadding="10" class="table table-condensed">
           <thead>
             <tr>
-              <th>Off Rolls Date</th>
+              <th>Effective Date</th>
               <th>Seperation Status</th>
               <th>Seperation Reason</th>
-              <th>Effective Date</th>
               <th>Termination Notes</th>
             </tr>
           </thead>
@@ -64,10 +59,9 @@
           <%@employee.statuses.each do |status| %>
             <%if status.status_type == 'Seperation' %>
               <tr>
-                <td><%= status.rolls_date %></td>
+                <td><%= status.seperation_effective_date %></td>
                 <td><%= status.seperation_status %></td>
                 <td><%= status.seperation_reason %></td>
-                <td><%= status.seperation_effective_date %></td>
                 <td><%= status.termination_notes %></td>
               </tr>
             <%end%>
@@ -79,12 +73,8 @@
       <div class="accordion-section">
 
         <div class="fieldset-left">
-          <%= label_tag :employment_action, "Employment Action:" %>
+          <%= label_tag :employment_action, "On/Off Rolls Action:" %>
           <%= select_tag :employment_action, options_for_select(Bvadmin::RmsDropDownConfig.options_for(:employee, :employment_action, ''), ""), name: 'status[status_type]'%>
-        </div>
-        <div class="fieldset-left">
-          <%= label_tag :rolls_date, "On/Off Rolls Effective Date:" %>
-          <%= text_field_tag :rolls_date, "", name: 'status[rolls_date]' %>
         </div>
         <div id="status_view">
         </div>

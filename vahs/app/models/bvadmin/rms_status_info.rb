@@ -7,6 +7,7 @@ class Bvadmin::RmsStatusInfo < Bvadmin::Record
   def rolls_date= date
     return super(date) unless date.is_a? String
 
+    date = Date.strptime(date, "%m%d%Y") if date =~ /\d{8}/
     date = Date.strptime(date, "%m/%d/%Y") if date =~ /\d{1,2}\/\d{1,2}\/\d{4}/
     date = Date.parse(date) if date =~ /\d{4}-\d{1,2}-\d{1,2}/
 
@@ -16,6 +17,7 @@ class Bvadmin::RmsStatusInfo < Bvadmin::Record
   def appointment_onboard_date= date
     return super(date) unless date.is_a? String
 
+    date = Date.strptime(date, "%m%d%Y") if date =~ /\d{8}/
     date = Date.strptime(date, "%m/%d/%Y") if date =~ /\d{1,2}\/\d{1,2}\/\d{4}/
     date = Date.parse(date) if date =~ /\d{4}-\d{1,2}-\d{1,2}/
 
@@ -25,6 +27,7 @@ class Bvadmin::RmsStatusInfo < Bvadmin::Record
   def promotion_date= date
     return super(date) unless date.is_a? String
 
+    date = Date.strptime(date, "%m%d%Y") if date =~ /\d{8}/
     date = Date.strptime(date, "%m/%d/%Y") if date =~ /\d{1,2}\/\d{1,2}\/\d{4}/
     date = Date.parse(date) if date =~ /\d{4}-\d{1,2}-\d{1,2}/
 
@@ -34,6 +37,7 @@ class Bvadmin::RmsStatusInfo < Bvadmin::Record
   def seperation_effective_date= date
     return super(date) unless date.is_a? String
 
+    date = Date.strptime(date, "%m%d%Y") if date =~ /\d{8}/
     date = Date.strptime(date, "%m/%d/%Y") if date =~ /\d{1,2}\/\d{1,2}\/\d{4}/
     date = Date.parse(date) if date =~ /\d{4}-\d{1,2}-\d{1,2}/
 

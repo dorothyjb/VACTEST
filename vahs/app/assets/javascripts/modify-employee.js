@@ -40,18 +40,16 @@ $(document).ready(function() {
     }
   });
 
-  $('#seperation_reason').change(function() {
-    alert("Got to change function");
-
+  $(document).on ('change', '#seperation_reason', function(){
     var str = $(this).val();
 
-    alert(str);
-    if(str == "Termination") {
+    if(str == "Termination" || str == "Transfer" || str == "Other") {
       $('#term_notes').removeClass('hide-element');
     } else {
       $('#term_notes').addClass('hide-element');
     }
   });
+
 
   $('#employment_action').change(function() {
     $.ajax({
