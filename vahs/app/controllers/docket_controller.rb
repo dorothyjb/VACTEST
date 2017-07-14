@@ -1,3 +1,4 @@
+=begin
 class DocketController < ApplicationController
   include XLSHelper
 
@@ -89,3 +90,4 @@ class DocketController < ApplicationController
     xls.process
   end
 end
+=end
