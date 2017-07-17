@@ -1,4 +1,4 @@
-[ 'Appointment', 'Seperaton', 'Promotion' ].each do |emp_action|
+[ 'Appointment', 'Seperation', 'Promotion' ].each do |emp_action|
   Bvadmin::RmsDropDownConfig.create(table_id: 'EMPLOYEE',
                                     field_id: 'EMPLOYMENT_ACTION',
                                     content: emp_action,
