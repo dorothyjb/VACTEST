@@ -1,3 +1,4 @@
+=begin
 class AnalysisController < ApplicationController
   include XLSHelper
 
@@ -125,3 +126,4 @@ class AnalysisController < ApplicationController
     result[@hType]
   end
 end
+=end

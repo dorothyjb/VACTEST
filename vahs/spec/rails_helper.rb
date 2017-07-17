@@ -27,14 +27,22 @@ require "rspec/rails"
 # ActiveRecord::Migration.maintain_test_schema!
 
 require "capybara"
-# TODO: Use sniffybara
-#Sniffybara::Driver.configuration_file = File.expand_path('../support/VA-axe-configuration.json', __FILE__)
-Capybara.default_driver = :sniffybara
-#Capybara.register_driver(:poltergeist) do |app|
-#  Capybara::Poltergeist::Driver.new(app, js_errors: false, timeout: 1.minute)
-#end
-#Capybara.default_driver = :poltergeist
 
+# Don't complain about lack of <optgroup>
+Sniffybara::Driver.accessibility_code_exceptions << "WCAG2AA.Principle1.Guideline1_3.1_3_1.H85.2"
+
+# Allow selects to have blank values
+Sniffybara::Driver.accessibility_code_exceptions << "WCAG2AA.Principle4.Guideline4_1.4_1_2.H91.Select.Value"
+
+# Don't worry about tables that don't have a <caption> or <summary>
+Sniffybara::Driver.accessibility_code_exceptions << "WCAG2AA.Principle1.Guideline1_3.1_3_1.H39.3.NoCaption"
+Sniffybara::Driver.accessibility_code_exceptions << "WCAG2AA.Principle1.Guideline1_3.1_3_1.H73.3.NoSummary"
+
+# For some reason, Sniffybara thinks our main <div> is a <ul>-like element.
+# Maybe because of the layered <div>'s ?
+Sniffybara::Driver.accessibility_code_exceptions << "WCAG2AA.Principle1.Guideline1_3.1_3_1.H48.1"
+
+Capybara.default_driver = :sniffybara
 
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures

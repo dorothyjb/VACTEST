@@ -5,36 +5,36 @@
     <h3><a href="#" alt="Orginization Position">Organization Position</a></h3>
     <div class="accordion-selection">
       <div class="fieldset-left">
-        <%= label_tag :office, "Office:" %>
+        <%= label_tag :gp_field_office, "Office:" %>
         <%= select_tag :office, options_for_select(Bvadmin::RmsOrgOffice.dropdown, @employee.primary_org.office_id), id: 'gp_field_office'  %>
       </div>
 
       <div class="fieldset-right">
-        <%= label_tag :division, "Division:" %>
+        <%= label_tag :gp_field_division, "Division:" %>
         <%= select_tag :division, options_for_select(Bvadmin::RmsOrgDivision.dropdown, @employee.primary_org.division_id), id: 'gp_field_division' %>
       </div>
 
       <br /><br />
 
       <div class="fieldset-left">
-        <%= label_tag :branch, "Branch:" %>
+        <%= label_tag :gp_field_branch, "Branch:" %>
         <%= select_tag :branch, options_for_select(Bvadmin::RmsOrgBranch.dropdown, @employee.primary_org.branch_id), id: 'gp_field_branch' %>
       </div>
 
       <div class="fieldset-right">
-        <%= label_tag :unit, "Unit:" %>
+        <%= label_tag :gp_field_unit, "Unit:" %>
         <%= select_tag :unit, options_for_select(Bvadmin::RmsOrgUnit.dropdown, @employee.primary_org.unit_id), id: 'gp_field_unit' %>
       </div>
 
       <br /><br />
 
       <div class="fieldset-left">
-        <%= label_tag :primary_org, "Org Code:" %>
+        <%= label_tag :gp_field_org_code, "Org Code:" %>
         <%= select_tag :primary_org, options_for_select(Bvadmin::RmsOrgCode.dropdown, @employee.primary_org.id), id: 'gp_field_org_code', name: 'primary_org' %>
       </div>
 
       <div class="fieldset-left">
-        <%= label_tag :on_rotation, "Rotation:" %>
+        <%= label_tag :gp_field_rotation, "Rotation:" %>
         <%= check_box_tag :on_rotation, "", @employee.on_rotation?, id: 'gp_field_rotation' %>
       </div>
 
@@ -85,8 +85,8 @@
       <br /><br />
 
       <div class="fieldset-left">
-        <%= label_tag :supervisor, "Supervisor:" %>
-        <%= select_tag :supervisor, options_for_select([ ['',nil], ['False','FALSE'], ['True','TRUE'] ], @employee.supervisor || ''), name: 'employee[supervisor]' %>
+        <%= label_tag :supervisorb, "Supervisor:" %>
+        <%= select_tag :supervisorb, options_for_select([ ['',nil], ['False','FALSE'], ['True','TRUE'] ], @employee.supervisor || ''), name: 'employee[supervisor]' %>
       </div>
 
       <div class="fieldset-left">
@@ -95,8 +95,8 @@
       </div>
 
       <div class="fieldset-left">
-        <%= label_tag :section, "Section:" %>
-        <%= select_tag :section, options_for_select(Bvadmin::RmsDropDownConfig.options_for(:employee, :job_code, ''), @employee.job_code || ''), name: 'employee[job_code]' %>
+        <%= label_tag :series, "Series:" %>
+        <%= select_tag :series, options_for_select(Bvadmin::RmsDropDownConfig.options_for(:employee, :job_code, ''), @employee.job_code || ''), name: 'employee[job_code]' %>
       </div>
 
       <div class="fieldset-right">
