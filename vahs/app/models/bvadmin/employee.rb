@@ -204,7 +204,7 @@ class Bvadmin::Employee < Bvadmin::Record
       output.save
       return output
     else
-      append_errors 'Status', outuput
+      append_errors 'Status', output
       return nil
     end
   end
