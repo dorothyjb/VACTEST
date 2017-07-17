@@ -64,31 +64,52 @@
 			</div>
 			<h3><a href='#' alt="New Award">New Award</a></h3>
 			<div class="accordion-section">
-			<div class="fieldset-left">
-					<%= label_tag :special_award_amount, "Special Award Amount:" %>
-					<%= text_field_tag :special_award_amount, "", name: 'award[special_award_amount]' %>
-				</div>
-				<div class="fieldset-left">
-					<%= label_tag :special_award_date, "Special Award Date:" %>
-					<%= text_field_tag :special_award_date, "", name: 'award[special_award_date]' %>
-				</div>
-				<div class="fieldset-right">
-					<%= label_tag :within_grade_date, "Within Grade Date:" %>
-					<%= text_field_tag :within_grade_date, "", name: 'award[within_grade_date]' %>
-				</div>
-				<br /><br />
-				<div class="fieldset-left">
-					<%= label_tag :award_amount, "Award Amount:" %>
-					<%= text_field_tag :award_amount, "", name: 'award[award_amount]' %>
-				</div>
-				<div class="fieldset-left">
-					<%= label_tag :award_date, "Award Date:" %>
-					<%= text_field_tag :award_date, "", name: 'award[award_date]' %>
-				</div>
-				<div class="fieldset-right">
-					<%= label_tag :quality_step_date, "Quality Step Date:" %>
-					<%= text_field_tag :quality_step_date, "", name: 'award[quality_step_date]' %>
-				</div>
+			  <div class="fieldset-left">
+			    <%= label_tag :special_award_amount, "Special Award Amount:" %>
+			    <%= text_field_tag :special_award_amount, "", name: 'award[special_award_amount]' %>
+			  </div>
+			  <div class="fieldset-left">
+			    <%= label_tag :special_award_date, "Special Award Date:" %>
+			    <%= text_field_tag :special_award_date, "", name: 'award[special_award_date]' %>
+			  </div>
+			  <div class="fieldset-right">
+			    <%= label_tag :within_grade_date, "Within Grade Date:" %>
+			    <%= text_field_tag :within_grade_date, "", name: 'award[within_grade_date]' %>
+			  </div>
+			  <br /><br />
+			  <div class="fieldset-left">
+			    <%= label_tag :award_amount, "Award Amount:" %>
+			    <%= text_field_tag :award_amount, "", name: 'award[award_amount]' %>
+			  </div>
+			  <div class="fieldset-left">
+			    <%= label_tag :award_date, "Award Date:" %>
+			    <%= text_field_tag :award_date, "", name: 'award[award_date]' %>
+			  </div>
+			  <div class="fieldset-right">
+			    <%= label_tag :quality_step_date, "Quality Step Date:" %>
+			    <%= text_field_tag :quality_step_date, "", name: 'award[quality_step_date]' %>
+			  </div>
 			</div>
+                        <h3><a href="#" alt="Upload Attachment">Upload Attachment</a></h3>
+                        <div class="accordion-selection">
+                          <div class="fieldset-left">
+                            <%= label_tag :attachment_type, "Document Type:" %>
+                            <%= select_tag :attachment_type, options_for_select(Bvadmin::RmsDropDownConfig.options_for(:attachment, :attachment_type)), name: 'attachment[attachment_type]' %>
+                          </div>
+
+                          <br /><br />
+
+                          <div class="fieldset-left">
+                            <%= label_tag :attachment_filename, "Filename:" %>
+                            <%= file_field_tag :attachment_filename, size: 60, name: 'attachment[attachment]' %>
+                          </div>
+
+                          <br /><br />
+
+                          <div class="fieldset-left">
+                            <%= label_tag :attachment_notes, "Notes:" %>
+                            <%= text_area_tag :attachment_notes, "", name: 'attachment[notes]', rows: 6, cols: 100 %>
+                          </div>
+                        </div>
 	</div>
 </div>
