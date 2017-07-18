@@ -35,13 +35,14 @@
   </div>
 
   <div id="performance">
-	<%= render partial: 'rms/employee/performance', employee: @employee %>
+    <%= render partial: 'rms/employee/performance', employee: @employee %>
   </div>
 
   <div id="point-of-contact">
   </div>
 
   <div id="employee-status">
+    <%= render partial: 'rms/employee/status', employee: @employee %>
   </div>
 
   <div id="knowledge-management">
@@ -73,7 +74,7 @@
   </div>
 
   <div class="actions-right">
-    <%= button_tag "Save", name: "save" %>
+    <%= button_tag "Save", name: "save", id: "save_employee" %>
     <%= button_tag "Cancel", name: "cancel" %>
   </div>
 </div>

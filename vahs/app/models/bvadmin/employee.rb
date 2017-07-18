@@ -14,6 +14,7 @@ class Bvadmin::Employee < Bvadmin::Record
   has_many :org_codes, class_name: Bvadmin::RmsOrgCode
   has_many :trainings, class_name: Bvadmin::Training, foreign_key: :user_id, primary_key: :user_id
   has_many :employee_award_infos, class_name: Bvadmin::EmployeeAwardInfo
+  has_many :statuses, class_name: Bvadmin::RmsStatusInfo
 
   # FTE report
   scope :emp_fte_report, -> { where("fte > 0").order('name ASC') }
@@ -126,16 +127,16 @@ class Bvadmin::Employee < Bvadmin::Record
   # Adds training class to employee's training record
   def add_training training
     return nil if training.nil?
-    return nil if training.has_key? :class_name
-    return nil if training.has_key? :class_date
+    return nil unless training.is_a? Hash
+    return nil if training[:class_name].blank? && training[:class_date].blank?
 
-  train = Bvadmin::Training.new(user_id: self.user_id, class_name: training[:class_name], class_date: training[:class_date])
-  if train.valid?
+    train = Bvadmin::Training.new(user_id: self.user_id, class_name: training[:class_name], class_date: training[:class_date])
+    if train.valid?
       train.save
       return train
     else
       append_errors 'Training', train
-      return nil
+      raise Exception, "Training did not meet validations"
     end
   end
 
@@ -186,6 +187,27 @@ class Bvadmin::Employee < Bvadmin::Record
 	end
   end
 
+  def save_status status
+    return nil if status.nil?
+    output= Bvadmin::RmsStatusInfo.new(employee_id: self.employee_id,
+                                           status_type: status[:status_type],
+                                           rolls_date: status[:rolls_date],
+                                           appointment_onboard_date: status[:appointment_onboard_date],
+                                           appointment_notes: status[:appointment_notes],
+                                           seperation_status: status[:seperation_status],
+                                           seperation_reason: status[:seperation_reason],
+                                           seperation_effective_date: status[:seperation_effective_date],
+                                           termination_notes: status[:termination_notes],
+                                           promotion_date: status[:promotion_date],
+                                           promotion_notes: status[:promotion_notes])
+    if output.valid?
+      output.save
+      return output
+    else
+      append_errors 'Status', output
+      return nil
+    end
+  end
 
   def attorney
     super || Bvadmin::Attorney.new
@@ -358,7 +380,7 @@ class Bvadmin::Employee < Bvadmin::Record
   # Add errors from another model to this model.
   def append_errors name, model
     model.errors.each do |k, v|
-      errors["#{name}.#{k}"] << v
+      self.errors.add "#{name}.#{k}", v
     end
   end
 end

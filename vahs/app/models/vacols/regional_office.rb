@@ -1,3 +1,4 @@
+=begin
 class Vacols::RegionalOffice
   attr_reader :station_id, :regional_office, :tz_value
   attr_accessor :fiscal_years, :total_pending, :docdate_total, :sql_regoff
@@ -228,3 +229,4 @@ class Vacols::RegionalOffice
     raise Exception, "Invalid ro: #{ro.inspect}"
   end
 end
+=end

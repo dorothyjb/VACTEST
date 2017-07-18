@@ -1,3 +1,4 @@
+=begin
 class Vacols::Brieff < Vacols::Record
   self.table_name = "VACOLS.BRIEFF"
 
@@ -81,3 +82,4 @@ class Vacols::Brieff < Vacols::Record
     end
   end
 end
+=end

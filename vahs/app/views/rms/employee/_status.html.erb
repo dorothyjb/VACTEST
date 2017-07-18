@@ -1,0 +1,83 @@
+<h2>Status</h2>
+<%= hidden_field_tag :emp, @employee.employee_id %>
+<div class="tab-panel">
+   <div class="accordion">
+      <h3><a href="#" alt="Appointments">Appointments</a></h3>
+        <div class="accordion-selection">
+          <table cellpadding="10" class="table table-condensed">
+          <thead>
+            <tr>
+              <th>Onboard Date</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+          <%@employee.statuses.each do |status| %>
+            <%if status.status_type == 'Appointment' %>
+              <tr>
+                <td><%= status.appointment_onboard_date %></td>
+                <td><%= status.appointment_notes %></td>
+              </tr>
+            <%end%>
+          <%end%>
+          </tbody>
+        </table>
+      </div>
+      <h3><a href="#" alt="Promotions">Promotions</a></h3>  
+        <div class="accordion-selection">
+          <table cellpadding="10" class="table table-condensed">
+          <thead>
+            <tr>
+              <th>Promotion Date</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+          <%@employee.statuses.each do |status| %>
+            <%if status.status_type == 'Promotion' %>
+              <tr>
+                <td><%= status.promotion_date %></td>
+                <td><%= status.promotion_notes %></td>
+              </tr>
+            <%end%>
+          <%end%>
+          </tbody>
+        </table>
+      </div>
+      <h3><a href="#" alt="Seperations">Seperations</a></h3>
+        <div class="accordion-selection">
+          <table cellpadding="10" class="table table-condensed">
+          <thead>
+            <tr>
+              <th>Effective Date</th>
+              <th>Seperation Status</th>
+              <th>Seperation Reason</th>
+              <th>Comments</th>
+            </tr>
+          </thead>
+          <tbody>
+          <%@employee.statuses.each do |status| %>
+            <%if status.status_type == 'Seperation' %>
+              <tr>
+                <td><%= status.seperation_effective_date %></td>
+                <td><%= status.seperation_status %></td>
+                <td><%= status.seperation_reason %></td>
+                <td><%= status.termination_notes %></td>
+              </tr>
+            <%end%>
+          <%end%>
+          </tbody>
+        </table>
+      </div>
+      <h3><a href="#" alt="New Status">New Status</a></h3>
+      <div class="accordion-section">
+
+        <div class="fieldset-left">
+          <%= label_tag :employment_action, "On/Off Rolls Action:" %>
+          <%= select_tag :employment_action, options_for_select(Bvadmin::RmsDropDownConfig.options_for(:employee, :employment_action, ''), ""), name: 'status[status_type]'%>
+        </div>
+        <div id="status_view">
+        </div>
+      </div>
+    </div>
+  </div>
