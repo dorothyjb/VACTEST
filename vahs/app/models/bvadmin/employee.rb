@@ -188,7 +188,7 @@ class Bvadmin::Employee < Bvadmin::Record
   end
 
   def save_status status
-    return nil if status.nil?
+    return nil if status.nil? || status.empty? ||  status[:status_type].blank?
     output= Bvadmin::RmsStatusInfo.new(employee_id: self.employee_id,
                                            status_type: status[:status_type],
                                            rolls_date: status[:rolls_date],
