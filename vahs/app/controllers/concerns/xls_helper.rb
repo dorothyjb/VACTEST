@@ -1,3 +1,7 @@
+# this has mostly moved to lib/rms/export/xls_spreadsheet
+# if you uncomment the docket/analysis controllers, you will
+# need this however.
+=begin
 module XLSHelper
   extend ActiveSupport::Concern
 
@@ -38,3 +42,4 @@ module XLSHelper
     end
   end
 end
+=end

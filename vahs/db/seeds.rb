@@ -6,6 +6,13 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
+Dir["#{Rails.root}/db/seeds/core/*.rb"].each do |file|
+  begin
+    load file
+  rescue LoadError
+  end
+end
+
 Dir["#{Rails.root}/db/seeds/#{Rails.env.downcase}/*.rb"].each do |file|
   begin
     load file
