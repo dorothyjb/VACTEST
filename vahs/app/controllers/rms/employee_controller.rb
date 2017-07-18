@@ -160,7 +160,6 @@ class Rms::EmployeeController < Rms::ApplicationController
   end
 
   def employee_params
-byebug
     params.require(:employee).permit(# personal page 1
                                      :attorney_id,
                                      :user_id,
