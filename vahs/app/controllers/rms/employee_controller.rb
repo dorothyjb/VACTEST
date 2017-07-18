@@ -160,6 +160,7 @@ class Rms::EmployeeController < Rms::ApplicationController
   end
 
   def employee_params
+byebug
     params.require(:employee).permit(# personal page 1
                                      :attorney_id,
                                      :user_id,
@@ -198,7 +199,26 @@ class Rms::EmployeeController < Rms::ApplicationController
                                      :wig_date,
                                      :last_wig_date,
                                      :rotation_start,
-                                     :rotation_end
+                                     :rotation_end,
+                                     # poc
+                                     :street,
+                                     :city,
+                                     :state,
+                                     :zip,
+                                     :work_phone,
+                                     :cell_phone,
+                                     :email_address,
+                                     :poc_name,
+                                     :poc_relation,
+                                     :pos_street,
+                                     :poc_city,
+                                     :poc_state,
+                                     :poc_zip,
+                                     :poc_work_phone,
+                                     :poc_home_phone,
+                                     :poc_cell_phone,
+                                     :poc_notes,
+                                     :poc_email_address
                                     )
   end
 
