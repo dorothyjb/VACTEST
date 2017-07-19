@@ -10,6 +10,7 @@ class Bvadmin::Employee < Bvadmin::Record
 
   # associations
   has_one :attorney
+  has_one :assignment, class_name: Bvadmin::RmsEmployeeAssignmentInfo
   has_many :attachments, class_name: Bvadmin::RmsAttachment
   has_many :org_codes, class_name: Bvadmin::RmsOrgCode
   has_many :trainings, class_name: Bvadmin::Training, foreign_key: :user_id, primary_key: :user_id
@@ -188,7 +189,7 @@ class Bvadmin::Employee < Bvadmin::Record
   end
 
   def save_status status
-    return nil if status.nil?
+    return nil if status.nil? || status.blank? || status[:status_type].blank?
     output= Bvadmin::RmsStatusInfo.new(employee_id: self.employee_id,
                                            status_type: status[:status_type],
                                            rolls_date: status[:rolls_date],
@@ -207,6 +208,18 @@ class Bvadmin::Employee < Bvadmin::Record
       append_errors 'Status', output
       return nil
     end
+  end
+
+  def assignment
+    super || Bvadmin::RmsEmployeeAssignmentInfo.new
+  end
+
+  def update_assignment! attributes
+    return nil if attributes[:assignment_type].blank?
+    attributes.merge!(employee_id: self.employee_id)
+    assign = Bvadmin::RmsEmployeeAssignmentInfo.find_by(employee_id: self.employee_id) || Bvadmin::RmsEmployeeAssignmentInfo.create!(attributes)
+    assign.update_attributes! attributes
+    
   end
 
   def attorney

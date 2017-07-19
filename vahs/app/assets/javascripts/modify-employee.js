@@ -50,6 +50,64 @@ $(document).ready(function() {
     }
   });
 
+  $(document).on ('change', '#telework1', function(){
+    var str = $(this).val();
+
+    if(str == "Remote") {
+      $('#telework_schedule').removeClass('hide-element');
+    } else {
+      $('#telework_schedule').addClass('hide-element');
+    }
+  });
+
+  $(document).on ('change', '#other_assignments', function(){
+    var str = $(this).val();
+
+    if(str == "Detail To") {
+      $('#detail_to').removeClass('hide-element');
+    } else {
+      $('#detail_to').addClass('hide-element');
+    }
+  });
+
+
+  $(document).on ('change', '#other_assignments', function(){
+    var str = $(this).val();
+
+    if(str == "Extended Leave") {
+      $('#extended_leave').removeClass('hide-element');
+    } else {
+      $('#extended_leave').addClass('hide-element');
+    }
+  });
+
+  $('#assignment_info').change(function() {
+    if($(this).val())
+    {
+      $.ajax({
+        url: "/rms/employee/schedule_select",
+        data: {
+          partial: $(this).val(),
+          emp: $('#emp').val(),
+        },
+        dataType: "html",
+        method: "get",
+
+        success: function(data) {
+          $('#schedule_view').html("");
+          $('#schedule_view').html(data);
+
+
+        },
+
+        error: function(xhdr, text, thrown) {
+          alert(thrown);
+        }
+      });
+    } else {
+      $('#schedule_view').html("");
+    }
+  });
 
   $('#employment_action').change(function() {
     if($(this).val())
