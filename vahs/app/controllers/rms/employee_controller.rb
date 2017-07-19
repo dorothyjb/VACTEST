@@ -59,25 +59,32 @@ class Rms::EmployeeController < Rms::ApplicationController
   def update
     @employee = Bvadmin::Employee.find(params[:id])
     @employee.update_attributes!(employee_params)
-    @employee.update_attorney!(attorney_params)
+    @employee.update_attorney(attorney_params)
     @employee.primary_org = params[:primary_org]
     @employee.rotation_org = params[:rotation_org]
     @employee.update_picture(params[:employee_pic])
-    @employee.save_attachment attachment_params
+    @employee.save_attachments params[:attachment]
+    @employee.edit_attachments params[:eattachment]
     @employee.save_award award_params
     @employee.add_training training_params
     @employee.save_status status_params
 
     respond_to do |format|
-      format.html { redirect_to rms_employee_edit_path(@employee), notice: 'The employee was saved successfully.' }
-      format.js { 
-        flash[:notice] = 'The employee was saved successfully.'
-        render 'rms/employee/success'
-      }
+      if @employee.errors.empty?
+        format.html { redirect_to rms_employee_edit_path(@employee), notice: 'The employee was saved successfully.' }
+        format.js { 
+          flash[:notice] = 'The employee was saved successfully.'
+          render 'rms/employee/success'
+        }
+      else
+        flash[:error] = @employee.errors
+        format.html { render 'rms/employee/edit' }
+        format.js { render 'rms/employee/errors' }
+      end
     end
 
-  rescue Exception
-    flash[:error] = @employee.errors rescue { employee: 'Invalid ID' }
+  rescue ActiveRecord::RecordNotFound
+    flash[:error] = { employee: 'Invalid ID' }
     respond_to do |format|
       format.html { render 'rms/employee/edit' }
       format.js { render 'rms/employee/errors' }
@@ -110,6 +117,14 @@ class Rms::EmployeeController < Rms::ApplicationController
       end
     end
   end
+
+  def attachment_form
+    respond_to do |format|
+      format.html { render partial: 'rms/employee/attachment/upload' }
+      format.js { render 'rms/employee/attachment/upload' }      
+    end
+  end
+
   def picture
     @employee = Bvadmin::Employee.find(params[:id])
 
@@ -202,12 +217,6 @@ class Rms::EmployeeController < Rms::ApplicationController
                                     )
   end
 
-  def attachment_params
-    params.require(:attachment).permit(:attachment_type,
-                                       :attachment,
-                                       :notes)
-  end
-
   def status_params
     params.require(:status).permit(:status_type,
                                    :rolls_date,
@@ -221,7 +230,7 @@ class Rms::EmployeeController < Rms::ApplicationController
                                    :termination_notes)                                
   end
   
-    def award_params
+  def award_params
     params.require(:award).permit(:special_award_amount,
 								  :special_award_date,
 								  :within_grade_date,

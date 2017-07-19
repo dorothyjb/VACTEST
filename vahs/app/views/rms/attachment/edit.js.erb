@@ -1,0 +1,8 @@
+$('#attach-files #at<%= params[:id] %>').empty();
+$('#attach-files #at<%= params[:id] %>').append("<%= j render 'rms/employee/attachment/edit' %>");
+$('.datefield').datepicker({
+  changeMonth: true,
+  changeYear: true,
+  showButtonPannel: true,
+  dateFormat: 'mm/dd/yy'
+});
