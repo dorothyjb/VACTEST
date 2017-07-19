@@ -1,49 +1,32 @@
 <h2>Employee Records</h2>
 
 <div class="tab-panel">
-  <div class="accordion">
-    <h3><a href="#" alt="Upload Attachment">Upload Attachment</a></h3>
-    <div class="accordion-selection">
-      <div class="fieldset-left">
-        <%= label_tag :attachment_type, "Document Type:" %>
-        <%= select_tag :attachment_type, options_for_select(Bvadmin::RmsDropDownConfig.options_for(:attachment, :attachment_type)), name: 'attachment[attachment_type]' %>
-      </div>
-
-      <br /><br />
-
-      <div class="fieldset-left">
-        <%= label_tag :attachment_filename, "Filename:" %>
-        <%= file_field_tag :attachment_filename, size: 60, name: 'attachment[attachment]' %>
-      </div>
-
-      <br /><br />
-
-      <div class="fieldset-left">
-        <%= label_tag :attachment_notes, "Notes:" %>
-        <%= text_area_tag :attachment_notes, "", name: 'attachment[notes]', rows: 6, cols: 100 %>
-      </div>
-    </div>
-
-    <h3><a href="#" alt="Employee Attachments">Employee Attachments</a></h3>
-    <div class="accordion-section">
-      <table cellpadding="10" class="table table-condensed employee-attachments">
-        <thead>
-          <tr>
-            <th>Type</th>
-            <th>Filename</th>
-            <th>Notes</th>
-          </tr>
-        </thead>
-        <tbody>
+  <div class="attachments">
+    <table cellpadding="10" class="table table-condensed employee-attachments">
+      <thead>
+        <tr>
+          <th id="atchhdr_actions">Actions</th>
+          <th id="atchhdr_date">Date</th>
+          <th id="atchhdr_type">Type</th>
+          <th id="atchhdr_filename">Filename</th>
+          <th id="atchhdr_notes">Notes</th>
+        </tr>
+      </thead>
+      <tbody id="attach-files">
+        <%= render partial: '/rms/employee/attachment/upload' %>
         <% @employee.attachments.each do |attachment| %>
-          <tr>
+          <tr id="at<%= attachment.id %>">
+            <td>
+              <%= link_to 'Edit', "/rms/employee/attachment/#{attachment.id}/edit", remote: true, 'aria-label': "Edit #{attachment.attachment_type} document named #{attachment.filename}" %><br>
+              <%= link_to 'Delete', "/rms/employee/attachment/#{attachment.id}/delete", remote: true, 'data-confirm': "Are you sure you want to delete '#{attachment.filename}'?", 'aria-label': "Delete #{attachment.filename}" %>
+            </td>
+            <td><%= attachment.date %></td>
             <td><%= attachment.attachment_type %></td>
-            <td><a href="/rms/attachment/<%= attachment.id %>" alt="<%= attachment.filename %>" aria-label="Download attachment <%= attachment.attachment_type %> as <%= attachment.filename %>"><%= attachment.filename %></a></td>
+            <td><a href="/rms/attachment/<%= attachment.id %>" alt="Download <%= attachment.filename %>" aria-label="Download attachment <%= attachment.attachment_type %> as <%= attachment.filename %>" target="_blank"><%= attachment.filename %></a></td>
             <td><%= attachment.notes %></td>
           </tr>
         <% end %>
-        </tbody>
-      </table>
-    </div>
+      </tbody>
+    </table>
   </div>
 </div>
