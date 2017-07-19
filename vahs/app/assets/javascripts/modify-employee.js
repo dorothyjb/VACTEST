@@ -52,26 +52,31 @@ $(document).ready(function() {
 
 
   $('#employment_action').change(function() {
-    $.ajax({
-      url: "/rms/employee/status_select",
-      data: {
-        partial: $(this).val(),
-        emp: $('#emp').val(),
-      },
-      dataType: "html",
-      method: "get",
+    if($(this).val())
+    {
+      $.ajax({
+        url: "/rms/employee/status_select",
+        data: {
+          partial: $(this).val(),
+          emp: $('#emp').val(),
+        },
+        dataType: "html",
+        method: "get",
 
-      success: function(data) {
-        $('#status_view').html("");
-        $('#status_view').html(data);
+        success: function(data) {
+          $('#status_view').html("");
+          $('#status_view').html(data);
 
 
-      },
+        },
 
-      error: function(xhdr, text, thrown) {
-        alert(thrown);
-      }
-    });
+        error: function(xhdr, text, thrown) {
+          alert(thrown);
+        }
+      });
+    } else {
+      $('#status_view').html("");
+    }
   });
   
 
