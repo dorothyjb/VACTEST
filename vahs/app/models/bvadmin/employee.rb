@@ -158,7 +158,7 @@ class Bvadmin::Employee < Bvadmin::Record
                                         filetype: attachment[:attachment].content_type,
                                         filedata: attachment[:attachment].read,
                                         notes: attachment[:notes],
-                                        date: Date.today)
+                                        str_date: attachment[:date] || Date.today.strftime("%Y-%m-%d"))
 
     if attach.valid?
       attach.save
@@ -169,6 +169,40 @@ class Bvadmin::Employee < Bvadmin::Record
     end
   end
   
+  def save_attachments attachments
+    return if attachments.nil? || attachments.empty?
+
+    attachments.each do |attachment|
+      # maybe this is kind of ugly, and not the correct place to do this?
+      attachment[:date] = Date.today.strftime("%Y-%m-%d") if attachment[:date].blank?
+
+      save_attachment attachment
+    end
+  end
+
+  def edit_attachments attachments
+    return if attachments.nil? || attachments.empty?
+
+    attachments.each do |id, attachment|
+      attach = Bvadmin::RmsAttachment.find_by(id: id)
+      if attach.nil?
+        errors.add "Attachment.#{id}", "Invalid ID"
+        next
+      end
+
+      attach.update_attributes(attachment_type: attachment[:attachment_type],
+                               filename: attachment[:filename],
+                               notes: attachment[:notes],
+                               str_date: attachment[:date])
+
+      if attach.valid?
+        attach.save
+      else
+        append_errors 'Attachment', attach
+      end
+    end
+  end
+
   def save_award award
 	return nil if award.nil?
 	
