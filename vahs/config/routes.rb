@@ -32,6 +32,12 @@ Rails.application.routes.draw do
       get '/picture/(:id)', to: 'employee#picture'
 
       get '/status_select/(:id)', to: 'employee#status_select'
+      get '/attachment_form', to: 'employee#attachment_form'
+
+      scope :attachment do
+        get '/:id/edit', to: 'attachment#edit'
+        get '/:id/delete', to: 'attachment#delete'
+      end
     end
 
     scope :attachment, as: :attachment do

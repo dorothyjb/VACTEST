@@ -90,3 +90,8 @@ li.ui-state-active {
 div.accordion h3.ui-state-active {
   background-color: #0074e8 !important;
 }
+
+div.tab-panel > div.attachments {
+  overflow-x: scroll;
+  width: 660px;
+}
