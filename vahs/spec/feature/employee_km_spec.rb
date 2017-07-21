@@ -226,7 +226,7 @@ RSpec.feature 'Knowledge Management' do
     end
 
     fill_in "#{course_obj}[class_date]", with: '12/12/2012'
-    click_button 'Save'
+    find('#save_employee').trigger('click')
 
     expect(page).to have_text 'class_name: has already been taken'
   end
