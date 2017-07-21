@@ -1,0 +1,118 @@
+<h2>Point of Contact</h2>
+
+<div class="tab-panel">
+  <div class="accordion">
+    <h3><a href='#' alt="Personal Contact Information">Personal Contact Information</a></h3>
+    <div class="accordion-section">
+      <div class="fieldset-left">
+        <%= label_tag :address, "Address:" %>
+        <%= text_field_tag :address, @employee.street, size: 55, name: 'employee[street]' %>
+      </div>
+ 
+      <br /><br />
+	  
+      <div class="fieldset-left">
+        <%= label_tag :city, "City:" %>
+        <%= text_field_tag :city, @employee.city, name: 'employee[city]' %>
+      </div>
+	  
+      <div class="fieldset-left">
+        <%= label_tag :state, "State:" %>
+        <%= text_field_tag :state, @employee.state, name: 'employee[state]' %>
+      </div>
+
+      <div class="fieldset-right">
+        <%= label_tag :zip, "Zip:" %>
+        <%= text_field_tag :zip, @employee.zip, name: 'employee[zip]' %>
+      </div>
+
+      <br /><br />
+	  
+      <div class="fieldset-left">
+        <%= label_tag :home_phone, "Home Phone:" %>
+        <%= text_field_tag :home_phone, @employee.home_phone, name: 'employee[home_phone]' %>
+      </div>
+	  
+      <div class="fieldset-left">
+        <%= label_tag :work_phone, "Work Phone:" %>
+        <%= text_field_tag :work_phone, @employee.work_phone, name: 'employee[work_phone]' %>
+      </div>
+      <div class="fieldset-right">
+        <%= label_tag :cell_phone, "Cell Phone:" %>
+        <%= text_field_tag :cell_phone, @employee.cell_phone, name: 'employee[cell_phone]' %>
+      </div>
+			
+      <br /><br />
+      <div class="fieldset-left">
+        <%= label_tag :email_address, "Email Address:" %>
+        <%= text_field_tag :email_address, @employee.email_address, size: 55, name: 'employee[email_address]' %>
+      </div>
+    </div>
+    <h3><a href='#' alt="Emergency Contact">Emergency Contact</a></h3>
+    <div class="accordion-section">
+      <div class="fieldset-left">
+        <%= label_tag :name, "Name:" %>
+        <%= text_field_tag :name, @employee.poc_name, name: 'employee[poc_name]' %>
+      </div>
+
+      <div class="fieldset-right">
+        <%= label_tag :relation, "Relationship:" %>
+        <%= text_field_tag :relation, @employee.poc_relation, name: 'employee[poc_relation]' %>
+      </div>
+	  
+      <br /><br />
+	  
+      <div class="fieldset-left">
+        <%= label_tag :address, "Address:" %>
+        <%= text_field_tag :address, @employee.poc_street, size: 55, name: 'employee[poc_street]' %>
+      </div>
+	  
+      <br /><br />
+	  
+      <div class="fieldset-left">
+        <%= label_tag :city, "City:" %>
+        <%= text_field_tag :city, @employee.poc_city, name: 'employee[poc_city]' %>
+      </div>
+	  
+      <div class="fieldset-left">
+        <%= label_tag :state, "State:" %>
+        <%= text_field_tag :state, @employee.poc_state, name: 'employee[poc_state]' %>
+      </div>
+
+      <div class="fieldset-right">
+        <%= label_tag :zip, "Zip:" %>
+        <%= text_field_tag :zip, @employee.poc_zip, name: 'employee[poc_zip]' %>
+      </div>
+
+      <br /><br />
+	  
+      <div class="fieldset-left">
+        <%= label_tag :home_phone, "Home Phone:" %>
+        <%= text_field_tag :home_phone, @employee.poc_home_phone, name: 'employee[poc_home_phone]' %>
+      </div>
+	  
+      <div class="fieldset-left">
+        <%= label_tag :work_phone, "Work Phone:" %>
+        <%= text_field_tag :work_phone, @employee.poc_work_phone, name: 'employee[poc_work_phone]' %>
+      </div>
+      <div class="fieldset-right">
+        <%= label_tag :cell_phone, "Cell Phone:" %>
+        <%= text_field_tag :cell_phone, @employee.poc_cell_phone, name: 'employee[poc_cell_phone]' %>
+      </div>
+
+      <br /><br />
+			
+      <div class="fieldset-left">
+        <%= label_tag :email_address, "Email Address:" %>
+        <%= text_field_tag :poc_email_address, @employee.poc_email_address, size: 55, name: 'employee[poc_email_address]' %>
+      </div>
+			
+      <br /><br />
+	  
+      <div class="fieldset-left">
+        <%= label_tag :notes, "POC Notes:" %>
+        <%= text_area_tag :notes, @employee.poc_notes, size: "93x3", name: 'employee[poc_notes]' %>
+      </div>
+    </div>
+  </div>
+</div>
