@@ -19,15 +19,28 @@
     <h3><a href="#" alt="Class Details">Class Details</a></h3>
     <div class="entries" role="presentation">
       <div class="tbl-row" role="row">
+        <div class="tbl-col" role="columnheader">Actions</div>
         <div class="tbl-col" role="columnheader">Class Name</div>
         <div class="tbl-col" role="columnheader">Class Date</div>
       </div>
 
       <% @employee.trainings.each do |training| %>
-        <div class="tbl-row" role="row">
-          <div class="tbl-col" role="gridcell" style="font-weight: normal;"><%= training.class_name%></div>
-          <div class="tbl-col" role="gridcell" style="font-weight: normal;"><%= training.class_date%></div>
+      <div class="tbl-row" role="row" id="training<%= training.id %>">
+        <div class="tbl-col actions" role="gridcell" style="font-weight: normal;">
+          <ul class="inline-list">
+            <li><%= link_to 'Delete', "/rms/training/#{training.id}", remote: true, method: :delete,
+                            'data-confirm': "Are you sure you want delete '#{training.class_name}' on '#{training.class_date}'?",
+                            'aria-label': "Delete #{training.class_name} on #{training.class_date}",
+                            rel: 'nofollow' -%></li>
+
+            <li><%= link_to 'Edit', "/rms/training/#{training.id}/edit", remote: true,
+                            'aria-label': "Edit #{training.class_name} on #{training.class_date}",
+                            rel: 'nofollow' -%></li>
+          </ul>
         </div>
+        <div class="tbl-col" role="gridcell" style="font-weight: normal;"><%= training.class_name %></div>
+        <div class="tbl-col" role="gridcell" style="font-weight: normal;"><%= training.class_date %></div>
+      </div>
       <% end %>
     </div>
   </div>

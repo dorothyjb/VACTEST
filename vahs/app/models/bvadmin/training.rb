@@ -1,7 +1,7 @@
 class Bvadmin::Training < Bvadmin::Record
   self.table_name = "BVADMIN.TRAINING"
 
-  belongs_to :employee 
+  belongs_to :employee
 
   validates :user_id, presence: true, length: { maximum: 6 }
   validates :class_name, presence: true, length: { maximum: 60 }, uniqueness: { scope: [:user_id, :class_date] }
