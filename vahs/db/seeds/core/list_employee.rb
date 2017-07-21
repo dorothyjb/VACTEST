@@ -320,6 +320,9 @@ Bvadmin::RmsDropDownConfig.create(table_id: 'EMPLOYEE', field_id: 'WORK_GROUP', 
 Bvadmin::RmsDropDownConfig.create(table_id: 'EMPLOYEE', field_id: 'WORK_GROUP', content: 'IT INVEN/SUPPLY', value: 'IT INVEN/SUPPLY', created_by: 'root@rms.config')
 Bvadmin::RmsDropDownConfig.create(table_id: 'EMPLOYEE', field_id: 'WORK_GROUP', content: 'CLERICAL SPT BR', value: 'CLERICAL SPT BR', created_by: 'root@rms.config')
 Bvadmin::RmsDropDownConfig.create(table_id: 'EMPLOYEE', field_id: 'WORK_GROUP', content: 'WILKES BARRE', value: 'WILKES BARRE', created_by: 'root@rms.config')
+Bvadmin::RmsDropDownConfig.create(table_id: 'EMPLOYEE', field_id: 'WORK_LOCATION', content: 'ODS', value: 'ODS', created_by: 'root@rms.config')
+Bvadmin::RmsDropDownConfig.create(table_id: 'EMPLOYEE', field_id: 'WORK_LOCATION', content: 'AWS', value: 'AWS', created_by: 'root@rms.config')
+Bvadmin::RmsDropDownConfig.create(table_id: 'EMPLOYEE', field_id: 'WORK_LOCATION', content: 'TW', value: 'TW', created_by: 'root@rms.config')
 
 ### ABOVE WAS IMPORTED FROM Vacols::Lists ###
 
