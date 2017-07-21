@@ -3,7 +3,7 @@ $('<div class="flash-banner alert alert-info" id="flash-alert"></div>').insertAf
 
 $('#flash-alert').append("<ul>")
 <% (flash[:error] || {}).each do |key, err| %>
-  $('#flash-alert').append('<li><b><%= key %></b>: <%= err %></li>')
+  $('#flash-alert').append('<li><%= key %>: <%= err %></li>')
 <% end %>
 $('#flash-alert').append('</ul>')
 
