@@ -133,13 +133,23 @@ class Bvadmin::Employee < Bvadmin::Record
     train = Bvadmin::Training.new(user_id: self.user_id, class_name: training[:class_name], class_date: training[:class_date])
     if train.valid?
       train.save
-      return train
+      train
     else
       append_errors 'Training', train
-      raise Exception, "Training did not meet validations"
+      nil
     end
   end
 
+  # updates training classes
+  def update_training training
+    return nil if training.nil? || !training.is_a?(Hash)
+
+    training.each do |k, v|
+      training[k] = v.permit(:class_date, :class_name)
+    end
+
+    Bvadmin::Training.update(training.keys, training.values)
+  end
 
   # Uploads an attachment to associated with the Employee record.
   def save_attachment attachment
@@ -203,22 +213,22 @@ class Bvadmin::Employee < Bvadmin::Record
   end
 
   def save_award award
-	return nil if award.nil?
-	
-	output = Bvadmin::EmployeeAwardInfo.new(employee_id: self.employee_id,
-											special_award_amount: award[:special_award_amount],
-											special_award_date: award[:special_award_date],
-											within_grade_date: award[:within_grade_date],
-											award_date: award[:award_date],
-											award_amount: award[:award_amount],
-											quality_step_date: award[:quality_step_date])
-	if output.valid?
-		output.save
-		return output
-	else
-		append_errors 'Award', output
-		return nill
-	end
+    return nil if award.nil? || award[:award_date].blank? || award[:special_award_date].blank?
+    
+    output = Bvadmin::EmployeeAwardInfo.new(employee_id: self.employee_id,
+                        special_award_amount: award[:special_award_amount],
+                        special_award_date: award[:special_award_date],
+                        within_grade_date: award[:within_grade_date],
+                        award_date: award[:award_date],
+                        award_amount: award[:award_amount],
+                        quality_step_date: award[:quality_step_date])
+    if output.valid?
+      output.save
+      return output
+    else
+      append_errors 'Award', output
+      return nill
+    end
   end
 
   def save_status status
@@ -419,4 +429,3 @@ class Bvadmin::Employee < Bvadmin::Record
     end
   end
 end
-
