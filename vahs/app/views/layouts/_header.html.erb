@@ -13,7 +13,7 @@
     <% if flash[:error] %>
       <ul>
       <% flash[:error].each do |k, v| %>
-        <li><b><%= k %></b>: <%= v %></li>
+        <li><%= k %>: <%= v %></li>
       <% end %>
       </ul>
     <% end %>
