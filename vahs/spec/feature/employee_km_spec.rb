@@ -104,11 +104,8 @@ RSpec.feature 'Knowledge Management' do
   it 'should let me edit the class name of the class' do
     click_link 'Class Details'
 
-    course = nil
-    Bvadmin::Record.transaction do
-      course = Bvadmin::Training.find_by(class_name: 'RSpec Training',
-                                         class_date: Date.parse('2017-07-20'))
-    end
+    course = Bvadmin::Training.find_by(class_name: 'RSpec Training',
+                                       class_date: Date.parse('2017-07-20'))
     course_obj = "etraining[#{course.id}]"
 
     within(training_actions) do
@@ -134,12 +131,13 @@ RSpec.feature 'Knowledge Management' do
   it 'should let me edit the class date of the class' do
     click_link 'Class Details'
 
-    course = nil
-    Bvadmin::Record.transaction do
-      course = Bvadmin::Training.find_by(class_name: 'RSpec Training',
-                                         class_date: Date.parse('2017-07-20'))
-    end
+    course = Bvadmin::Training.find_by(class_name: 'Rails Training',
+                                       class_date: Date.parse('2017-07-20'))
     course_obj = "etraining[#{course.id}]"
+
+    within(training_actions) do
+      click_link 'Edit'
+    end
 
     fill_in "#{course_obj}[class_date]", with: '12/12/2012'
     click_button 'Save'
@@ -153,16 +151,96 @@ RSpec.feature 'Knowledge Management' do
     expect(training_courses).to_not have_text '07/20/2017'
   end
 
-  it 'should have a link for deleting the training entry' do
+  it 'should not let me replace the class name with an empty string' do
     click_link 'Class Details'
 
-    expect(training_actions).to have_link 'Delete'
+    course = Bvadmin::Training.find_by(class_name: 'Rails Training',
+                                       class_date: Date.parse('2012-12-12'))
+    course_obj = "etraining[#{course.id}]"
+
+    within(training_actions) do
+      click_link 'Edit'
+    end
+
+    fill_in "#{course_obj}[class_name]", with: ''
+    click_button 'Save'
+
+    expect(page).to have_text "class_name: can't be blank"
+  end
+
+  it 'should not let me replace the class date with an empty string' do
+    click_link 'Class Details'
+
+    course = Bvadmin::Training.find_by(class_name: 'Rails Training',
+                                       class_date: Date.parse('2012-12-12'))
+    course_obj = "etraining[#{course.id}]"
+
+    within(training_actions) do
+      click_link 'Edit'
+    end
+
+    fill_in "#{course_obj}[class_date]", with: ''
+    click_button 'Save'
+
+    expect(page).to have_text "class_date: can't be blank"
+  end
+
+  it 'should not let me add a duplicate entry' do
+    click_link 'Add Class'
+
+    fill_in 'training[class_name]', with: 'Rails Training'
+    fill_in 'training[class_date]', with: '12/12/2012'
+
+    click_button 'Save'
+
+    expect(page).to have_text "class_name: has already been taken"
+  end
+
+  it 'should let me add a duplicate class on a different date' do
+    click_link 'Add Class'
+
+    fill_in 'training[class_name]', with: 'Rails Training'
+    fill_in 'training[class_date]', with: '12/12/2013'
+
+    click_button 'Save'
+
+    expect(page).to have_text 'employee was saved'
+
+    click_link 'Knowledge Management'
+    click_link 'Class Details'
+
+    expect(training_courses).to have_text 'Rails Training'
+    expect(training_courses).to have_text '12/12/2012'
+    expect(training_courses).to have_text '12/12/2013'
+  end
+
+  it 'should not let me modify a class, such that it becomes a duplicate' do
+    click_link 'Class Details'
+    
+    course = Bvadmin::Training.find_by(class_name: 'Rails Training',
+                                       class_date: Date.parse('2013-12-12'))
+    course_obj = "etraining[#{course.id}]"
+
+    within(find("#knowledge-management .entries #training#{course.id}")) do
+      click_link 'Edit'
+    end
+
+    fill_in "#{course_obj}[class_date]", with: '12/12/2012'
+    click_button 'Save'
+
+    expect(page).to have_text 'class_name: has already been taken'
   end
 
   it 'should let me delete a class' do
     click_link 'Class Details'
 
-    within(training_actions) do
+    expect(training_courses).to have_text '12/12/2013'
+
+    course = Bvadmin::Training.find_by(class_name: 'Rails Training',
+                                       class_date: Date.parse('2013-12-12'))
+    course_obj = "etraining[#{course.id}]"
+
+    within(find("#knowledge-management .entries #training#{course.id}")) do
       click_link 'Delete'
     end
 
@@ -171,7 +249,6 @@ RSpec.feature 'Knowledge Management' do
     click_link 'Knowledge Management'
     click_link 'Class Details'
 
-    expect(training_courses).to_not have_text 'RSpec Training'
-    expect(training_courses).to_not have_text '07/20/2017'
+    expect(training_courses).to_not have_text '12/12/2013'
   end
 end
