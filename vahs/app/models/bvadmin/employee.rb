@@ -145,10 +145,22 @@ class Bvadmin::Employee < Bvadmin::Record
     return nil if training.nil? || !training.is_a?(Hash)
 
     training.each do |k, v|
-      training[k] = v.permit(:class_date, :class_name)
-    end
+      begin
+        course = Bvadmin::Training.find(k)
+        course.update_attributes(class_name: v[:class_name],
+                                 class_date: v[:class_date])
 
-    Bvadmin::Training.update(training.keys, training.values)
+        if course.valid?
+          course.save
+        else
+          append_errors 'Training', course
+        end
+
+      rescue ActiveRecord::RecordNotFound
+        errors.add 'Training.ID', 'Invalid record'
+        next
+      end
+    end
   end
 
   # Uploads an attachment to associated with the Employee record.
