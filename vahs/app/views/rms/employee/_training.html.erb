@@ -27,7 +27,7 @@
       <% @employee.trainings.each do |training| %>
       <div class="tbl-row" role="row" id="training<%= training.id %>">
         <div class="tbl-col actions" role="gridcell" style="font-weight: normal;">
-          <ul>
+          <ul class="inline-list">
             <li><%= link_to 'Delete', "/rms/training/#{training.id}", remote: true, method: :delete,
                             'data-confirm': "Are you sure you want delete '#{training.class_name}' on '#{training.class_date}'?",
                             'aria-label': "Delete #{training.class_name} on #{training.class_date}",
