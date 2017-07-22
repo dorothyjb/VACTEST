@@ -32,6 +32,8 @@ Rails.application.routes.draw do
       get '/picture/(:id)', to: 'employee#picture'
 
       get '/status_select/(:id)', to: 'employee#status_select'
+      
+      get '/schedule_select/(:id)', to: 'employee#schedule_select'
       get '/attachment_form', to: 'employee#attachment_form'
 
       scope :attachment do

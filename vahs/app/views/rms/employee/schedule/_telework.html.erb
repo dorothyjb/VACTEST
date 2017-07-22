@@ -1,0 +1,37 @@
+
+
+		<!--start of telework section-->
+		
+    <div class="fieldset-left" id="telework_info">
+      <%= label_tag :telework1, "Telework:", class: 'title' %>
+      <%= select_tag :telework1, options_for_select(Bvadmin::RmsDropDownConfig.options_for(:employee, :telework_type, ''), @employee.assignment.telework_type || ''), name: 'assignment[telework_type]'%>
+				
+    </div>
+		
+    <br /><br />
+    <% 
+      klass1_attr = "fieldset-left"
+      klass1_attr += " hide-element" unless @employee.assignment.telework_type == "Remote"
+    %>
+		
+    <div class="<%= klass1_attr %>" id="telework_schedule">
+      <div class= "fieldset-right">
+        <%= label_tag :address, "Address:" %>
+        <%= text_field_tag :address, @employee.assignment.telework_street, size: 55, name: 'assignment[telework_street]' %>
+      </div>
+			
+      <br /><br />
+      <div class= "fieldset-left">
+        <%= label_tag :city, "City:" %>
+        <%= text_field_tag :city, @employee.assignment.telework_city, name: 'assignment[telework_city]' %>
+      </div>
+      <div class= "fieldset-left">
+        <%= label_tag :state, "State:" %>
+        <%= text_field_tag :state, @employee.assignment.telework_state, name: 'assignment[telework_state]' %>
+      </div>
+      <div class= "fieldset-left">
+        <%= label_tag :city, "Zip:" %>
+        <%= text_field_tag :zip, @employee.assignment.telework_zip, name: 'assignment[telework_zip]' %>
+      </div>
+			
+    </div>

@@ -168,8 +168,49 @@ div.fieldset-left-status {
         float: left;
 }
 
+div.fieldset2-left {
+        margin-right: 1em;
+        float: left;
+}
+
+div.fieldset3-left {
+        margin-right: 5em;
+        float: left;
+        margin-left: 2.5em;
+}
+
+div.fieldset4-left {
+        margin-right: 5em;
+        float: left;
+}
+
 div.fieldset-right {
 	float: left;
+}
+
+div.fieldset-center {
+        margin-left: 21em;
+}
+
+div.fieldset-center2 {
+        margin-left: 18em;
+}
+
+div.box {
+        float: left;
+        width: 565px;
+        height: 100px;
+        padding: 20px;
+        border: 3px solid black;
+}
+
+div.schedule-left {
+        width: 5em;
+        float: left;
+}
+
+div.schedule-right {
+        float:left;
 }
 
 div.tab-panel br {
