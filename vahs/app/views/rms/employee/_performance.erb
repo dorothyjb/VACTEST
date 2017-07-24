@@ -37,21 +37,28 @@
 
 			<h3><a href='#' alt="Employee Award">Award Pay</a></h3>
 			<div class="accordion-section">
-				<table cellpadding="10" class="table table-condensed employee-attachments">
+                          <div class="awards">
+                            <table cellpadding="10" class="table table-condensed employee-awards">
 					<thead>
 					  <tr>
-						<th>Special Award Amount</th>
-						<th>Special Award Date</th>
-						<th>Within Grade Date</th>
-						<th>Award Amount</th>
-						<th>Award Date</th>
-						<th>Quality Step Date</th>
+                                            <th id="awdhdr_actions">Actions</th>
+                                            <th id="awdhdr_spawamnt">Special Award Amount</th>
+					    <th id="awdhdr_spawdate">Special Award Date</th>
+					    <th id="awdhdr_wthingrd">Within Grade Date</th>
+					    <th id="awdhdr_awamnt">Award Amount</th>
+					    <th id="awdhdr_awdate">Award Date</th>
+					    <th id="awdhdr_qsdate">Quality Step Date</th>
 					  </tr>
 					</thead>
-					<tbody>
-					<% @employee.employee_award_infos.each do |award| %>
-					  <tr>
-						<td><%= award.special_award_amount %></td>
+                                        <tbody id="show_awards">
+                                          <%= render partial: '/rms/employee/award/upload' %>
+					  <% @employee.employee_award_infos.each do |award| %>
+                                            <tr id="aw<%= award.id%>">
+                                              <td>
+                                                <%= link_to 'Edit', "/rms/employee/award/#{award.id}/edit", remote: true, 'aria-label': "Edit #{award.id}" %><br>
+                                                <%= link_to 'Delete', "/rms/employee/award/#{award.id}/delete", remote: true, 'data-confirm': "Are you sure you want to delete this award?", 'aria-label': "Delete #{award.id}"%>
+                                              </td>
+                                                <td><%= award.special_award_amount %></td>
 						<td><%= award.special_award_date %></td>
 						<td><%= award.within_grade_date %></td>
 						<td><%= award.award_amount %></td>
@@ -60,7 +67,8 @@
 					  </tr>
 					<% end %>
 					</tbody>
-				  </table>
+                                      </table>
+                          </div>
 			</div>
 			<h3><a href='#' alt="New Award">New Award</a></h3>
 			<div class="accordion-section">

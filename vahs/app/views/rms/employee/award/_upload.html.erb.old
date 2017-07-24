@@ -1,0 +1,9 @@
+<%= fields_for 'award[]', Bvadmin::EmployeeAwardInfo.new do |award_form| %>
+  <tr><% id = Random.rand(1..1000) -%>
+    <td><%= link_to 'Add', '/rms/employee/attachment_form', remote: true, 'aria-label': "Add another attachment" %></td>
+    <td><%= award_form.text_field :date, size: 8, class: 'datefield', id: "ndate-at#{id}", 'aria-labelledby': 'atchhdr_date' %></td>
+    <td><%= award_form.select :attachment_type, options_for_select(Bvadmin::RmsDropDownConfig.options_for(:attachment, :attachment_type)), {}, { id: "ntype-at#{id}", class: 'attachment-type', 'aria-labelledby': 'atchhdr_type' } %></td>
+    <td><%= award_form.file_field :attachment, id: "nattachment-at#{id}", 'aria-labelledby': 'atchhdr_filename' %></td>
+    <td><%= award_form.text_area :notes, id: "nnotes-at#{id}", rows: 3, cols: 45, 'aria-labelledby': 'atchhdr_notes' %></td>
+  </tr>
+<% end %>

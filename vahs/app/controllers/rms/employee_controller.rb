@@ -65,6 +65,8 @@ class Rms::EmployeeController < Rms::ApplicationController
     @employee.update_picture(params[:employee_pic])
     @employee.save_attachments params[:attachment]
     @employee.edit_attachments params[:eattachment]
+    @employee.save_awards params[:award]
+    @employee.edit_awards params[:eaward]
     @employee.save_award award_params
     @employee.add_training training_params
     @employee.save_status status_params
@@ -118,6 +120,14 @@ class Rms::EmployeeController < Rms::ApplicationController
     end
   end
 
+  def award_form
+    byebug
+    respond_to do |format|
+      format.html { render partial: 'rms/employee/award/upload' }
+      format.js { render 'rms/employee/award/upload' }      
+    end
+  end
+  
   def attachment_form
     respond_to do |format|
       format.html { render partial: 'rms/employee/attachment/upload' }
