@@ -166,13 +166,11 @@ class Bvadmin::Employee < Bvadmin::Record
 
   # Uploads an attachment to associated with the Employee record.
   def save_attachment attachment
-    return nil if attachment.nil?
-    return nil unless attachment.is_a? Hash
-    return nil unless attachment.has_key? :attachment
-    return nil unless attachment.has_key? :attachment_type
-    return nil unless attachment[:attachment].respond_to? :original_filename
-    return nil unless attachment[:attachment].respond_to? :content_type
-    return nil unless attachment[:attachment].respond_to? :read
+    return nil if attachment.blank? || !attachment.is_a?(Hash)
+    return nil if attachment[:attachment].blank? && attachment[:date].blank? && attachment[:notes].blank?
+
+    attachment[:attachment] ||= FakeAttachment.new
+    attachment[:date] = Date.today.strftime("%Y-%m-%d") if attachment[:date].blank?
 
     attach = Bvadmin::RmsAttachment.new(employee_id: self.employee_id,
                                         attachment_type: attachment[:attachment_type],
@@ -180,7 +178,7 @@ class Bvadmin::Employee < Bvadmin::Record
                                         filetype: attachment[:attachment].content_type,
                                         filedata: attachment[:attachment].read,
                                         notes: attachment[:notes],
-                                        str_date: attachment[:date] || Date.today.strftime("%Y-%m-%d"))
+                                        str_date: attachment[:date])
 
     if attach.valid?
       attach.save
@@ -195,9 +193,6 @@ class Bvadmin::Employee < Bvadmin::Record
     return if attachments.nil? || attachments.empty?
 
     attachments.each do |attachment|
-      # maybe this is kind of ugly, and not the correct place to do this?
-      attachment[:date] = Date.today.strftime("%Y-%m-%d") if attachment[:date].blank?
-
       save_attachment attachment
     end
   end
@@ -450,6 +445,16 @@ class Bvadmin::Employee < Bvadmin::Record
   def append_errors name, model
     model.errors.each do |k, v|
       self.errors.add "#{name}.#{k}", v
+    end
+  end
+
+  class FakeAttachment
+    attr_reader :original_filename, :content_type, :read
+
+    def initialize
+      @original_filename = ""
+      @content_type = ""
+      @read = ""
     end
   end
 end
