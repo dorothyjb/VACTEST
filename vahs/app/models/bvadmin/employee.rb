@@ -231,9 +231,8 @@ class Bvadmin::Employee < Bvadmin::Record
   
   def edit_awards awards
     return if awards.nil? || awards.empty?
-byebug
-    awards.each do | award|
-      temp = Bvadmin::EmployeeAwardInfo.find_by(id: award.id)
+    awards.each do |id, award|
+      temp = Bvadmin::EmployeeAwardInfo.find_by(id: id)
       if temp.nil?
         errors.add "Award.#{id}", "Invalid ID"
         next
