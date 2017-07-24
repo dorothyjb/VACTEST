@@ -32,6 +32,8 @@ Rails.application.routes.draw do
       get '/picture/(:id)', to: 'employee#picture'
 
       get '/status_select/(:id)', to: 'employee#status_select'
+      
+      get '/schedule_select/(:id)', to: 'employee#schedule_select'
       get '/attachment_form', to: 'employee#attachment_form'
       get '/award_form', to: 'employee#award_form'
 
@@ -44,6 +46,11 @@ Rails.application.routes.draw do
         get '/:id/edit', to: 'attachment#edit'
         get '/:id/delete', to: 'attachment#delete'
       end
+    end
+
+    scope :training, as: :training do
+      delete '/:id', to: 'training#delete'
+      get '/:id/edit', to: 'training#edit', constraints: { id: /\d+/ }
     end
 
     scope :attachment, as: :attachment do

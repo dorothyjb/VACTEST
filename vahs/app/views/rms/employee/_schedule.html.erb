@@ -1,0 +1,112 @@
+<h2>Schedule</h2>
+
+<%= hidden_field_tag :emp, @employee.employee_id %>
+
+<div class="tab-panel">
+
+  <div class="fieldset-center">
+    <%= label_tag :comp_wk_sched, "Compressed Work Schedule:" %>
+    <%= text_field_tag :comp_wk_sched, @employee.comp_wk_sched, size: 25, name: 'employee[comp_wk_sched]' %>
+  </div>
+
+  <br />
+  
+	<div class="schedule-right">
+		<div class="fieldset3-left">
+			<%= label_tag :monday, "Monday" %>
+		</div>
+		<div class="fieldset3-left">
+			<%= label_tag :tuesday, "Tuesday" %>
+		</div>
+		<div class="fieldset3-left">
+			<%= label_tag :wednesday, "Wednesday" %>
+		</div>
+		<div class="fieldset4-left">
+			<%= label_tag :thursday, "Thursday" %>
+		</div>
+		<div class="fieldset-right">
+			<%= label_tag :friday, "Friday" %>
+		</div>
+		
+		<br />
+          <div class="box">
+			<div class="fieldset-right">
+			  <%= text_field_tag :mon1, @employee.mon1, size: 5,  name: 'employee[:mon1]' %>
+			</div>
+                        <div class="fieldset5-left">
+                          <%= select_tag :loc_m1, options_for_select(Bvadmin::RmsDropDownConfig.options_for(:employee, :work_location, ''), @employee.assignment.loc_m1 || ''), name: 'assignment[loc_m1]'%>
+			</div>
+			<div class="fieldset-right">
+				<%= text_field_tag :tues1, @employee.tues1, size: 5, name: 'employee[:tues1]' %>
+			</div>
+                        <div class="fieldset5-left">
+                          <%= select_tag :loc_tu1, options_for_select(Bvadmin::RmsDropDownConfig.options_for(:employee, :work_location, ''), @employee.assignment.loc_tu1 || ''), name: 'assignment[loc_tu1]'%>
+			</div>
+			<div class="fieldset-right">
+				<%= text_field_tag :wed1, @employee.wed1, size: 5, name: 'employee[:wed1]' %>
+			</div>
+                        <div class="fieldset5-left">
+                          <%= select_tag :loc_w1, options_for_select(Bvadmin::RmsDropDownConfig.options_for(:employee, :work_location, ''), @employee.assignment.loc_w1 || ''), name: 'assignment[loc_w1]'%>
+			</div>
+			<div class="fieldset-right">
+				<%= text_field_tag :thur1, @employee.thur1, size: 5, name: 'employee[:thur1]' %>
+			</div>
+                        <div class="fieldset5-left">
+                          <%= select_tag :loc_th1, options_for_select(Bvadmin::RmsDropDownConfig.options_for(:employee, :work_location, ''), @employee.assignment.loc_th1 || ''), name: 'assignment[loc_th1]'%>
+			</div>
+			<div class="fieldset-right">
+				<%= text_field_tag :fri1, @employee.fri1, size: 5, name: 'employee[:fri1]' %>
+			</div>
+                        <div class="fieldset5-right">
+                          <%= select_tag :loc_f1, options_for_select(Bvadmin::RmsDropDownConfig.options_for(:employee, :work_location, ''), @employee.assignment.loc_f1 || ''), name: 'assignment[loc_f1]'%>
+			</div>
+			<br />
+			<br />
+			<div class="fieldset-right">
+			  <%= text_field_tag :mon2, @employee.mon2, size: 5,  name: 'employee[:mon2]' %>
+			</div>
+                        <div class="fieldset5-left">
+                          <%= select_tag :loc_m2, options_for_select(Bvadmin::RmsDropDownConfig.options_for(:employee, :work_location, ''), @employee.assignment.loc_m2 || ''), name: 'assignment[loc_m2]'%>
+			</div>
+			<div class="fieldset-right">
+				<%= text_field_tag :tues2, @employee.tues2, size: 5, name: 'employee[:tues2]' %>
+			</div>
+                        <div class="fieldset5-left">
+                          <%= select_tag :loc_tu2, options_for_select(Bvadmin::RmsDropDownConfig.options_for(:employee, :work_location, ''), @employee.assignment.loc_tu2 || ''), name: 'assignment[loc_tu2]'%>
+			</div>
+			<div class="fieldset-right">
+				<%= text_field_tag :wed2, @employee.wed2, size: 5, name: 'employee[:wed2]' %>
+			</div>
+                        <div class="fieldset5-left">
+                          <%= select_tag :loc_w2, options_for_select(Bvadmin::RmsDropDownConfig.options_for(:employee, :work_location, ''), @employee.assignment.loc_w2 || ''), name: 'assignment[loc_w2]'%>
+			</div>
+			<div class="fieldset-right">
+				<%= text_field_tag :thur2, @employee.thur2, size: 5, name: 'employee[:thur2]' %>
+			</div>
+                        <div class="fieldset5-left">
+                          <%= select_tag :loc_th2, options_for_select(Bvadmin::RmsDropDownConfig.options_for(:employee, :work_location, ''), @employee.assignment.loc_th2 || ''), name: 'assignment[loc_th2]'%>
+			</div>
+			<div class="fieldset-right">
+				<%= text_field_tag :fri2, @employee.fri2, size: 5, name: 'employee[:fri2]' %>
+			</div>
+                        <div class="fieldset5-right">
+                          <%= select_tag :loc_f2, options_for_select(Bvadmin::RmsDropDownConfig.options_for(:employee, :work_location, ''), @employee.assignment.loc_f2 || ''), name: 'assignment[loc_f2]'%>
+			</div>
+	  </div>
+		
+		<br /><br />
+		
+		<div class="fieldset-left">
+			<%= label_tag :assignment_info, "Assignment:", class: 'title' %>
+			<%= select_tag :assignment_info, options_for_select(Bvadmin::RmsDropDownConfig.options_for(:employee, :assignment_type, ''), @employee.assignment.assignment_type || ''), name: 'assignment[assignment_type]'%>
+		</div>
+	        <br /> <br />
+                <div id="schedule_view">
+                  <% if @employee.assignment.assignment_type.present? %>
+                    <% partial= {'Telework' => 'telework', 'Satellite Station' => 'satellite', 'Primary Station' => 'primary', 'Other' => 'other'}.fetch(@employee.assignment.assignment_type, 'error') %>
+                    <%= render "rms/employee/schedule/" + partial, employee: @employee %>
+                  <%end%>
+
+                </div>
+	</div>
+</div>

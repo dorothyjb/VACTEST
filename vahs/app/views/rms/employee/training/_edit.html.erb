@@ -1,0 +1,11 @@
+<%= fields_for 'etraining[]', @training do |training_form| %>
+  <div class="tbl-col actions" role="gridcell">
+    <!-- TODO, Add Undo Link -->
+  </div>
+  <div class="tbl-col" role="gridcell">
+    <%= training_form.text_field :class_name %>
+  </div>
+  <div class="tbl-col" role="gridcell">
+    <%= training_form.text_field :class_date, class: 'datefield' %>
+  </div>
+<% end %>

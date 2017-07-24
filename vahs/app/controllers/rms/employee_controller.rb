@@ -69,7 +69,9 @@ class Rms::EmployeeController < Rms::ApplicationController
     @employee.edit_awards params[:eaward]
     
     @employee.add_training training_params
+    @employee.update_training params[:etraining]
     @employee.save_status status_params
+    @employee.update_assignment!(assignment_params)
 
     respond_to do |format|
       if @employee.errors.empty?
@@ -110,6 +112,15 @@ class Rms::EmployeeController < Rms::ApplicationController
     @employees = @employees.paginate(page: params['page'], per_page: 15)
   end
   
+  def schedule_select
+    @employee = Bvadmin::Employee.find(params[:emp])
+    partial = {'Satellite Station' => 'satellite', 'Telework' => 'telework', 'Primary Station' => 'primary', 'Other' => 'other'}.fetch(params[:partial], 'error')
+    respond_to do |format|
+      format.html do
+        render partial: 'rms/employee/schedule/' + partial, employee: @employee
+      end
+    end
+  end
   def status_select
     @employee = Bvadmin::Employee.find(params[:emp])
     partial = {'Appointment' => 'appointment', 'Seperation' => 'seperation', 'Promotion' => 'promotion'}.fetch(params[:partial], 'error')
@@ -243,6 +254,40 @@ class Rms::EmployeeController < Rms::ApplicationController
                                      :poc_notes,
                                      :poc_email_address
                                     )
+  end
+
+  def assignment_params
+    params.require(:assignment).permit(:assignment_type,
+                                       :telework_type,
+                                       :telework_street,
+                                       :telework_city,
+                                       :telework_state,
+                                       :telework_zip,
+                                       :room_number,
+                                       :satellite_station,
+                                       :other_assignment,
+                                       :effective_date,
+                                       :location_detailed,
+                                       :expected_return_date,
+                                       :reason_for_leave,
+                                       :leave_period,
+                                       :leave_contact_info,
+                                       :loc_m1,
+                                       :loc_m2,
+                                       :loc_tu1,
+                                       :loc_tu2,
+                                       :loc_w1,
+                                       :loc_w2,
+                                       :loc_th1,
+                                       :loc_th2,
+                                       :loc_f1,
+                                       :loc_f2
+                                       )
+  end
+  def attachment_params
+    params.require(:attachment).permit(:attachment_type,
+                                       :attachment,
+                                       :notes)
   end
 
   def status_params

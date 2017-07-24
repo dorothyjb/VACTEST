@@ -1,0 +1,8 @@
+$('#training<%= params[:id] %>').empty();
+$('#training<%= params[:id] %>').append("<%= j render 'rms/employee/training/edit' %>");
+$('.datefield').datepicker({
+  changeMonth: true,
+  changeYear: true,
+  showButtonPannel: true,
+  dateFormat: 'mm/dd/yy'
+});
