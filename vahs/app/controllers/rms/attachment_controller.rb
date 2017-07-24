@@ -47,6 +47,6 @@ class Rms::AttachmentController < Rms::ApplicationController
 
   private
   def verify_access
-    raise Rms::Error::AuthenticationError, "#{current_user.name} does not have access to this resource." unless current_user.has_role? :report, :admin
+    raise Rms::Error::UserAuthenticationError, "#{current_user.name} does not have access to this resource." unless current_user.has_role? :employee, :admin
   end
 end

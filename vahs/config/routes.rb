@@ -42,6 +42,11 @@ Rails.application.routes.draw do
       end
     end
 
+    scope :training, as: :training do
+      delete '/:id', to: 'training#delete'
+      get '/:id/edit', to: 'training#edit', constraints: { id: /\d+/ }
+    end
+
     scope :attachment, as: :attachment do
       get '/:id', to: 'attachment#download'
     end

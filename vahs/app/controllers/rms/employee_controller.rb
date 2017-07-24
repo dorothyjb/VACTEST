@@ -67,6 +67,7 @@ class Rms::EmployeeController < Rms::ApplicationController
     @employee.edit_attachments params[:eattachment]
     @employee.save_award award_params
     @employee.add_training training_params
+    @employee.update_training params[:etraining]
     @employee.save_status status_params
     @employee.update_assignment!(assignment_params)
 

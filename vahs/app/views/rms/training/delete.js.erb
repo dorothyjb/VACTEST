@@ -1,0 +1,10 @@
+$('#flash-alert').remove();
+$('<div class="flash-banner alert alert-info" id="flash-alert"></div>').insertAfter('#subheader')
+$('#flash-alert').append("<%= flash[:notice] || '' %>")
+
+<% flash.clear %>
+
+$('#knowledge-management #training<%= params[:id] %>').remove();
+
+window.scrollTo(0,0);
+$('#flash-alert').fadeOut(5000);
