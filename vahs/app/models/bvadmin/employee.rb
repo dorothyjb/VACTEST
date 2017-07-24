@@ -260,7 +260,6 @@ class Bvadmin::Employee < Bvadmin::Record
         errors.add "Award.#{id}", "Invalid ID"
         next
       end
-byebug
       temp.update_attributes(special_award_amount: award[:special_award_amount],
                              special_award_date: award[:special_award_date],
                              within_grade_date: award[:within_grade_date],
