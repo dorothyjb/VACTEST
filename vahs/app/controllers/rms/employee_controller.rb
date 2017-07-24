@@ -285,7 +285,8 @@ class Rms::EmployeeController < Rms::ApplicationController
                                        :loc_th1,
                                        :loc_th2,
                                        :loc_f1,
-                                       :loc_f2
+                                       :loc_f2,
+                                       :satellite_room
                                        )
   end
   def attachment_params
