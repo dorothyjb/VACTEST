@@ -45,6 +45,7 @@ Rails.application.routes.draw do
       scope :attachment do
         get '/:id/edit', to: 'attachment#edit'
         get '/:id/delete', to: 'attachment#delete'
+        get '/:id/undo', to: 'attachment#undo'
       end
     end
 
