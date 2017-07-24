@@ -1,11 +1,11 @@
     <div class="fieldset-left" id="satellite_info">	
       <div class= "fieldset-left">
         <%= label_tag :satellite_station, "Location:", class: 'title' %>
-        <%= select_tag :satellite_station, options_for_select(Bvadmin::RmsDropDownConfig.options_for(:employee, :satellite_station, ''), @employee.assignment.satellite_station || ''), name: 'assignment[satellite_station]'%>
+        <%= select_tag :satellite_station1, options_for_select(Bvadmin::RmsDropDownConfig.options_for(:employee, :satellite_station, ''), @employee.assignment.satellite_station || ''), name: 'assignment[satellite_station]'%>
       </div>
 			
       <div class= "fieldset-left">
         <%= label_tag :room_number, "Room Number:", class: 'title' %>
-        <%= text_field_tag :room_number, @employee.assignment.room_number, name: 'assignment[room_number]' %>
+        <%= text_field_tag :room_number1, @employee.assignment.room_number, name: 'assignment[room_number]' %>
       </div>
     </div>
