@@ -163,6 +163,11 @@ div.fieldset-left {
 	float: left;
 }
 
+div.fieldset-left-benefits {
+  margin-right: 2.4em;
+  float:left;
+}
+
 div.fieldset-left-status {
         margin-right: 5em;
         float: left;

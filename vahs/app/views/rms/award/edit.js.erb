@@ -1,0 +1,8 @@
+$('#show_awards #aw<%= params[:id] %>').empty();
+$('#show_awards #aw<%= params[:id] %>').append("<%= j render 'rms/employee/award/edit' %>");
+$('.datefield').datepicker({
+  changeMonth: true,
+  changeYear: true,
+  showButtonPannel: true,
+  dateFormat: 'mm/dd/yy'
+});
