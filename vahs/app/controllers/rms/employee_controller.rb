@@ -234,6 +234,18 @@ class Rms::EmployeeController < Rms::ApplicationController
                                      :last_wig_date,
                                      :rotation_start,
                                      :rotation_end,
+                                     #schedule
+                                     :comp_wk_sched,
+                                     :mon1,
+                                     :mon2,
+                                     :tues1,
+                                     :tues2,
+                                     :wed1,
+                                     :wed2,
+                                     :thur1,
+                                     :thur2,
+                                     :fri1,
+                                     :fri2,
                                      # poc
                                      :street,
                                      :city,
@@ -264,6 +276,7 @@ class Rms::EmployeeController < Rms::ApplicationController
                                        :telework_state,
                                        :telework_zip,
                                        :room_number,
+                                       :primary_station,
                                        :satellite_station,
                                        :other_assignment,
                                        :effective_date,
@@ -281,7 +294,8 @@ class Rms::EmployeeController < Rms::ApplicationController
                                        :loc_th1,
                                        :loc_th2,
                                        :loc_f1,
-                                       :loc_f2
+                                       :loc_f2,
+                                       :satellite_room
                                        )
   end
   def attachment_params
