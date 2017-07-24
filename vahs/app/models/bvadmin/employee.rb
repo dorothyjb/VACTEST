@@ -239,6 +239,37 @@ class Bvadmin::Employee < Bvadmin::Record
     end
   end
 
+  def save_awards awards
+    return if awards.nil? || awards.empty?
+    awards.each do |award|
+      save_award award
+    end
+  end
+  
+  
+  def edit_awards awards
+    return if awards.nil? || awards.empty?
+    awards.each do |id, award|
+      temp = Bvadmin::EmployeeAwardInfo.find_by(id: id)
+      if temp.nil?
+        errors.add "Award.#{id}", "Invalid ID"
+        next
+      end
+      temp.update_attributes(special_award_amount: award[:special_award_amount],
+                             special_award_date: award[:special_award_date],
+                             within_grade_date: award[:within_grade_date],
+                             award_date: award[:award_date],
+                             award_amount: award[:award_amount],
+                             quality_step_date: award[:quality_step_date])
+
+      if temp.valid?
+        temp.save
+      else
+        append_errors 'Award', temp
+      end
+    end
+  end
+  
   def save_status status
     return nil if status.nil? || status.blank? || status[:status_type].blank?
     output= Bvadmin::RmsStatusInfo.new(employee_id: self.employee_id,

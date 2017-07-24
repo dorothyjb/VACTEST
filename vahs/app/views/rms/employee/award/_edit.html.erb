@@ -1,0 +1,9 @@
+<%= fields_for 'eaward[]', @award, include_id: false do |award_form| %>
+  <td></td>
+  <td><%= award_form.text_field :special_award_amount %></td>
+  <td><%= award_form.text_field :special_award_date, size: 8, class: 'datefield' %></td>
+  <td><%= award_form.text_field :within_grade_date, size: 8, class: 'datefield' %></td>
+  <td><%= award_form.text_field :award_amount %></td>
+  <td><%= award_form.text_field :award_date, size: 8, class: 'datefield'%></td>
+  <td><%= award_form.text_field :quality_step_date, size: 8, class: 'datefield' %></td>
+<% end %>

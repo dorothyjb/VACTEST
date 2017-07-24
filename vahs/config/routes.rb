@@ -35,6 +35,12 @@ Rails.application.routes.draw do
       
       get '/schedule_select/(:id)', to: 'employee#schedule_select'
       get '/attachment_form', to: 'employee#attachment_form'
+      get '/award_form', to: 'employee#award_form'
+
+      scope :award do
+        get '/:id/edit', to: 'award#edit'
+        get '/:id/delete', to: 'award#delete'
+      end
 
       scope :attachment do
         get '/:id/edit', to: 'attachment#edit'
