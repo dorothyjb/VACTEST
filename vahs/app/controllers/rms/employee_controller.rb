@@ -128,6 +128,7 @@ class Rms::EmployeeController < Rms::ApplicationController
       format.html do
         render partial: 'rms/employee/status/' + partial, employee: @employee
       end
+      format.js { render 'rms/employee/status/' + partial }
     end
   end
 
