@@ -65,6 +65,7 @@ class Rms::EmployeeController < Rms::ApplicationController
     @employee.update_picture(params[:employee_pic])
     @employee.save_attachments params[:attachment]
     @employee.edit_attachments params[:eattachment]
+    @employee.save_attachment params[:pattachment]
     @employee.save_awards params[:award]
     @employee.edit_awards params[:eaward]
     

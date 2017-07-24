@@ -70,5 +70,26 @@
                                       </table>
                           </div>
 			</div>
+			<h3><a href="#" alt="Upload Attachment">Upload Attachment</a></h3>
+                        <div class="accordion-selection">
+                          <div class="fieldset-left">
+                            <%= label_tag :attachment_type, "Document Type:" %>
+                            <%= select_tag :attachment_type, options_for_select(Bvadmin::RmsDropDownConfig.options_for(:attachment, :attachment_type)), name: 'pattachment[attachment_type]' %>
+                          </div>
+
+                          <br /><br />
+
+                          <div class="fieldset-left">
+                            <%= label_tag :attachment_filename, "Filename:" %>
+                            <%= file_field_tag :attachment_filename, size: 60, name: 'pattachment[attachment]' %>
+                          </div>
+
+                          <br /><br />
+
+                          <div class="fieldset-left">
+                            <%= label_tag :attachment_notes, "Notes:" %>
+                            <%= text_area_tag :attachment_notes, "", name: 'pattachment[notes]', rows: 6, cols: 100 %>
+                          </div>
+                        </div>
 	</div>
 </div>
