@@ -9,7 +9,23 @@ class Rms::AttachmentController < Rms::ApplicationController
       format.js { render 'rms/attachment/edit' }
     end
 
-  rescue Exception
+  rescue ActiveRecord::RecordNotFound
+    flash[:error] = { "#{params[:id]}": "Attachment does not exist." }
+    respond_to do |format|
+      format.html { redirect_to :back }
+      format.js { render 'rms/employee/errors' }
+    end
+  end
+
+  def undo
+    @attachment = Bvadmin::RmsAttachment.find(params[:id])
+
+    respond_to do |format|
+      format.html { render partial: '/rms/employee/attachment/show', locals: { attachment: @attachment } }
+      format.js { render 'rms/attachment/show' }
+    end
+
+  rescue ActiveRecord::RecordNotFound
     flash[:error] = { "#{params[:id]}": "Attachment does not exist." }
     respond_to do |format|
       format.html { redirect_to :back }

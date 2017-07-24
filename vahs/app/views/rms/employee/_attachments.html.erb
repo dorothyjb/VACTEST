@@ -16,14 +16,7 @@
         <%= render partial: '/rms/employee/attachment/upload' %>
         <% @employee.attachments.each do |attachment| %>
           <tr id="at<%= attachment.id %>">
-            <td>
-              <%= link_to 'Edit', "/rms/employee/attachment/#{attachment.id}/edit", remote: true, 'aria-label': "Edit #{attachment.attachment_type} document named #{attachment.filename}" %><br>
-              <%= link_to 'Delete', "/rms/employee/attachment/#{attachment.id}/delete", remote: true, 'data-confirm': "Are you sure you want to delete '#{attachment.filename}'?", 'aria-label': "Delete #{attachment.filename}" %>
-            </td>
-            <td><%= attachment.date %></td>
-            <td><%= attachment.attachment_type %></td>
-            <td><a href="/rms/attachment/<%= attachment.id %>" alt="Download <%= attachment.filename %>" aria-label="Download attachment <%= attachment.attachment_type %> as <%= attachment.filename %>" target="_blank"><%= attachment.filename %></a></td>
-            <td><%= attachment.notes %></td>
+            <%= render partial: '/rms/employee/attachment/show', locals: { attachment: attachment } %>
           </tr>
         <% end %>
       </tbody>
