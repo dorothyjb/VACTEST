@@ -180,7 +180,12 @@ div.fieldset3-left {
 }
 
 div.fieldset4-left {
-        margin-right: 5em;
+        margin-right: 7.5em;
+        float: left;
+}
+
+div.fieldset5-left {
+        margin-right: 2em;
         float: left;
 }
 
@@ -198,14 +203,14 @@ div.fieldset-center2 {
 
 div.box {
         float: left;
-        width: 565px;
+        width: 690px;
         height: 100px;
-        padding: 20px;
+        padding: 15px;
         border: 3px solid black;
 }
 
 div.schedule-left {
-        width: 5em;
+        width: 2em;
         float: left;
 }
 

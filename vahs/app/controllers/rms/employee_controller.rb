@@ -262,7 +262,18 @@ class Rms::EmployeeController < Rms::ApplicationController
                                        :expected_return_date,
                                        :reason_for_leave,
                                        :leave_period,
-                                       :leave_contact_info)
+                                       :leave_contact_info,
+                                       :loc_m1,
+                                       :loc_m2,
+                                       :loc_tu1,
+                                       :loc_tu2,
+                                       :loc_w1,
+                                       :loc_w2,
+                                       :loc_th1,
+                                       :loc_th2,
+                                       :loc_f1,
+                                       :loc_f2
+                                       )
   end
   def attachment_params
     params.require(:attachment).permit(:attachment_type,
