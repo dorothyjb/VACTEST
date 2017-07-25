@@ -124,7 +124,6 @@ class Rms::EmployeeController < Rms::ApplicationController
   def status_select
     @employee = Bvadmin::Employee.find(params[:emp])
     partial = {'Appointment' => 'appointment', 'Seperation' => 'seperation', 'Promotion' => 'promotion'}.fetch(params[:partial], 'error')
-    byebug
     respond_to do |format|
       format.html do
         render partial: 'rms/employee/status/' + partial, employee: @employee
