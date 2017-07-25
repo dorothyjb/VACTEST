@@ -29,5 +29,6 @@ class CreateRmsEmployeeAssignmentInfo < ActiveRecord::Migration
       t.string :primary_station, limit: 80
       t.string :satellite_station, limit: 80
       t.string :satellite_room, limit: 12
+    end
   end
 end
