@@ -275,13 +275,13 @@ class Bvadmin::Employee < Bvadmin::Record
     output= Bvadmin::RmsStatusInfo.new(employee_id: self.employee_id,
                                            status_type: status[:status_type],
                                            rolls_date: status[:rolls_date],
-                                           appointment_onboard_date: status[:appointment_onboard_date],
+                                           str_appointment_onboard_date: status[:appointment_onboard_date],
                                            appointment_notes: status[:appointment_notes],
                                            seperation_status: status[:seperation_status],
                                            seperation_reason: status[:seperation_reason],
-                                           seperation_effective_date: status[:seperation_effective_date],
+                                           str_seperation_effective_date: status[:seperation_effective_date],
                                            termination_notes: status[:termination_notes],
-                                           promotion_date: status[:promotion_date],
+                                           str_promotion_date: status[:promotion_date],
                                            promotion_notes: status[:promotion_notes])
     if output.valid?
       output.save
