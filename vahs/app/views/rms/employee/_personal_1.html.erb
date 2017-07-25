@@ -8,73 +8,73 @@
 
   <div class="fieldset-right">
     <div class="fieldset-left">
-      <%= label_tag :attorney_id, "Attorney ID:" %>
-      <%= text_field_tag :attorney_id, @employee.attorney_id, name: 'employee[attorney_id]' %>
+      <%= label_tag :p1_lbl_attorney_id, "Attorney ID:" %>
+      <%= text_field_tag :p1_tf_attorney_id, @employee.attorney_id, name: 'employee[attorney_id]' %>
     </div>
 
     <div class="fieldset-right">
-      <%= label_tag :user_id, "User ID:" %>
-      <%= text_field_tag :user_id, @employee.user_id, name: 'employee[user_id]' %>
+      <%= label_tag :p1_lbl_user_id, "User ID:" %>
+      <%= text_field_tag :p1_tf_user_id, @employee.user_id, name: 'employee[user_id]' %>
     </div>
 
     <br /><br />
 
     <div class="fieldset-left">
-      <%= label_tag :lastname, "*Last Name:" %>
-      <%= text_field_tag :lastname, @employee.lname, name: 'employee[lname]' %>
+      <%= label_tag :p1_lbl_lastname, "*Last Name:" %>
+      <%= text_field_tag :p1_tf_lastname, @employee.lname, name: 'employee[lname]' %>
     </div>
 
     <div class="fieldset-left">
-      <%= label_tag :firstname, "*First Name:" %>
-      <%= text_field_tag :firstname, @employee.fname, name: 'employee[fname]' %>
+      <%= label_tag :p1_lbl_firstname, "*First Name:" %>
+      <%= text_field_tag :p1_tf_firstname, @employee.fname, name: 'employee[fname]' %>
     </div>
 
     <br /><br />
 
     <div class="fieldset-left">
-      <%= label_tag :login_id, "Login ID:" %>
-      <%= text_field_tag :login_id, @employee.login_id, name: 'employee[login_id]' %>
+      <%= label_tag :p1_lbl_login_id, "Login ID:" %>
+      <%= text_field_tag :p1_tf_login_id, @employee.login_id, name: 'employee[login_id]' %>
     </div>
 
     <div class="fieldset-left" style="margin-right: 2em">
-      <%= label_tag :mi, "Middle Initial:" %>
-      <%= text_field_tag :mi, @employee.mi, size: 2, name: 'employee[mi]' %>
+      <%= label_tag :p1_lbl_mi, "Middle Initial:" %>
+      <%= text_field_tag :p1_tf_mi, @employee.mi, size: 2, name: 'employee[mi]' %>
     </div>
 
     <div class="fieldset-right">
-      <%= label_tag :suffix, "Suffix:" %>
-      <%= text_field_tag :suffix, @employee.sub_title, size: 2, name: 'employee[sub_title]' %>
+      <%= label_tag :p1_lbl_suffix, "Suffix:" %>
+      <%= text_field_tag :p1_tf_suffix, @employee.sub_title, size: 2, name: 'employee[sub_title]' %>
     </div>
 
     <br /><br />
 
     <div class="fieldset-left">
-      <%= label_tag :bva_title, "BVA Title:" %>
-      <%= text_field_tag :bva_title, @employee.bva_title, name: 'employee[bva_title]' %>
+      <%= label_tag :p1_lbl_bva_title, "BVA Title:" %>
+      <%= text_field_tag :p1_tf_bva_title, @employee.bva_title, name: 'employee[bva_title]' %>
     </div>
 
     <div class="fieldset-right"> 
-      <%= label_tag :section, "Section:" %>
-      <%= text_field_tag :section, @employee.work_group, name: 'employee[work_group]' %>
+      <%= label_tag :p1_lbl_section, "Section:" %>
+      <%= text_field_tag :p1_tf_section, @employee.work_group, name: 'employee[work_group]' %>
     </div>
 
     <br /><br />
 
     <div class="fieldset-left">
-      <%= label_tag :hrsmart_id, "HR Smart ID:" %>
-      <%= text_field_tag :hrsmart_id, @employee.hrsmart_id, name: 'employee[hrsmart_id]' %>
+      <%= label_tag :p1_lbl_hrsmart_id, "HR Smart ID:" %>
+      <%= text_field_tag :p1_tf_hrsmart_id, @employee.hrsmart_id, name: 'employee[hrsmart_id]' %>
     </div>
 
     <div class="fieldset-right">
-      <%= label_tag :room, "Room:" %>
-      <%= text_field_tag :room, @employee.blding_room, name: 'employee[blding_room]' %>
+      <%= label_tag :p1_lbl_room, "Room:" %>
+      <%= text_field_tag :p1_tf_room, @employee.blding_room, name: 'employee[blding_room]' %>
     </div>
 
     <br /><br />
 
     <div class="fieldset-right">
-      <%= label_tag :employee_pic, "Employee Picture:" %>
-      <%= file_field_tag :employee_pic, accept: "image/png,image/gif,image/jpeg", size: 40 %>
+      <%= label_tag :p1_lbl_employee_pic, "Employee Picture:" %>
+      <%= file_field_tag :p1_tf_employee_pic, accept: "image/png,image/gif,image/jpeg", size: 40 %>
     </div>
   </div>
 </div>
