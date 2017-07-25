@@ -1,5 +1,7 @@
 <%= fields_for 'eattachment[]', @attachment, include_id: false do |attach_form| %>
-  <td></td>
+  <td>
+    <%= link_to 'Undo', "/rms/employee/attachment/#{@attachment.id}/undo", remote: true, 'aria-label': "Undo editing of #{@attachment.filename}" %>
+  </td>
   <td><%= attach_form.text_field :date, size: 8, class: 'datefield', id: "date-at#{@attachment.id}" %></td>
   <td><%= attach_form.select :attachment_type, options_for_select(Bvadmin::RmsDropDownConfig.options_for(:attachment, :attachment_type)), {}, { id: "type-at#{@attachment.id}" } %></td>
   <td><%= attach_form.text_field :filename, id: "filename-at#{@attachment.id}" %></td>
