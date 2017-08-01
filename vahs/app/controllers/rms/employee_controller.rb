@@ -6,16 +6,20 @@ class Rms::EmployeeController < Rms::ApplicationController
 
   def new
     @employee = Bvadmin::Employee.new
+    @employee.build_attorney if @employee.attorney.nil?
+    @employee.build_assignment if @employee.assignment.nil?
     @training = Bvadmin::Training.new
-    @award = Bvadmin::EmployeeAwardInfo.new
+    @award = [Bvadmin::EmployeeAwardInfo.new]
     @empstatus = Bvadmin::RmsStatusInfo.new
+    @attachment = [Bvadmin::RmsAttachment.new]
   end
 
   def create
     @employee = Bvadmin::Employee.new
     @training = Bvadmin::Training.new
-    @award = Bvadmin::EmployeeAwardInfo.new
+    @award = [Bvadmin::EmployeeAwardInfo.new]
     @empstatus = Bvadmin::RmsStatusInfo.new
+    @attachment = [Bvadmin::RmsAttachment.new]
 
     @employee.update employee_params
     unless @employee.valid?
@@ -36,6 +40,9 @@ class Rms::EmployeeController < Rms::ApplicationController
       @employee.save
       redirect_to rms_employee_edit_path(@employee), notice: 'The employee was updated successfully.'
     else
+      @employee.build_attorney if @employee.attorney.nil?
+      @employee.build_assignment if @employee.assignment.nil?
+
       flash[:error] = @employee.errors
       render 'rms/employee/edit'
     end
@@ -46,8 +53,9 @@ class Rms::EmployeeController < Rms::ApplicationController
     @employee.build_attorney if @employee.attorney.nil?
     @employee.build_assignment if @employee.assignment.nil?
     @training = Bvadmin::Training.new
-    @award = Bvadmin::EmployeeAwardInfo.new
+    @award = [Bvadmin::EmployeeAwardInfo.new]
     @empstatus = Bvadmin::RmsStatusInfo.new
+    @attachment = [Bvadmin::RmsAttachment.new]
 
   rescue Exception
     flash[:error] = { employee: 'Invalid ID' }
@@ -157,11 +165,11 @@ class Rms::EmployeeController < Rms::ApplicationController
     @employee.rotation_org = params[:rotation_org]
     @employee.update_picture params[:employee_pic]
 
-    @employee.save_attachments params[:attachment]
+    @attachment = @employee.save_attachments params[:attachment]
     @employee.edit_attachments params[:eattachment]
     @employee.save_attachment params[:pattachment]
 
-    @award = @employee.save_award(award_params)
+    @award = @employee.save_awards(params[:award])
     @employee.edit_awards params[:eaward]
 
     @training = @employee.save_training(training_params)
@@ -328,17 +336,6 @@ class Rms::EmployeeController < Rms::ApplicationController
                                    :termination_notes)                                
   end
   
-  def award_params
-    params.require(:award).permit(:special_award_amount,
-								  :special_award_date,
-								  :within_grade_date,
-								  :award_amount,
-								  :award_date,
-								  :quality_step_date
-								  )
-	end
-  
-
   def employee_not_found
     render template: 'errors/employee_not_found'
   end
