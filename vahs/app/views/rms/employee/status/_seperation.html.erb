@@ -1,22 +1,24 @@
 <br /><br />
-<div class="fieldset-left-status">
-	<%= label_tag :seperation_status, "Seperation Status:" %>
-	<%= select_tag :seperation_status, options_for_select(Bvadmin::RmsDropDownConfig.options_for(:employee, :seperation_status, ''), ''), name: 'status[seperation_status]'%>
-</div>
+<%= fields_for :status, @empstatus do |f| %>
+  <div class="fieldset-left-status">
+    <%= f.label :seperation_status, "Seperation Status:" %>
+    <%= f.select :seperation_status, options_for_select(Bvadmin::RmsDropDownConfig.options_for(:employee, :seperation_status, '')) %>
+  </div>
 
-<div class="fieldset-left">
-	<%= label_tag :effective_date, "Status Effective Date (MM/DD/YYYY):" %>
-	<%= text_field_tag :effective_date,"",  class: 'datefield',name: 'status[seperation_effective_date]', placeholder: 'MM/DD/YYYY' %>
-</div>
+  <div class="fieldset-left">
+    <%= f.label :seperation_effective_date, "Status Effective Date (MM/DD/YYYY):" %>
+    <%= f.text_field :seperation_effective_date, class: 'datefield', placeholder: 'MM/DD/YYYY' %>
+  </div>
 
-<div class="fieldset-right">
-	<%= label_tag :seperation_reason, "Reason for Seperation:" %>
-	<%= select_tag :seperation_reason, options_for_select(Bvadmin::RmsDropDownConfig.options_for(:employee, :seperation_reason, ''), ''), name: 'status[seperation_reason]'%>
-</div>
+  <div class="fieldset-right">
+    <%= f.label :seperation_reason, "Reason for Seperation:" %>
+    <%= f.select :seperation_reason, options_for_select(Bvadmin::RmsDropDownConfig.options_for(:employee, :seperation_reason, '')) %>
+  </div>
 
-<br /><br />
+  <br /><br />
 
-<div  class="hide-element"  id= "term_notes">
-  <%= label_tag :termination_notes, "Comments:" %>
-  <%= text_area_tag :termination_notes, "", size: "93x3", name: 'status[termination_notes]'%>
-</div>
+  <div  class="hide-element"  id= "term_notes">
+    <%= f.label :termination_notes, "Comments:" %>
+    <%= f.text_area :termination_notes, size: "93x3"%>
+  </div>
+<% end %>

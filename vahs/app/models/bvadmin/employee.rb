@@ -9,12 +9,12 @@ class Bvadmin::Employee < Bvadmin::Record
   validates_uniqueness_of :attorney_id, allow_nil: true, allow_blank: true
 
   # associations
-  has_one :attorney
+  has_one :attorney, foreign_key: :attorney_id, primary_key: :attorney_id
   has_one :assignment, class_name: Bvadmin::RmsEmployeeAssignmentInfo
   has_many :attachments, class_name: Bvadmin::RmsAttachment
   has_many :org_codes, class_name: Bvadmin::RmsOrgCode
   has_many :trainings, class_name: Bvadmin::Training, foreign_key: :user_id, primary_key: :user_id
-  has_many :employee_award_infos, class_name: Bvadmin::EmployeeAwardInfo
+  has_many :awards, class_name: Bvadmin::EmployeeAwardInfo
   has_many :statuses, class_name: Bvadmin::RmsStatusInfo
 
   # FTE report
@@ -126,19 +126,19 @@ class Bvadmin::Employee < Bvadmin::Record
   end
 
   # Adds training class to employee's training record
-  def add_training training
-    return nil if training.nil?
-    return nil unless training.is_a? Hash
-    return nil if training[:class_name].blank? && training[:class_date].blank?
+  def save_training training
+    return Bvadmin::Training.new if training.nil?
+    return Bvadmin::Training.new unless training.is_a? Hash
+    return Bvadmin::Training.new if training[:class_name].blank? && training[:class_date].blank?
 
-    train = Bvadmin::Training.new(user_id: self.user_id, class_name: training[:class_name], class_date: training[:class_date])
+    train = self.trainings.build(class_name: training[:class_name], class_date: training[:class_date])
     if train.valid?
       train.save
-      train
     else
-      append_errors 'Training', train
-      nil
+      append_errors 'training', train
     end
+
+    train
   end
 
   # updates training classes
@@ -182,19 +182,24 @@ class Bvadmin::Employee < Bvadmin::Record
 
     if attach.valid?
       attach.save
-      return attach
     else
       append_errors 'Attachment', attach
-      return nil
     end
+
+    attach
   end
   
   def save_attachments attachments
-    return if attachments.nil? || attachments.empty?
+    return [Bvadmin::RmsAttachment.new] if attachments.nil? || attachments.empty?
 
+    rst = []
     attachments.each do |attachment|
-      save_attachment attachment
+      tmp = save_attachment(attachment)
+      rst << tmp if tmp && !tmp.valid?
     end
+
+    rst = [Bvadmin::RmsAttachment.new] if rst.empty?
+    rst
   end
 
   def edit_attachments attachments
@@ -222,28 +227,34 @@ class Bvadmin::Employee < Bvadmin::Record
 
   def save_award award
     return nil if award.nil? || award[:award_date].blank? || award[:special_award_date].blank?
-    
-    output = Bvadmin::EmployeeAwardInfo.new(employee_id: self.employee_id,
-                        special_award_amount: award[:special_award_amount],
-                        special_award_date: award[:special_award_date],
-                        within_grade_date: award[:within_grade_date],
-                        award_date: award[:award_date],
-                        award_amount: award[:award_amount],
-                        quality_step_date: award[:quality_step_date])
+
+    output = awards.build(special_award_amount: award[:special_award_amount],
+                          special_award_date: award[:special_award_date],
+                          within_grade_date: award[:within_grade_date],
+                          award_date: award[:award_date],
+                          award_amount: award[:award_amount],
+                          quality_step_date: award[:quality_step_date])
+
     if output.valid?
       output.save
-      return output
     else
       append_errors 'Award', output
-      return nill
     end
+
+    output
   end
 
   def save_awards awards
-    return if awards.nil? || awards.empty?
+    return [Bvadmin::EmployeeAwardInfo.new] if awards.nil? || awards.empty?
+
+    rst = []
     awards.each do |award|
-      save_award award
+      tmp = save_award(award)
+      rst << tmp if tmp && !tmp.valid?
     end
+
+    rst = [Bvadmin::EmployeeAwardInfo.new] if rst.empty?
+    rst
   end
   
   
@@ -271,58 +282,56 @@ class Bvadmin::Employee < Bvadmin::Record
   end
   
   def save_status status
-    return nil if status.nil? || status.blank? || status[:status_type].blank?
-    output= Bvadmin::RmsStatusInfo.new(employee_id: self.employee_id,
-                                           status_type: status[:status_type],
-                                           rolls_date: status[:rolls_date],
-                                           str_appointment_onboard_date: status[:appointment_onboard_date],
-                                           appointment_notes: status[:appointment_notes],
-                                           seperation_status: status[:seperation_status],
-                                           seperation_reason: status[:seperation_reason],
-                                           str_seperation_effective_date: status[:seperation_effective_date],
-                                           termination_notes: status[:termination_notes],
-                                           str_promotion_date: status[:promotion_date],
-                                           promotion_notes: status[:promotion_notes])
+    return Bvadmin::RmsStatusInfo.new if status.nil? || status.blank? || status[:status_type].blank?
+
+    output = Bvadmin::RmsStatusInfo.new(employee_id: self.employee_id,
+                                        status_type: status[:status_type],
+                                        rolls_date: status[:rolls_date],
+                                        str_appointment_onboard_date: status[:appointment_onboard_date],
+                                        appointment_notes: status[:appointment_notes],
+                                        seperation_status: status[:seperation_status],
+                                        seperation_reason: status[:seperation_reason],
+                                        str_seperation_effective_date: status[:seperation_effective_date],
+                                        termination_notes: status[:termination_notes],
+                                        str_promotion_date: status[:promotion_date],
+                                        promotion_notes: status[:promotion_notes])
     if output.valid?
       output.save
-      return output
     else
       append_errors 'Status', output
-      return nil
     end
+
+    output
   end
 
-  def assignment
-    super || Bvadmin::RmsEmployeeAssignmentInfo.new
-  end
+  def update_assignment attributes
+    return Bvadmin::RmsEmployeeAssignmentInfo.new if attributes[:assignment_type].blank?
 
-  def update_assignment! attributes
-    return nil if attributes[:assignment_type].blank?
-    attributes.merge!(employee_id: self.employee_id)
-    assign = Bvadmin::RmsEmployeeAssignmentInfo.find_by(employee_id: self.employee_id) || Bvadmin::RmsEmployeeAssignmentInfo.create!(attributes)
-    assign.update_attributes! attributes
+    build_assignment if assignment.nil?
+    assignment.update_attributes attributes
     
-  end
+    if assignment.valid?
+      assignment.save
+    else
+      append_errors 'assignment', assignment
+    end
 
-  def attorney
-    super || Bvadmin::Attorney.new
-  end
-
-  def update_attorney! attributes
-    return nil if attorney_id.blank?
-
-    attributes.merge!(employee_id: employee_id, attorney_id: attorney_id)
-
-    attorney = Bvadmin::Attorney.find_by(attorney_id: attorney_id) || Bvadmin::Attorney.create!(attributes)
-    attorney.update_attributes! attributes
-
-  rescue Exception => e
-    append_errors 'attorney', attorney
-    raise
+    assignment
   end
 
   def update_attorney attributes
-    update_attorney! attributes rescue nil
+    return Bvadmin::Attorney.new if attorney_id.blank?
+
+    build_attorney if attorney.nil?
+    attorney.update_attributes attributes
+
+    if attorney.valid?
+      attorney.save
+    else
+      append_errors 'attorney', attorney
+    end
+
+    attorney
   end
 
   # setter for primary org code

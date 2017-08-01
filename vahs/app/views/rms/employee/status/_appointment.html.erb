@@ -1,11 +1,12 @@
 <br /><br />
-<div class="fieldset-left">
-	<%= label_tag :onboard_date, "Onboard Date (MM/DD/YYYY):" %>
-	<%= text_field_tag :onboard_date,"", size: 25, name: 'status[appointment_onboard_date]', placeholder: 'MM/DD/YYYY' %>
-</div>
-<br /><br />
-<div class="fieldset-left">
-	<%= label_tag :notes, "Notes:" %>
-	<%= text_area_tag :notes, "", size: "93x3", name: 'status[appointment_notes]' %>
-</div>
-
+<%= fields_for :status, @empstatus do |f| %>
+  <div class="fieldset-left">
+    <%= f.label :appointment_onboard_date, "Onboard Date (MM/DD/YYYY):" %>
+    <%= f.text_field :appointment_onboard_date, size: 25, placeholder: 'MM/DD/YYYY' %>
+  </div>
+  <br /><br />
+  <div class="fieldset-left">
+    <%= f.label :appointment_notes, "Notes:" %>
+    <%= f.text_area :appointment_notes, size: "93x3" %>
+  </div>
+<% end %>

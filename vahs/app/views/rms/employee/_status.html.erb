@@ -71,12 +71,17 @@
       </div>
       <h3><a href="#" alt="New Status">New Status</a></h3>
       <div class="accordion-section">
-
-        <div class="fieldset-left">
-          <%= label_tag :employment_action, "On/Off Rolls Action:" %>
-          <%= select_tag :employment_action, options_for_select(Bvadmin::RmsDropDownConfig.options_for(:employee, :employment_action, ''), ""), name: 'status[status_type]'%>
-        </div>
+        <%= fields_for :status, @empstatus do |f| %>
+          <div class="fieldset-left">
+            <%= f.label :status_type, "On/Off Rolls Action:" %>
+            <%= f.select :status_type, options_for_select(Bvadmin::RmsDropDownConfig.options_for(:employee, :employment_action, ''), @empstatus.status_type || '') %>
+          </div>
+        <% end %>
         <div id="status_view">
+          <%- partial = { 'Appointment' => 'appointment',
+                          'Seperation' => 'seperation',
+                          'Promotion' => 'promotion'}.fetch(@empstatus.status_type, nil) -%>
+          <%= render partial: "/rms/employee/status/#{partial}" unless partial.nil? %> 
         </div>
       </div>
     </div>

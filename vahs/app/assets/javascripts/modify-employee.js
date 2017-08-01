@@ -40,7 +40,7 @@ $(document).ready(function() {
     }
   });
 
-  $(document).on ('change', '#seperation_reason', function(){
+  $(document).on ('change', '#status_seperation_reason', function(){
     var str = $(this).val();
 
     if(str == "Termination" || str == "Transfer" || str == "Other") {
@@ -109,7 +109,7 @@ $(document).ready(function() {
     }
   });
 
-  $('#employment_action').change(function() {
+  $('#status_status_type').change(function() {
     if($(this).val())
     {
       $.ajax({
