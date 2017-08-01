@@ -182,19 +182,24 @@ class Bvadmin::Employee < Bvadmin::Record
 
     if attach.valid?
       attach.save
-      return attach
     else
       append_errors 'Attachment', attach
-      return nil
     end
+
+    attach
   end
   
   def save_attachments attachments
-    return if attachments.nil? || attachments.empty?
+    return [Bvadmin::RmsAttachment.new] if attachments.nil? || attachments.empty?
 
+    rst = []
     attachments.each do |attachment|
-      save_attachment attachment
+      tmp = save_attachment(attachment)
+      rst << tmp if tmp && !tmp.valid?
     end
+
+    rst = [Bvadmin::RmsAttachment.new] if rst.empty?
+    rst
   end
 
   def edit_attachments attachments
@@ -240,10 +245,16 @@ class Bvadmin::Employee < Bvadmin::Record
   end
 
   def save_awards awards
-    return if awards.nil? || awards.empty?
+    return [Bvadmin::EmployeeAwardInfo.new] if awards.nil? || awards.empty?
+
+    rst = []
     awards.each do |award|
-      save_award award
+      tmp = save_award(award)
+      rst << tmp if tmp && !tmp.valid?
     end
+
+    rst = [Bvadmin::EmployeeAwardInfo.new] if rst.empty?
+    rst
   end
   
   
