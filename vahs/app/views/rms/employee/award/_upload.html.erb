@@ -1,4 +1,4 @@
-<%= fields_for 'award[]', Bvadmin::EmployeeAwardInfo.new do |award_form| %>
+<%= fields_for 'award', @award do |award_form| %>
   <td><%=link_to 'Add', '/rms/employee/award_form', remote: true%></td>
   <td><%= award_form.text_field :special_award_amount  %></td>
   <td><%= award_form.text_field :special_award_date, size: 8, class: 'datefield'%></td>
