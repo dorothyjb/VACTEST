@@ -6,13 +6,16 @@ class Rms::EmployeeController < Rms::ApplicationController
 
   def new
     @employee = Bvadmin::Employee.new
-    @attorney = Bvadmin::Attorney.new
-    @org_code = Bvadmin::RmsOrgCode.new
-    @org_code_2 = Bvadmin::RmsOrgCode.new
+    @training = Bvadmin::Training.new
+    @award = Bvadmin::EmployeeAwardInfo.new
+    @empstatus = Bvadmin::RmsStatusInfo.new
   end
 
   def create
     @employee = Bvadmin::Employee.new
+    @training = Bvadmin::Training.new
+    @award = Bvadmin::EmployeeAwardInfo.new
+    @empstatus = Bvadmin::RmsStatusInfo.new
 
     @employee.update employee_params
     unless @employee.valid?
@@ -27,17 +30,9 @@ class Rms::EmployeeController < Rms::ApplicationController
     @employee.employee_id += 1
     @employee.reload
 
-    @employee.update_attorney(attorney_params)
-    @employee.update_picture(params[:employee_pic])
+    save_all
 
-    @employee.primary_org = params[:primary_org]
-    @employee.rotation_org = params[:rotation_org]
-
-    @employee.save_attachment attachment_params
-
-    @employee.add_training training_params
-
-    if @employee.valid?
+    if @employee.errors.empty?
       @employee.save
       redirect_to rms_employee_edit_path(@employee), notice: 'The employee was updated successfully.'
     else
@@ -48,8 +43,11 @@ class Rms::EmployeeController < Rms::ApplicationController
 
   def edit
     @employee = Bvadmin::Employee.find(params[:id])
-    @training = @employee.trainings
-
+    @employee.build_attorney if @employee.attorney.nil?
+    @employee.build_assignment if @employee.assignment.nil?
+    @training = Bvadmin::Training.new
+    @award = Bvadmin::EmployeeAwardInfo.new
+    @empstatus = Bvadmin::RmsStatusInfo.new
 
   rescue Exception
     flash[:error] = { employee: 'Invalid ID' }
@@ -58,21 +56,8 @@ class Rms::EmployeeController < Rms::ApplicationController
 
   def update
     @employee = Bvadmin::Employee.find(params[:id])
-    @employee.update_attributes!(employee_params)
-    @employee.update_attorney(attorney_params)
-    @employee.primary_org = params[:primary_org]
-    @employee.rotation_org = params[:rotation_org]
-    @employee.update_picture(params[:employee_pic])
-    @employee.save_attachments params[:attachment]
-    @employee.edit_attachments params[:eattachment]
-    @employee.save_attachment params[:pattachment]
-    @employee.save_awards params[:award]
-    @employee.edit_awards params[:eaward]
-    
-    @employee.add_training training_params
-    @employee.update_training params[:etraining]
-    @employee.save_status status_params
-    @employee.update_assignment!(assignment_params)
+
+    save_all
 
     respond_to do |format|
       if @employee.errors.empty?
@@ -115,6 +100,8 @@ class Rms::EmployeeController < Rms::ApplicationController
   
   def schedule_select
     @employee = Bvadmin::Employee.find(params[:emp])
+    @employee.build_assignment if @employee.assignment.nil?
+
     partial = {'Satellite Station' => 'satellite', 'Telework' => 'telework', 'Primary Station' => 'primary', 'Other' => 'other'}.fetch(params[:partial], 'error')
     respond_to do |format|
       format.html do
@@ -124,6 +111,7 @@ class Rms::EmployeeController < Rms::ApplicationController
   end
   def status_select
     @employee = Bvadmin::Employee.find(params[:emp])
+    @empstatus = Bvadmin::RmsStatusInfo.new
     partial = {'Appointment' => 'appointment', 'Seperation' => 'seperation', 'Promotion' => 'promotion'}.fetch(params[:partial], 'error')
     respond_to do |format|
       format.html do
@@ -160,6 +148,28 @@ class Rms::EmployeeController < Rms::ApplicationController
   end
 
   private
+
+  def save_all
+    @employee.update_attributes employee_params
+    @employee.update_attorney attorney_params
+
+    @employee.primary_org = params[:primary_org]
+    @employee.rotation_org = params[:rotation_org]
+    @employee.update_picture params[:employee_pic]
+
+    @employee.save_attachments params[:attachment]
+    @employee.edit_attachments params[:eattachment]
+    @employee.save_attachment params[:pattachment]
+
+    @award = @employee.save_award(award_params)
+    @employee.edit_awards params[:eaward]
+
+    @training = @employee.save_training(training_params)
+    @employee.update_training params[:etraining]
+
+    @empstatus = @employee.save_status(status_params)
+    @employee.update_assignment assignment_params
+ end
 
   def check_for_cancel
     redirect_to root_path if params[:cancel]
