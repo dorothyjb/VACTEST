@@ -4,16 +4,17 @@
   <div class="accordion">
     <h3><a href="#" alt="Add Class">Add Class</a></h3>
     <div class="accordion-selection">
-      <div class="fieldset-left">
-        <%= label_tag :classname, "Class Name:" %>
-        <%= text_field_tag :classname,"", name: 'training[class_name]'  %>
-      </div>
+      <%= fields_for :training, @training do |f| %>
+        <div class="fieldset-left">
+          <%= f.label :class_name, "Class Name:" %>
+          <%= f.text_field :class_name %>
+        </div>
 
-      <div class="fieldset-right">
-        <%= label_tag :classdate, "Class Date (MM/DD/YYYY):" %>
-        <%= text_field_tag :classdate,"", name: 'training[class_date]', placeholder: 'MM/DD/YYYY' %>
-        <br></br>
-      </div>
+        <div class="fieldset-right">
+          <%= f.label :class_date, "Class Date (MM/DD/YYYY):" %>
+          <%= f.text_field :class_date, placeholder: 'MM/DD/YYYY' %>
+        </div>
+      <% end %>
     </div>
 
     <h3><a href="#" alt="Class Details">Class Details</a></h3>

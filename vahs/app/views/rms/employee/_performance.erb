@@ -1,95 +1,98 @@
 <h2>Performance</h2>
 
 <div class="tab-panel">
-	<div class="accordion">
-		<h3><a href='#' alt="Employee Performance">Employee Performance</a></h3>
-		<div class="accordion-section">
-				<div class="fieldset-left">
-					<%= label_tag :pms_from_date, "From Date:" %>
-					<%= text_field_tag :pms_from_date, @employee.pms_from_date, name: 'employee[pms_from_date]' %>
-				</div>
-				
-				<div class="fieldset-left">
-					<%= label_tag :current_pms, "Current:" %>
-					<%= text_field_tag :current_pms, @employee.current_pms, name: 'employee[current_pms]' %>
-				</div>
-				
-				<div class="fieldset-right">
-					<%= label_tag :prev_pms2, "Prev 2:" %>
-					<%= text_field_tag :prev_pms2, @employee.prev_pms2, name: 'employee[prev_pms2]' %>
-				</div>
-	<br /><br />
-				<div class="fieldset-left">
-					<%= label_tag :pms_to_date, "To Date:" %>
-					<%= text_field_tag :pms_to_date, @employee.pms_to_date, name: 'employee[pms_to_date]' %>
-				</div>
-		  
-				<div class="fieldset-left">
-					<%= label_tag :prev_pms, "Previous:" %>
-					<%= text_field_tag :prev_pms, @employee.prev_pms, name: 'employee[prev_pms]' %>
-				</div>
-				
-				<div class="fieldset-right">
-					<%= label_tag :prev_pms3, "Prev 3:" %>
-					<%= text_field_tag :prev_pms3, @employee.prev_pms3, name: 'employee[prev_pms3]' %>
-				</div>
-		</div>
+  <div class="accordion">
+    <h3><a href='#' alt="Employee Performance">Employee Performance</a></h3>
+    <div class="accordion-section">
+      <div class="fieldset-left">
+        <%= label_tag :pms_from_date, "From Date:" %>
+        <%= text_field_tag :pms_from_date, @employee.pms_from_date, name: 'employee[pms_from_date]' %>
+      </div>
+      
+      <div class="fieldset-left">
+        <%= label_tag :current_pms, "Current:" %>
+        <%= text_field_tag :current_pms, @employee.current_pms, name: 'employee[current_pms]' %>
+      </div>
+      
+      <div class="fieldset-right">
+        <%= label_tag :prev_pms2, "Prev 2:" %>
+        <%= text_field_tag :prev_pms2, @employee.prev_pms2, name: 'employee[prev_pms2]' %>
+      </div>
+      <br /><br />
+      <div class="fieldset-left">
+        <%= label_tag :pms_to_date, "To Date:" %>
+        <%= text_field_tag :pms_to_date, @employee.pms_to_date, name: 'employee[pms_to_date]' %>
+      </div>
+      
+      <div class="fieldset-left">
+        <%= label_tag :prev_pms, "Previous:" %>
+        <%= text_field_tag :prev_pms, @employee.prev_pms, name: 'employee[prev_pms]' %>
+      </div>
+      
+      <div class="fieldset-right">
+        <%= label_tag :prev_pms3, "Prev 3:" %>
+        <%= text_field_tag :prev_pms3, @employee.prev_pms3, name: 'employee[prev_pms3]' %>
+      </div>
+    </div>
 
-			<h3><a href='#' alt="Employee Award">Award Pay</a></h3>
-			<div class="accordion-section">
-                          <div class="awards">
-                            <table cellpadding="10" class="table table-condensed employee-awards">
-					<thead>
-					  <tr>
-                                            <th id="awdhdr_actions">Actions</th>
-                                            <th id="awdhdr_spawamnt">Special Award Amount</th>
-					    <th id="awdhdr_spawdate">Special Award Date</th>
-					    <th id="awdhdr_wthingrd">Within Grade Date</th>
-					    <th id="awdhdr_awamnt">Award Amount</th>
-					    <th id="awdhdr_awdate">Award Date</th>
-					    <th id="awdhdr_qsdate">Quality Step Date</th>
-					  </tr>
-					</thead>
-                                        <tbody id="show_awards">
-                                          <%= render partial: '/rms/employee/award/upload' %>
-					  <% @employee.employee_award_infos.each do |award| %>
-                                            <tr id="aw<%= award.id%>">
-                                              <td>
-                                                <%= link_to 'Edit', "/rms/employee/award/#{award.id}/edit", remote: true, 'aria-label': "Edit #{award.id}" %><br>
-                                                <%= link_to 'Delete', "/rms/employee/award/#{award.id}/delete", remote: true, 'data-confirm': "Are you sure you want to delete this award?", 'aria-label': "Delete #{award.id}"%>
-                                              </td>
-                                                <td><%= award.special_award_amount %></td>
-						<td><%= award.special_award_date %></td>
-						<td><%= award.within_grade_date %></td>
-						<td><%= award.award_amount %></td>
-						<td><%= award.award_date %></td>
-						<td><%= award.quality_step_date %></td>
-					  </tr>
-					<% end %>
-					</tbody>
-                                      </table>
-                          </div>
-			</div>
-			<h3><a href="#" alt="Upload Attachment">Upload Attachment</a></h3>
-                        <div class="accordion-selection">
-                          <div class="fieldset-left">
-                            <%= label_tag :attachment_type, "Document Type:" %>
-                            <%= select_tag :attachment_type, options_for_select(Bvadmin::RmsDropDownConfig.options_for(:attachment, :attachment_type)), name: 'pattachment[attachment_type]' %>
-                          </div>
+    <h3><a href='#' alt="Employee Award">Award Pay</a></h3>
+    <div class="accordion-section">
+      <div class="awards">
+        <table cellpadding="10" class="table table-condensed employee-awards">
+          <thead>
+            <tr>
+              <th id="awdhdr_actions">Actions</th>
+              <th id="awdhdr_spawamnt">Special Award Amount</th>
+              <th id="awdhdr_spawdate">Special Award Date</th>
+              <th id="awdhdr_wthingrd">Within Grade Date</th>
+              <th id="awdhdr_awamnt">Award Amount</th>
+              <th id="awdhdr_awdate">Award Date</th>
+              <th id="awdhdr_qsdate">Quality Step Date</th>
+            </tr>
+          </thead>
+          <tbody id="show_awards">
+            <%- @award.each do |award| -%>
+              <%= render partial: '/rms/employee/award/upload', locals: { award: award } %>
+            <% end %>
+            <% @employee.awards.each do |award| %>
+              <tr id="aw<%= award.id%>">
+                <td>
+                  <%= link_to 'Edit', "/rms/employee/award/#{award.id}/edit", remote: true, 'aria-label': "Edit #{award.id}" %><br>
+                  <%= link_to 'Delete', "/rms/employee/award/#{award.id}/delete", remote: true, 'data-confirm': "Are you sure you want to delete this award?", 'aria-label': "Delete #{award.id}"%>
+                </td>
+                <td><%= award.special_award_amount %></td>
+                <td><%= award.special_award_date %></td>
+                <td><%= award.within_grade_date %></td>
+                <td><%= award.award_amount %></td>
+                <td><%= award.award_date %></td>
+                <td><%= award.quality_step_date %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
 
-                          <br /><br />
+    <h3><a href="#" alt="Upload Attachment">Upload Attachment</a></h3>
+    <div class="accordion-selection">
+      <div class="fieldset-left">
+        <%= label_tag :attachment_type, "Document Type:" %>
+        <%= select_tag :attachment_type, options_for_select(Bvadmin::RmsDropDownConfig.options_for(:attachment, :attachment_type)), name: 'pattachment[attachment_type]' %>
+      </div>
 
-                          <div class="fieldset-left">
-                            <%= label_tag :attachment_filename, "Filename:" %>
-                            <%= file_field_tag :attachment_filename, size: 60, name: 'pattachment[attachment]' %>
-                          </div>
+      <br /><br />
 
-                          <br /><br />
+      <div class="fieldset-left">
+        <%= label_tag :attachment_filename, "Filename:" %>
+        <%= file_field_tag :attachment_filename, size: 60, name: 'pattachment[attachment]' %>
+      </div>
 
-                          <div class="fieldset-left">
-                            <%= label_tag :attachment_notes, "Notes:" %>
-                            <%= text_area_tag :attachment_notes, "", name: 'pattachment[notes]', rows: 6, cols: 100 %>
-                          </div>
-                        </div>
-	</div>
+      <br /><br />
+
+      <div class="fieldset-left">
+        <%= label_tag :attachment_notes, "Notes:" %>
+        <%= text_area_tag :attachment_notes, "", name: 'pattachment[notes]', rows: 6, cols: 100 %>
+      </div>
+    </div>
+  </div>
 </div>
