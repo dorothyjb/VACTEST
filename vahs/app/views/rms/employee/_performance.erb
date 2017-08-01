@@ -51,7 +51,9 @@
             </tr>
           </thead>
           <tbody id="show_awards">
-            <%= render partial: '/rms/employee/award/upload' %>
+            <%- @award.each do |award| -%>
+              <%= render partial: '/rms/employee/award/upload', locals: { award: award } %>
+            <% end %>
             <% @employee.awards.each do |award| %>
               <tr id="aw<%= award.id%>">
                 <td>
