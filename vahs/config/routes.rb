@@ -49,6 +49,13 @@ Rails.application.routes.draw do
       end
     end
 
+    scope :applicant, as: :applicant do
+      get '/', to: 'applicant#index'
+      
+      get '/new', to: 'applicant#new'
+      post '/new', to: 'applicant#create'
+    end
+
     scope :training, as: :training do
       delete '/:id', to: 'training#delete'
       get '/:id/edit', to: 'training#edit', constraints: { id: /\d+/ }
