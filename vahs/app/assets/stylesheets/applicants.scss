@@ -1,0 +1,36 @@
+@mixin center-block($width) {
+  margin: auto;
+  left: 0;
+  right: 0;
+  width: $width;
+
+}
+
+div#view_applicants {
+  @include center-block(600px);
+
+  div.pagination {
+    @include center-block(600px);
+    text-align: center;
+  }
+}
+
+div.applicant-new-search {
+  @include center-block(600px);
+
+  min-width: 600px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #c0c0c0;
+
+  div.field_with_errors {
+    display: inline;
+
+    label {
+      font-weight: bold;
+    }
+
+    input[type=text] {
+      border: 1px solid #f00;
+    }
+  }
+}

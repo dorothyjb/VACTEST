@@ -1,0 +1,23 @@
+<% title "BVA Resource Management System - New Applicant" %>
+<% page_header "New Applicant" %>
+
+<%= content_for :head do -%>
+  <%= javascript_include_tag 'applicant-new-search' -%>
+<%- end -%>
+
+<div id="content" class="container">
+  <div class="applicant-new-search">
+    <%= form_for @applicant, as: :applicant, url: rms_applicant_path, method: :post do |f| %>
+      <%= f.label :fname, "* First Name:" %>
+      <%= f.text_field :fname %>
+
+      <%= f.label :lname, "* Last Name:" %>
+      <%= f.text_field :lname %>
+
+      <%= f.submit "Create Applicant" %>
+    <%- end -%>
+  </div>
+  <div id="view_applicants">
+    <%= render partial: '/rms/applicant/index/applicants' -%>
+  </div>
+</div>
