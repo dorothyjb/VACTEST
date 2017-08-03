@@ -1,0 +1,28 @@
+<div class="applicants-table table" role="presentation">
+  <div class="tbl-row" role="row">
+    <div class="tbl-col" role="columnheader">Actions</div>
+    <div class="tbl-col" role="columnheader">First Name</div>
+    <div class="tbl-col" role="columnheader">Last Name</div>
+    <div class="tbl-col" role="columnheader">Grade</div>
+    <div class="tbl-col" role="columnheader">Series</div>
+  </div>
+  <%- @applicants.each do |applicant| -%>
+  <div class="tbl-row" role="row">
+    <div class="tbl-col" role="gridcell">
+      <ul class="inline-list">
+        <%- if applicant.table == 'app' -%>
+        <li><%= link_to 'Edit', "/rms/applicant/#{applicant.id.to_i}/edit", 'aria-label': "Edit Applicant #{applicant.fname} #{applicant.lname}" -%></li>
+        <%- else -%>
+        <li><%= link_to 'New', "/rms/applicant/#{applicant.id.to_i}/copy", 'aria-label': "Create #{applicant.fname} #{applicant.lname} as an Applicant" -%></li>
+        <%- end -%>
+      </ul>
+    </div>
+    <div class="tbl-col" role="gridcell"><%= applicant.fname -%></div>
+    <div class="tbl-col" role="gridcell"><%= applicant.lname -%></div>
+    <div class="tbl-col" role="gridcell"><%= applicant.grade || 'N/A' -%></div>
+    <div class="tbl-col" role="gridcell"><%= applicant.series || 'N/A' -%></div>
+  </div>
+  <%- end -%>
+</div>
+
+<%= will_paginate @applicants -%>
