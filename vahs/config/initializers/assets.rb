@@ -17,6 +17,7 @@ Rails.application.config.assets.precompile += %w( fiscalyear.js )
 Rails.application.config.assets.precompile += %w( reports.js )
 Rails.application.config.assets.precompile += %w( reports.tab.js )
 Rails.application.config.assets.precompile += %w( modify-employee.js )
+Rails.application.config.assets.precompile += %w( applicant-new-search.js )
 
 Rails.application.config.assets.precompile += %w( menu.css )
 Rails.application.config.assets.precompile += %w( vahs.css )
