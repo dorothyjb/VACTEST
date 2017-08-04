@@ -1,0 +1,9 @@
+$('#flash-alert').remove();
+
+$('<div class="flash-banner alert alert-info" id="flash-alert"></div>').insertAfter('#subheader')
+$('#flash-alert').append("<%= flash[:notice] || '' %>")
+
+<% flash.clear %>
+
+$('#applicant<%= @applicant.id.to_i -%>').remove();
+$('#flash-alert').fadeOut(5000);
