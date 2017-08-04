@@ -74,6 +74,20 @@ class Rms::ApplicantController < Rms::ApplicationController
     redirect_to rms_applicant_path
   end
 
+  def delete
+    @applicant = Bvadmin::EmployeeApplicant.find(params[:id])
+    if @applicant.delete
+      flash[:notice] = "#{@applicant.fname} #{@applicant.lname} was deleted."
+    else
+      flash[:notice] = "could not delete #{@applicant.fname} #{@applicant.lname}"
+    end
+
+    respond_to do |format|
+      format.html { redirect_to :back }
+      format.js
+    end
+  end
+
 private
 
   def verify_access
