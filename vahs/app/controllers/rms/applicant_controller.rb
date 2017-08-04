@@ -22,6 +22,10 @@ class Rms::ApplicantController < Rms::ApplicationController
   def edit
     @applicant = Bvadmin::EmployeeApplicant.find(params[:id])
 
+    @active_status = ['PIPELINE', 'INCOMING']
+    @active_applications = Bvadmin::EmployeeApplication.active_applications(@applicant.applicant_id, @active_status)
+
+
   rescue ActiveRecord::RecordNotFound
     flash[:error] = { 'Applicant': 'Invalid ID' }
     redirect_to rms_applicant_path
