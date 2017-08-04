@@ -1,6 +1,181 @@
-<% title "BVA Resource Management System - Edit Applicant" %>
-<% page_header "Edit Applicant - #{@applicant.lname}, #{@applicant.fname}" %>
+<%title  "Resource Management System - Update Applicant" %>
+<% page_header "Update Applicant" %>
 
-<div id="content" class="container">
-  Edit page for <%= @applicant.fname -%> <%= @applicant.lname -%><br>
+<%= content_for :head do %>
+    <%= stylesheet_link_tag "hr", media: 'all' %>
+  <%= javascript_include_tag "modify-employee" %>
+<% end %>
+
+
+<%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+
+
+<%= form_tag rms_applicant_edit_path(@applicant), method: 'POST', remote: false, multipart: true, id: 'applicant-form' do %>
+  <div id="content" class="container">
+
+<div style="text-align: right">
+    * denotes a required field<br />
+    ** denotes a field updated by HR Smart/PAID report<br />
+  </div>
+  <div class="accordion">
+    <h3><a href="#" alt="Personal Information">Personal Information</a></h3>
+    <div class="accordion-section">
+      <div class="fieldset-left">
+        <%= label_tag :lastname, "*Last Name:" %>
+        <%= text_field_tag :lastname, @applicant.lname, name: 'applicant[lname]' %>
+      </div>
+
+      <div class="fieldset-left">
+        <%= label_tag :firstname, "*First Name:" %>
+        <%= text_field_tag :firstname, @applicant.fname, name: 'applicant[fname]' %>
+      </div>
+      
+      <div class="fieldset-right">
+        <%= label_tag :middleinital, "Middle Initial:" %>
+        <%= text_field_tag :middleinitial, @applicant.minit, name: 'applicant[minit]' %>
+      </div>
+      <br /><br />
+      <div class="fieldset-left">
+        <%= label_tag :title, "Title(JR, SR):" %>
+        <%= text_field_tag :title, @applicant.title, name: 'applicant[title]' %>
+      </div>
+      
+      <div class="fieldset-right">
+        <%= label_tag :gender, "Gender:" %>
+        <%= select_tag :gender, options_for_select(Bvadmin::RmsDropDownConfig.options_for(:employee_applicant, :gender, ''), @applicant.gender || ''), name: 'applicant[gender]' %>
+      </div>
+      <br /><br />
+      <div class="fieldset-left">
+        <%= label_tag :streetadr, "Street Address:" %>
+        <%= text_field_tag :streetadr, @applicant.streetadr, name: 'applicant[streetadr]' %>
+      </div>
+      
+      <div class="fieldset-right">
+        <%= label_tag :city, "City:" %>
+        <%= text_field_tag :city, @applicant.city, name: 'applicant[city]' %>
+      </div>
+      <br /><br />
+      <div class="fieldset-left">
+        <%= label_tag :state, "State:" %>
+        <%= text_field_tag :state, @applicant.state, name: 'applicant[state]' %>
+      </div>
+      
+      <div class="fieldset-right">
+        <%= label_tag :zip, "Zip:" %>
+        <%= text_field_tag :zip, @applicant.zip, name: 'applicant[zip]' %>
+      </div>
+      <br /><br />
+
+      <div class="fieldset-left">
+        <%= label_tag :workphone, "Work Phone:" %>
+        <%= text_field_tag :workphone, @applicant.workphone, name: 'applicant[workphone]' %>
+      </div>
+
+      <div class="fieldset-left">
+        <%= label_tag :homephone, "Home Phone:" %>
+        <%= text_field_tag :homephone, @applicant.homephone, name: 'applicant[homephone]' %>
+      </div>
+      
+      <div class="fieldset-right">
+        <%= label_tag :cellphone, "Cell Phone:" %>
+        <%= text_field_tag :cellphone, @applicant.cellphone, name: 'applicant[cellphone]' %>
+      </div>
+      <br /><br />
+      <div class="fieldset-left">
+        <%= label_tag :email, "Email Address:" %>
+        <%= text_field_tag :email, @applicant.email, size: 55, name: 'applicant[email]' %>
+      </div>
+    </div>
+    
+    <h3><a href="#" alt="Position Information">Position Information</a></h3>
+    <div class="accordion-section">
+      <h3><a href="#" alt="New Position">New Position</a></h3>
+      <div class="accordion-section">
+      
+          <div class="fieldset-left">
+            <%= label_tag :gp_field_office, "Office:" %>
+            <%= select_tag :office, options_for_select(Bvadmin::RmsOrgOffice.dropdown,""), :style=>"width:260px", id: 'gp_field_office'  %>
+          </div>
+
+          <div class="fieldset-right">
+            <%= label_tag :gp_field_division, "Division:" %>
+            <%= select_tag :division, options_for_select(Bvadmin::RmsOrgDivision.dropdown, ""), :style=>"width:260px", id: 'gp_field_division' %>
+          </div>
+
+          <br /><br />
+
+          <div class="fieldset-left">
+            <%= label_tag :gp_field_branch, "Branch:" %>
+            <%= select_tag :branch, options_for_select(Bvadmin::RmsOrgBranch.dropdown, ""), :style=>"width:260px", id: 'gp_field_branch' %>
+          </div>
+
+          <div class="fieldset-right">
+            <%= label_tag :gp_field_unit, "Unit:" %>
+            <%= select_tag :unit, options_for_select(Bvadmin::RmsOrgUnit.dropdown, ""), :style=>"width:260px", id: 'gp_field_unit' %>
+          </div>
+
+          <br /><br />
+
+          <div class="fieldset-left">
+            <%= label_tag :gp_field_org_code, "Org Code:" %>
+            <%= select_tag :primary_org, options_for_select(Bvadmin::RmsOrgCode.dropdown, ""), id: 'gp_field_org_code', :style=>"width:260px",name: 'primary_org' %>
+          </div>
+      </div>
+      <% @applicant.employee_applications.each do |application| %>
+        <h3><a href="#" alt="Position Details">Position Details</a></h3>
+        <div class="accordion-section">
+          <div class="fieldset-left">
+            <%= label_tag :gp_field_office, "Office:" %>
+            <%= select_tag :office, options_for_select(Bvadmin::RmsOrgOffice.dropdown, @application.office_id || ""), id: 'gp_field_office'  %>
+          </div>
+
+          <div class="fieldset-right">
+            <%= label_tag :gp_field_division, "Division:" %>
+            <%= select_tag :division, options_for_select(Bvadmin::RmsOrgDivision.dropdown, @application.division_id || ""), id: 'gp_field_division' %>
+          </div>
+
+          <br /><br />
+
+          <div class="fieldset-left">
+            <%= label_tag :gp_field_branch, "Branch:" %>
+            <%= select_tag :branch, options_for_select(Bvadmin::RmsOrgBranch.dropdown, @application.branch_id || ""), id: 'gp_field_branch' %>
+          </div>
+
+          <div class="fieldset-right">
+            <%= label_tag :gp_field_unit, "Unit:" %>
+            <%= select_tag :unit, options_for_select(Bvadmin::RmsOrgUnit.dropdown, @application.unit_id || ""), id: 'gp_field_unit' %>
+          </div>
+
+          <br /><br />
+
+          <div class="fieldset-left">
+            <%= label_tag :gp_field_org_code, "Org Code:" %>
+            <%= select_tag :primary_org, options_for_select(Bvadmin::RmsOrgCode.dropdown, @application.org_code || ""), id: 'gp_field_org_code', name: 'primary_org' %>
+          </div>
+        </div>
+        <h3><a href="#" alt="Position Status">Position Status</a></h3>
+        <div class="accordion-section">
+          blah2 blah2
+        </div>
+      <% end %>
+    </div>
+
+    <div id="employee-buttons">
+        <div class="actions-left">
+          <% unless @applicant.lname.nil? %>
+              <%= button_tag "Delete Applicant Record", name: "delete" %>
+          <% end %>
+
+              <%= button_tag "Reset Altered Fields", type: 'reset' %>
+            </div>
+
+              <div class="actions-right">
+                <%= button_tag "Save", name: "save", id: "save_applicant" %>
+                <%= button_tag "Cancel", name: "cancel" %>
+              </div>
+            </div>
+
+
+  </div>
+<%end%>
 </div>
