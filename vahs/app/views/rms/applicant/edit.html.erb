@@ -1,6 +1,16 @@
 <% title "BVA Resource Management System - Edit Applicant" %>
 <% page_header "Edit Applicant - #{@applicant.lname}, #{@applicant.fname}" %>
 
+
+
 <div id="content" class="container">
-  Edit page for <%= @applicant.fname -%> <%= @applicant.lname -%><br>
+  <%= @applicant.fname %> <%= @applicant.lname %> <br>
+  <%= @active_applications.count %> Active Application(s) <br>
+  
+    <% @active_applications.each do |row| %>
+      Vacancy #: <%= row.vaccancy_number %>
+      Status: <%= row.status %> <br> 
+    <% end %>
+
+  
 </div>
