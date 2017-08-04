@@ -27,6 +27,12 @@ class Rms::ApplicantController < Rms::ApplicationController
     redirect_to rms_applicant_path
   end
 
+  def update
+    @applicant = Bvadmin::EmployeeApplicant.find(params[:id])
+
+    @applicant.update_attributes applicant_params
+  end
+
   def create
     @applicant = Bvadmin::EmployeeApplicant.new(params.require(:applicant).
                                                 permit(:fname, :lname))
