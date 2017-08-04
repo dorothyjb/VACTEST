@@ -7,7 +7,7 @@
     <div class="tbl-col" role="columnheader">Series</div>
   </div>
   <%- @applicants.each do |applicant| -%>
-  <div class="tbl-row" role="row">
+  <div class="tbl-row" role="row" id="applicant<%= applicant.id.to_i -%>">
     <div class="tbl-col" role="gridcell">
       <ul class="inline-list">
         <%- if applicant.table == 'app' -%>
