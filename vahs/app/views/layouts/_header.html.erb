@@ -6,17 +6,16 @@
   <h1><%= [ "BVA Resource Management System", yield(:page_header) ].reject(&:blank?).join(' - ') %></h1>
 </div>
 
-<% if flash[:notice] || flash[:error] %>
-  <div class="flash-banner alert alert-info" id="flash-alert">
-    <%= flash[:notice] || '' %>
-
-    <% if flash[:error] %>
-      <ul>
-      <% flash[:error].each do |k, v| %>
-        <li><%= k %>: <%= v %></li>
-      <% end %>
-      </ul>
-    <% end %>
-  </div>
-  <% flash.clear %>
-<% end %>
+<%- if flash[:notice] || flash[:error] -%>
+<div class="flash-banner alert alert-info" id="flash-alert">
+  <%= flash[:notice] || '' %>
+  <%- if flash[:error] -%>
+    <ul>
+    <%- flash[:error].each do |k, v| -%>
+      <li><%= k %>: <%= v %></li>
+    <%- end -%>
+    </ul>
+  <%- end -%>
+</div>
+<%- flash.clear -%>
+<%- end -%>

@@ -51,9 +51,16 @@ Rails.application.routes.draw do
 
     scope :applicant, as: :applicant do
       get '/', to: 'applicant#index'
+      post '/', to: 'applicant#create'
       
       get '/new', to: 'applicant#new'
       post '/new', to: 'applicant#create'
+
+      get '/:id/edit', to: 'applicant#edit', as: :edit
+      get '/:id/copy', to: 'applicant#copy', as: :copy
+      delete '/:id', to: 'applicant#delete', as: :delete
+
+      get '/new_search/:searchtype', to: 'applicant#new_search'
     end
 
     scope :training, as: :training do

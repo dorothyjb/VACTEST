@@ -16,5 +16,7 @@
  *= require vahs
  *= require select2
  *
+ *= require common
  *= require employee
+ *= require applicants
 */
