@@ -1,5 +1,9 @@
 $(document).ready(function() {
-	$('#tab-nav').tabs().addClass("ui-tabs-vertical ui-helper-clearfix");
+	$('#tab-nav').tabs({
+    activate: function(event, ui) {
+      $('input[name=current_tab]').val(ui.newPanel.attr('id'));
+    },
+  }).addClass("ui-tabs-vertical ui-helper-clearfix");
 	$('#tab-nav li').removeClass("ui-corner-top").addClass("ui-corner-left");
 
   $('.datefield').datepicker({
