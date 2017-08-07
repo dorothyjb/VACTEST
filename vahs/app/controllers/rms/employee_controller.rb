@@ -66,10 +66,6 @@ class Rms::EmployeeController < Rms::ApplicationController
   def update
     @employee = Bvadmin::Employee.find(params[:id])
 
-    logger.info "JTK>>>"
-    logger.info params[:current_tab]
-    logger.info "<<<JTK"
-
     save_all
 
     respond_to do |format|
