@@ -38,7 +38,8 @@ class Rms::EmployeeController < Rms::ApplicationController
 
     if @employee.errors.empty?
       @employee.save
-      redirect_to rms_employee_edit_path(@employee), notice: 'The employee was updated successfully.'
+      redirect_to rms_employee_edit_path(@employee, current_tab: params[:current_tab]),
+                  notice: 'The employee was updated successfully.'
     else
       @employee.build_attorney if @employee.attorney.nil?
       @employee.build_assignment if @employee.assignment.nil?
@@ -65,11 +66,16 @@ class Rms::EmployeeController < Rms::ApplicationController
   def update
     @employee = Bvadmin::Employee.find(params[:id])
 
+    logger.info "JTK>>>"
+    logger.info params[:current_tab]
+    logger.info "<<<JTK"
+
     save_all
 
     respond_to do |format|
       if @employee.errors.empty?
-        format.html { redirect_to rms_employee_edit_path(@employee), notice: 'The employee was saved successfully.' }
+        format.html { redirect_to rms_employee_edit_path(@employee, current_tab: params[:current_tab]),
+                      notice: 'The employee was saved successfully.' }
         format.js { 
           flash[:notice] = 'The employee was saved successfully.'
           render 'rms/employee/success'
