@@ -10,8 +10,17 @@
 <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
 
 
+
+
 <div id="content" class="container">
 
+  <%= @applicant.fname %> <%= @applicant.lname %> <br>
+  <%= @active_applications.count %> Active Application(s) <br>
+  
+    <% @active_applications.each do |row| %>
+      Vacancy #: <%= row.vacancy_number %>
+      Status: <%= row.status %> <br> 
+    <% end %>
   <%= form_tag rms_applicant_edit_path(@applicant), method: 'POST', remote: false, multipart: true, id: 'applicant-form' do %>
     <div style="text-align: right">
         * denotes a required field<br />
@@ -170,4 +179,5 @@
     
     </div>
   <%end%>
+  
 </div>
