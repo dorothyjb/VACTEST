@@ -21,7 +21,7 @@ class Rms::ApplicantController < Rms::ApplicationController
 
   def edit
     @applicant = Bvadmin::EmployeeApplicant.find(params[:id])
-
+    @application = Bvadmin::EmployeeApplication.new
   rescue ActiveRecord::RecordNotFound
     flash[:error] = { 'Applicant': 'Invalid ID' }
     redirect_to rms_applicant_path
@@ -29,8 +29,20 @@ class Rms::ApplicantController < Rms::ApplicationController
 
   def update
     @applicant = Bvadmin::EmployeeApplicant.find(params[:id])
-
-    @applicant.update_attributes applicant_params
+    save_all
+    
+    respond_to do |format|
+      if @applicant.errors.empty?
+        format.html { redirect_to rms_applicant_edit_path(@applicant), notice: 'The applicant was saved successfully.' }
+        format.js { 
+          flash[:notice] = 'The applicant was saved successfully.'
+        }
+      else
+        flash[:error] = @applicant.errors
+        format.html { render 'rms/applicant/edit' }
+        format.js
+      end
+    end
   end
 
   def create
@@ -94,6 +106,12 @@ class Rms::ApplicantController < Rms::ApplicationController
     end
   end
 
+  def save_all
+    @applicant.update_attributes applicant_params
+    @application = @applicant.save_applications(params[:application])
+    @applicant.edit_applications params[:eapplication]
+  end
+
 private
 
   def verify_access
@@ -109,6 +127,17 @@ private
   end
   
   def applicant_params
-    params.require(:applicant).permit()
+    params.require(:applicant).permit(:fname,
+                                      :lname,
+                                      :title,
+                                      :gender,
+                                      :streetadr,
+                                      :city,
+                                      :state,
+                                      :zip,
+                                      :workphone,
+                                      :homephone,
+                                      :cellphone,
+                                      :email)
   end
 end

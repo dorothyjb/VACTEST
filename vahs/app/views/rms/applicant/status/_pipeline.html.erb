@@ -1,0 +1,35 @@
+<br /><br />
+<%= fields_for :status, @empstatus do |f| %>
+  <div class="fieldset-left">
+    <%= f.label :action_date1, "Action Date (MM/DD/YYYY):" %>
+    <%= f.text_field :action_date, placeholder: 'MM/DD/YYYY' %>
+  </div>
+  <div class="fieldset-left">
+    <%= f.label :selection_date1, "Selection Date (MM/DD/YYYY):" %>
+    <%= f.text_field :selection_date, placeholder: 'MM/DD/YYYY' %>
+  </div>
+  <br /><br />
+  <div class="fieldset-right">
+    <%= f.label :tentative_date, "Tentative Offer Sent Date (MM/DD/YYYY):" %>
+    <%= f.text_field :tentative_date, placeholder: 'MM/DD/YYYY' %>
+  </div>
+  <div class="fieldset-left">
+    <%= f.label :security_date1, "Sent to Security Date (MM/DD/YYYY):" %>
+    <%= f.text_field :security_date, placeholder: 'MM/DD/YYYY' %>
+  </div>
+  <br /><br />
+  <div class="fieldset-left">
+    <%= f.label :start_date1, "Sent Start Date (MM/DD/YYYY):" %>
+    <%= f.text_field :start_date, placeholder: 'MM/DD/YYYY' %>
+  </div>
+  <div class="fieldset-right">
+    <%= f.label :eod_date, "Requested EOD Date (MM/DD/YYYY):" %>
+    <%= f.text_field :eod_date, placeholder: 'MM/DD/YYYY' %>
+  </div>
+  <br /><br />
+
+  <div class="fieldset-left">
+    <%= f.label :pipeline_comments1, "Comments:" %>
+    <%= f.text_area :pipeline_comments, size: "94x3" %>
+  </div>
+<% end %>

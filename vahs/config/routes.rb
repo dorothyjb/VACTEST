@@ -57,7 +57,7 @@ Rails.application.routes.draw do
       post '/new', to: 'applicant#create'
 
       get '/:id/edit', to: 'applicant#edit', as: :edit
-      post '/id/edit', to: 'applicant#update'
+      post '/:id/edit', to: 'applicant#update'
       get '/:id/copy', to: 'applicant#copy', as: :copy
       delete '/:id', to: 'applicant#delete', as: :delete
 
