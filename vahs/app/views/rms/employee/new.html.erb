@@ -4,10 +4,19 @@
 <%= content_for :head do %>
   <%= stylesheet_link_tag "hr", media: 'all' %>
   <%= javascript_include_tag "modify-employee" %>
+  <%- if params[:current_tab] -%>
+    <script>
+      $(document).ready(function() {
+        var tabidx = $('#tab-nav a[href="#<%= params[:current_tab] -%>"]').parent().index();
+        $('#tab-nav').tabs("option", "active", tabidx);
+      });
+    </script>
+  <%- end -%>
 <% end %>
 
 <div id="content" class="container">
   <%= form_tag rms_employee_new_path(@employee), method: 'POST', multipart: true, id: 'employee-form' do %>
+    <input type="hidden" name="current_tab" value="personal-information-1" />
     <%= render partial: 'rms/employee/tab' %>
   <% end %>
 </div>
