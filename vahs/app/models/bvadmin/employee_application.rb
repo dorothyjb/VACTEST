@@ -3,7 +3,7 @@ class Bvadmin::EmployeeApplication < Bvadmin::Record
   self.primary_key = :application_id
   belongs_to :employee_applicants
 
-scope :active_applications, -> (appicant_id, active_status){where("applicant_id = ? and status in (?)", appicant_id, active_status).order('vaccancy_number ASC')}
+scope :active_applications, -> (appicant_id, active_status){where("applicant_id = ? and status in (?)", appicant_id, active_status).order('vacancy_number ASC')}
 
 
 end
