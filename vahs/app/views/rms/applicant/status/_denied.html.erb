@@ -1,0 +1,17 @@
+<br /><br />
+<%= fields_for :status, @empstatus do |f| %>
+  <div class="fieldset-left">
+    <%= f.label :denied_action_date1, "*Action Date (MM/DD/YYYY):" %>
+    <%= f.text_field :denied_action_date, placeholder: 'MM/DD/YYYY' %>
+  </div>
+  <div class="fieldset-right">
+    <%= f.label :denied_reason1, "Denied Reason:" %>
+    <%= f.select :denied_reason, options_for_select(Bvadmin::RmsDropDownConfig.options_for(:application, :denied_reason, ''), @application.denied_reason || '') %>
+  </div>
+  <br /><br />
+
+  <div class="fieldset-left">
+    <%= f.label :denied_comments1, "Comments:" %>
+    <%= f.text_area :denied_comments, size: "94x3" %>
+  </div>
+<% end %>

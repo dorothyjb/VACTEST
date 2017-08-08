@@ -75,6 +75,7 @@ $(document).ready(function() {
   });
 
 
+
   $(document).on ('change', '#other_assignments', function(){
     var str = $(this).val();
 
@@ -141,6 +142,11 @@ $(document).ready(function() {
     }
   });
   
+  $('.appstat').on('change', function (e) {
+    alert($(e.currentTarget.dataset.applicationId));
+    var target = $("#hold-partial-" + e.currentTarget.dataset.applicationId);
+    target.html("");
+  });
 
   $('#gp_field_office').change(function() {
     $.ajax({

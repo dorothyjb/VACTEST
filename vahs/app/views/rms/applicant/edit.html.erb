@@ -1,6 +1,8 @@
 <%title  "Resource Management System - Update Applicant" %>
 <% page_header "Update Applicant" %>
 
+<%- dropdown_options = Bvadmin::RmsDropDownConfig.options_for(:employee_application, :status) -%>
+
 <%= content_for :head do %>
     <%= stylesheet_link_tag "hr", media: 'all' %>
   <%= javascript_include_tag "modify-employee" %>
@@ -131,34 +133,37 @@
         </div>
 
         <% @applicant.applications.each do |application| %>
-          <h3><a href="#" alt="Position Details">Position Details</a></h3>
+          <h3><a href="#" alt="Position Details">Position Details - <%= application.vacancy_number %></a></h3>
           <div class="accordion-section">
-            <%= fields_for 'eapplication[]',@application, include_id: false do |app_form| %>
+            <%= fields_for 'eapplication[]',application, include_id: false do |app_form| %>
      
-              Office:  <%= app_form.select :office_id, options_for_select(Bvadmin::RmsOrgOffice.dropdown), {}, {id: "office-ap#{@application.application_id}"} %>
-              Division:  <%= app_form.select :division_id, options_for_select(Bvadmin::RmsOrgDivision.dropdown), {}, {id: "division-ap#{@application.application_id}"} %>
+              Office:  <%= app_form.select :office_id, options_for_select(Bvadmin::RmsOrgOffice.dropdown, application.office_id || ""), {}, {id: "office-ap#{application.application_id}", style: "width: 260px"} %>
+              Division:  <%= app_form.select :division_id, options_for_select(Bvadmin::RmsOrgDivision.dropdown, application.division_id || ""), {}, {id: "division-ap#{application.application_id}"} %>
               <br /><br />
-              Branch:  <%= app_form.select :branch_id, options_for_select(Bvadmin::RmsOrgBranch.dropdown), {}, {id: "branch-ap#{@application.application_id}"} %>
-              Unit:  <%= app_form.select :unit_id, options_for_select(Bvadmin::RmsOrgUnit.dropdown), {}, {id: "unit-ap#{@application.application_id}"} %>
+              Branch:  <%= app_form.select :branch_id, options_for_select(Bvadmin::RmsOrgBranch.dropdown, application.branch_id || ""), {}, {id: "branch-ap#{application.application_id}", style: "width: 255px"} %>
+              Unit:  <%= app_form.select :unit_id, options_for_select(Bvadmin::RmsOrgUnit.dropdown, application.unit_id || ""), {}, {id: "unit-ap#{application.application_id}", style: "width: 290px"} %>
               <br /><br />
-              Org Code:  <%= app_form.select :org_code, options_for_select(Bvadmin::RmsOrgCode.dropdown), {}, {id: "org-ap#{@application.application_id}"} %>
-              BVA Title: <%= app_form.text_field :title, id: "title-ap#{@application.application_id}" %>
+              Org Code:  <%= app_form.select :org_code, options_for_select(Bvadmin::RmsOrgCode.dropdown, application.org_code || ""), {}, {id: "org-ap#{application.application_id}", style: "width: 240px"} %>
+              BVA Title: <%= app_form.text_field :title, id: "title-ap#{application.application_id}", style: "width: 262px" %>
               <br /><br />
-              *Grade: <%= app_form.text_field :grade, id: "grade-ap#{@application.application_id}" %>
-              *Series: <%= app_form.text_field :series, id: "series-ap#{@application.application_id}" %>
+              *Grade: <%= app_form.text_field :grade, id: "grade-ap#{application.application_id}", style: "width: 255px"%>
+              *Series: <%= app_form.text_field :series, id: "series-ap#{application.application_id}", style: "width: 275px" %> 
               <br /><br />
-              Pay Schedule: <%= app_form.text_field :pay_schedule, id: "pay-schedule-ap#{@application.application_id}" %>
-              Vacancy Number: <%= app_form.text_field :vacancy_number, id: "vacancy-number-ap#{@application.application_id}" %>
+              Pay Schedule: <%= app_form.text_field :pay_schedule, id: "pay-schedule-ap#{application.application_id}", style: "width: 220px" %>
+              Vacancy Number: <%= app_form.text_field :vacancy_number, id: "vacancy-number-ap#{@application.application_id}" , style: "width: 220px"%>
               <br /><br />
-              ARPA Number: <%= app_form.text_field :arpa, id: "arpa-ap#{@application.application_id}" %>
-            <%end%>
+              ARPA Number: <%= app_form.text_field :arpa, id: "arpa-ap#{@application.application_id}",  style: "width: 215px"%>
             <br /><br />
             <h3><a href="#" alt="Position Status">Position Status</a></h3>
             <div class="accordion-section">
-              <%= render partial: "/rms/applicant/status/pipeline" %>
+              Status: <%= app_form.select :status, options_for_select(dropdown_options, application.status || dropdown_options.first), {}, {id: "stat-ap#{application.id}", 'data-application-id': application.id, class: "appstat"} %>
+            <%= content_tag :div, class: "hold-partial-#{application.id}" do -%>
+              <%= render partial: "/rms/applicant/status/denied" %>
+            <% end -%>
             </div>
           </div>
-        <% end%>
+        <% end %>
+        <% end %>
       </div>
       <div id="employee-buttons">
         <div class="actions-left">

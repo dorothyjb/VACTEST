@@ -1,0 +1,22 @@
+<br /><br />
+<%= fields_for :status, @empstatus do |f| %>
+  <div class="fieldset-left">
+    <%= f.label :incoming_action_date, "*Action Date (MM/DD/YYYY):" %>
+    <%= f.text_field :incoming_action_date, placeholder: 'MM/DD/YYYY' %>
+  </div>
+  <div class="fieldset-right">
+    <%= f.label :final_offer_date1, "*Final Offer Sent Date (MM/DD/YYYY):" %>
+    <%= f.text_field :final_offer_date, placeholder: 'MM/DD/YYYY' %>
+  </div>
+  <br /><br />
+  <div class="fieldset-left">
+    <%= f.label :confirmed_eod1, "*Confirmed EOD (MM/DD/YYYY):" %>
+    <%= f.text_field :confirmed_eod, placeholder: 'MM/DD/YYYY' %>
+  </div>
+  <br /><br />
+
+  <div class="fieldset-left">
+    <%= f.label :incoming_comments1, "Comments:" %>
+    <%= f.text_area :incoming_comments, size: "94x3" %>
+  </div>
+<% end %>

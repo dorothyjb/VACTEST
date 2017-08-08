@@ -49,19 +49,33 @@ class Bvadmin::EmployeeApplicant < Bvadmin::Record
   end
 
   def edit_applications applications
-    byebug
     return if applications.nil? || applications.empty?
-
     applications.each do |application_id, application|
       app = Bvadmin::EmployeeApplication.find_by(application_id: application_id)
       if app.nil?
         errors.add "Application.#{application_id}", "Invalid ID"
       end
-      app.update_attributes(office_id: application[:office_id],
+    byebug
+    app.update_attributes(office_id: application[:office_id],
                                 division_id: application[:division_id],
                                 branch_id: application[:branch_id],
                                 unit_id: application[:unit_id],
-                                org_code: application[:org_code])
+                                org_code: application[:org_code],
+                                status: application[:status],
+                                title: application[:title],
+                                process_start_date: application[:process_start_date],
+                                vacancy_number: application[:vacancy_number], 
+                                grade: application[:grade],
+                                series: application[:series],
+                                pay_schedule: application[:pay_schedule],
+                                arpa: application[:arpa],
+                                selected_date: application[:selected_date],
+                                tentative_offer_date: application[:tentative_offer_date],
+                                sent_to_security_date: application[:sent_to_security_date],
+                                final_offer_date: application[:final_offer_date],
+                                requested_eod: application[:requested_eod],
+                                confirmed_eod: application[:confirmed_eod],
+                                denied_reason: application[:denied_reason])
       if app.valid?
         app.save
       else
