@@ -1,5 +1,6 @@
 class Rms::ApplicantController < Rms::ApplicationController
   before_filter :verify_access
+  before_filter :check_for_cancel, only: [ :create, :update ]
 
   def index
     @applicant = Bvadmin::EmployeeApplicant.new
@@ -129,7 +130,11 @@ private
        @view_private_info = true
     end
   end
-  
+
+  def check_for_cancel
+    redirect_to root_path if params[:cancel]
+  end
+
   def applicant_params
     params.require(:applicant).permit(:fname,
                                       :lname,

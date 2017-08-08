@@ -157,7 +157,7 @@
             <h3><a href="#" alt="Position Status">Position Status</a></h3>
             <div class="accordion-section">
               Status: <%= app_form.select :status, options_for_select(dropdown_options, application.status || dropdown_options.first), {}, {id: "stat-ap#{application.id}", 'data-application-id': application.id, class: "appstat"} %>
-            <%= content_tag :div, class: "hold-partial-#{application.id}" do -%>
+            <%= content_tag :div, id: "hold-partial-#{application.id}" do -%>
               <%= render partial: "/rms/applicant/status/denied" %>
             <% end -%>
             </div>
