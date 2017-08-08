@@ -73,7 +73,7 @@
       <div class="accordion-section">
         <%= fields_for :status, @empstatus do |f| %>
           <div class="fieldset-left">
-            <%= f.label :status_type, "On/Off Rolls Action:" %>
+            <%= f.label :status_type1, "On/Off Rolls Action:" %>
             <%= f.select :status_type, options_for_select(Bvadmin::RmsDropDownConfig.options_for(:employee, :employment_action, ''), @empstatus.status_type || '') %>
           </div>
         <% end %>

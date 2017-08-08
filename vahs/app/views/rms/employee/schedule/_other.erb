@@ -1,6 +1,6 @@
     <div class="fieldset-left" id="other_info">
       <div class= "fieldset-left">
-        <%= label_tag :other_assignments, "Other Assignments:", class: 'title' %>
+        <%= label_tag :other_assignments1, "Other Assignments:", class: 'title' %>
         <%= select_tag :other_assignments, options_for_select(Bvadmin::RmsDropDownConfig.options_for(:employee, :other_assignment, ''), @employee.assignment.other_assignment || ''), name: 'assignment[other_assignment]'%>
       </div>
     </div>
@@ -14,17 +14,17 @@
 		
     <div class="<%= klass1_attr %>" id="detail_to">
       <div class= "fieldset-left">
-        <%= label_tag :effective_date, "Effective Date:", class: 'title' %>
+        <%= label_tag :effective_date1, "Effective Date:", class: 'title' %>
         <%= text_field_tag :effective_date, @employee.assignment.effective_date, name: 'assignment[effective_date]' %>
       </div>
 			
       <div class= "fieldset-left">
-        <%= label_tag :detailed_to, "Detailed To:", class: 'title' %>
+        <%= label_tag :detailed_to1, "Detailed To:", class: 'title' %>
         <%= text_field_tag :detailed_to, @employee.assignment.location_detailed, name: 'assignment[location_detailed]' %>
       </div>
 			
       <div class= "fieldset-left">
-        <%= label_tag :expected_return_date, "Expected Date of Return:", class: 'title' %>
+        <%= label_tag :expected_return_date1, "Expected Date of Return:", class: 'title' %>
         <%= text_field_tag :expected_return_date, @employee.assignment.expected_return_date, name: 'assignment[expected_return_date]' %>
       </div>
     </div>
@@ -37,17 +37,17 @@
 		
     <div class="<%= klass1_attr %>" id="extended_leave">
       <div class= "fieldset-left">
-        <%= label_tag :reason_for_leave, "Reason for Leave:", class: 'title' %>
+        <%= label_tag :reason_for_leave1, "Reason for Leave:", class: 'title' %>
         <%= text_field_tag :reason_for_leave, @employee.assignment.reason_for_leave, size: 35, name: 'assignment[reason_for_leave]' %>
       </div>
 			
       <div class= "fieldset-left">
-        <%= label_tag :leave_period, "Period of Leave:", class: 'title' %>
+        <%= label_tag :leave_period1, "Period of Leave:", class: 'title' %>
         <%= text_field_tag :leave_period, @employee.assignment.leave_period, size: 35, name: 'assignment[leave_period]' %>
       </div>
       <br /><br />
       <div class= "fieldset-left">
-        <%= label_tag :leave_contact_info, "Contact Information:", class: 'title' %>
+        <%= label_tag :leave_contact_info1, "Contact Information:", class: 'title' %>
         <%= text_field_tag :leave_contact_info, @employee.assignment.leave_contact_info, name: 'assignment[leave_contact_info]' %>
       </div>
     </div>

@@ -5,7 +5,7 @@
 <div class="tab-panel">
 
   <div class="fieldset-center">
-    <%= label_tag :comp_wk_sched, "Compressed Work Schedule:" %>
+    <%= label_tag :comp_wk_sched1, "Compressed Work Schedule:" %>
     <%= text_field_tag :comp_wk_sched, @employee.comp_wk_sched, size: 25, name: 'employee[comp_wk_sched]' %>
   </div>
 
@@ -97,7 +97,7 @@
 		<br /><br />
 		
 		<div class="fieldset-left">
-			<%= label_tag :assignment_info, "Assignment:", class: 'title' %>
+			<%= label_tag :assignment_info1, "Assignment:", class: 'title' %>
 			<%= select_tag :assignment_info, options_for_select(Bvadmin::RmsDropDownConfig.options_for(:employee, :assignment_type, ''), @employee.assignment.assignment_type || ''), name: 'assignment[assignment_type]'%>
 		</div>
 	        <br /> <br />
