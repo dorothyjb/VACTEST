@@ -2,6 +2,18 @@ class Bvadmin::EmployeeApplication < Bvadmin::Record
   self.table_name = "BVADMIN.EMPLOYEE_APPLICATIONS"
   self.primary_key = :application_id
   belongs_to :employee_applicants
+  
+  validate :selection_date_is_valid
+  validate :process_start_date_is_valid
+  validate :tentative_offer_date_is_valid
+  validate :sent_to_security_date_is_valid
+  validate :final_offer_date_is_valid
+  validate :requested_eod_is_valid
+  validate :confirmed_eod_is_valid
+  validate :denied_action_date
+  validate :incoming_action_date
+  validate :pipeline_action_date
+  validate :sent_start_date
 
 scope :active_applications, -> (applicant_id, active_status){where("applicant_id = ? and status in (?)", applicant_id, active_status).order('vacancy_number ASC')}
 
