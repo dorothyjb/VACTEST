@@ -32,12 +32,12 @@
       <h3><a href="#" alt="Personal Information">Personal Information</a></h3>
       <div class="accordion-section">
         <div class="fieldset-left">
-          <%= label_tag :lastname, "*Last Name:" %>
-          <%= text_field_tag :lastname, @applicant.lname, name: 'applicant[lname]' %>
+          <div class="fieldset-left-app-lname"><%= label_tag :lastname, "*Last Name:" %></div>
+           <%= text_field_tag :lastname, @applicant.lname, name: 'applicant[lname]' %>
         </div>
 
         <div class="fieldset-left">
-          <%= label_tag :firstname, "*First Name:" %>
+          <div class="fieldset-left-app-fname"><%= label_tag :firstname, "*First Name:" %></div>
           <%= text_field_tag :firstname, @applicant.fname, name: 'applicant[fname]' %>
         </div>
           
@@ -47,12 +47,12 @@
         </div>
         <br /><br />
         <div class="fieldset-left">
-          <%= label_tag :title, "Title(JR, SR):" %>
-          <%= text_field_tag :title, @applicant.title, name: 'applicant[title]' %>
+          <div class="fieldset-left-app-title2"><%= label_tag :title, "Title(JR, SR):" %></div>
+           <%= text_field_tag :title, @applicant.title, name: 'applicant[title]' %>
         </div>
         
         <div class="fieldset-right">
-          <%= label_tag :gender, "Gender:" %>
+          <div class="fieldset-left-app-gender"><%= label_tag :gender, "Gender:" %></div>
           <%= select_tag :gender, options_for_select(Bvadmin::RmsDropDownConfig.options_for(:employee_applicant, :gender, ''), @applicant.gender || ''), name: 'applicant[gender]' %>
         </div>
         <br /><br />
@@ -62,25 +62,25 @@
         </div>
           
         <div class="fieldset-right">
-          <%= label_tag :city, "City:" %>
+          <div class="fieldset-left-app-city"><%= label_tag :city, "City:" %></div>
           <%= text_field_tag :city, @applicant.city, name: 'applicant[city]' %>
         </div>
         <br /><br />
         <div class="fieldset-left">
-          <%= label_tag :state, "State:" %>
-          <%= text_field_tag :state, @applicant.state, name: 'applicant[state]' %>
+          <div class="fieldset-left-app-state"><%= label_tag :state, "State:" %></div>
+           <%= text_field_tag :state, @applicant.state, name: 'applicant[state]' %>
         </div>
           
         <div class="fieldset-right">
-          <%= label_tag :zip, "Zip:" %>
+          <div class="fieldset-left-app-zip"><%= label_tag :zip, "Zip:" %></div>
           <%= text_field_tag :zip, @applicant.zip, name: 'applicant[zip]' %>
         </div>
         <br /><br />
 
         <div class="fieldset-left">
-          <%= label_tag :workphone, "Work Phone:" %>
-          <%= text_field_tag :workphone, @applicant.workphone, name: 'applicant[workphone]' %>
-        </div>
+         <div class="fieldset-left-app-wkphone"> <%= label_tag :workphone, "Work Phone:" %></div>
+           <%= text_field_tag :workphone, @applicant.workphone, name: 'applicant[workphone]' %>
+          </div>
 
         <div class="fieldset-left">
           <%= label_tag :homephone, "Home Phone:" %>
@@ -103,33 +103,35 @@
         <h3><a href="#" alt="New Position">New Position</a></h3>
         <div class="accordion-section">
         
-          <div class="fieldset-left">
-            <%= label_tag :ap_field_office, "Office:" %>
-            <%= select_tag :office, options_for_select(Bvadmin::RmsOrgOffice.dropdown,""), :style=>"width:260px", id: 'ap_field_office'  %>
-          </div>
-
-          <div class="fieldset-right">
-            <%= label_tag :ap_field_division, "Division:" %>
-            <%= select_tag :division, options_for_select(Bvadmin::RmsOrgDivision.dropdown, ""), :style=>"width:260px", id: 'ap_field_division' %>
-          </div>
-          <br /><br />
-
-          <div class="fieldset-left">
-            <%= label_tag :ap_field_branch, "Branch:" %>
-            <%= select_tag :branch, options_for_select(Bvadmin::RmsOrgBranch.dropdown, ""), :style=>"width:260px", id: 'ap_field_branch' %>
-          </div>
-
-          <div class="fieldset-right">
-            <%= label_tag :ap_field_unit, "Unit:" %>
-            <%= select_tag :unit, options_for_select(Bvadmin::RmsOrgUnit.dropdown, ""), :style=>"width:260px", id: 'ap_field_unit' %>
-          </div>
-
-          <br /><br />
-
-          <div class="fieldset-left">
-            <%= label_tag :ap_field_org_code, "Org Code:" %>
-            <%= select_tag :primary_org, options_for_select(Bvadmin::RmsOrgCode.dropdown, ""), id: 'ap_field_org_code', :style=>"width:260px" %>
-          </div>
+            <%= fields_for 'napplication[]',@application, include_id: false do |app_form| %>
+     
+              <div class="fieldset-left">
+                <div class="fieldset-left">Office: </div>  <%= app_form.select :office_id, options_for_select(Bvadmin::RmsOrgOffice.dropdown), {}, {id: "office-nap", style: "width: 260px"} %>
+              </div>
+              <div class="fieldset-left">Division:  </div><%= app_form.select :division_id, options_for_select(Bvadmin::RmsOrgDivision.dropdown), {}, {id: "division-nap", style: "width: 260px"} %>
+              <br /><br />
+              <div class="fieldset-left">
+                <div class="fieldset-left-app-branch">Branch:  </div><%= app_form.select :branch_id, options_for_select(Bvadmin::RmsOrgBranch.dropdown), {}, {id: "branch-nap", style: "width: 260px"} %>
+            </div>
+              <div class="fieldset-left-app-unit">Unit:  </div><%= app_form.select :unit_id, options_for_select(Bvadmin::RmsOrgUnit.dropdown), {}, {id: "unit-nap", style: "width: 260px"} %>
+              <br /><br />
+              <div class="fieldset-left">
+               <div class="fieldset-left-app-org"> Org Code: </div> <%= app_form.select :org_code, options_for_select(Bvadmin::RmsOrgCode.dropdown), {}, {id: "org-nap", style: "width: 260px"} %>
+              </div>
+              <div class="fieldset-left-app-title">BVA Title: </div><%= app_form.text_field :title, id: "title-nap", style: "width: 260px" %>
+              <br /><br />
+              <div class="fieldset-left">
+               <div class="fieldset-left-app-grade"> *Grade: </div><%= app_form.text_field :grade, id: "grade-nap", style: "width: 260px"%>
+              </div>
+              <div class="fieldset-left-app-series">*Series: </div><%= app_form.text_field :series, id: "series-nap", style: "width: 260px" %> 
+              <br /><br />
+              <div class="fieldset-left">
+               <div class="fieldset-left-app-pay"> Pay Schedule: </div><%= app_form.text_field :pay_schedule, id: "pay-schedule-nap", style: "width: 260px" %>
+              </div>
+              <div class="fieldset-left-app-vacancy">Vacancy Number: </div><%= app_form.text_field :vacancy_number, id: "vacancy-number-nap" , style: "width: 260px"%>
+              <br /><br />
+              <div class="fieldset-left-app-arpa">ARPA Number: </div><%= app_form.text_field :arpa, id: "arpa-nap",  style: "width: 260px"%>
+          <% end %>
         </div>
 
         <% @applicant.applications.each do |application| %>
@@ -137,28 +139,42 @@
           <div class="accordion-section">
             <%= fields_for 'eapplication[]',application, include_id: false do |app_form| %>
      
-              Office:  <%= app_form.select :office_id, options_for_select(Bvadmin::RmsOrgOffice.dropdown, application.office_id || ""), {}, {id: "office-ap#{application.application_id}", style: "width: 260px"} %>
-              Division:  <%= app_form.select :division_id, options_for_select(Bvadmin::RmsOrgDivision.dropdown, application.division_id || ""), {}, {id: "division-ap#{application.application_id}"} %>
+              <div class="fieldset-left">
+                <div class="fieldset-left">Office: </div>  <%= app_form.select :office_id, options_for_select(Bvadmin::RmsOrgOffice.dropdown, application.office_id || ""), {}, {id: "office-ap#{application.application_id}", style: "width: 260px"} %>
+              </div>
+              <div class="fieldset-left">Division:  </div><%= app_form.select :division_id, options_for_select(Bvadmin::RmsOrgDivision.dropdown, application.division_id || ""), {}, {id: "division-ap#{application.application_id}", style: "width: 260px"} %>
               <br /><br />
-              Branch:  <%= app_form.select :branch_id, options_for_select(Bvadmin::RmsOrgBranch.dropdown, application.branch_id || ""), {}, {id: "branch-ap#{application.application_id}", style: "width: 255px"} %>
-              Unit:  <%= app_form.select :unit_id, options_for_select(Bvadmin::RmsOrgUnit.dropdown, application.unit_id || ""), {}, {id: "unit-ap#{application.application_id}", style: "width: 290px"} %>
+              <div class="fieldset-left">
+                <div class="fieldset-left-app-branch">Branch:  </div><%= app_form.select :branch_id, options_for_select(Bvadmin::RmsOrgBranch.dropdown, application.branch_id || ""), {}, {id: "branch-ap#{application.application_id}", style: "width: 260px"} %>
+            </div>
+              <div class="fieldset-left-app-unit">Unit:  </div><%= app_form.select :unit_id, options_for_select(Bvadmin::RmsOrgUnit.dropdown, application.unit_id || ""), {}, {id: "unit-ap#{application.application_id}", style: "width: 260px"} %>
               <br /><br />
-              Org Code:  <%= app_form.select :org_code, options_for_select(Bvadmin::RmsOrgCode.dropdown, application.org_code || ""), {}, {id: "org-ap#{application.application_id}", style: "width: 240px"} %>
-              BVA Title: <%= app_form.text_field :title, id: "title-ap#{application.application_id}", style: "width: 262px" %>
+              <div class="fieldset-left">
+               <div class="fieldset-left-app-org"> Org Code: </div> <%= app_form.select :org_code, options_for_select(Bvadmin::RmsOrgCode.dropdown, application.org_code || ""), {}, {id: "org-ap#{application.application_id}", style: "width: 260px"} %>
+              </div>
+              <div class="fieldset-left-app-title">BVA Title: </div><%= app_form.text_field :title, id: "title-ap#{application.application_id}", style: "width: 260px" %>
               <br /><br />
-              *Grade: <%= app_form.text_field :grade, id: "grade-ap#{application.application_id}", style: "width: 255px"%>
-              *Series: <%= app_form.text_field :series, id: "series-ap#{application.application_id}", style: "width: 275px" %> 
+              <div class="fieldset-left">
+               <div class="fieldset-left-app-grade"> *Grade: </div><%= app_form.text_field :grade, id: "grade-ap#{application.application_id}", style: "width: 260px"%>
+              </div>
+              <div class="fieldset-left-app-series">*Series: </div><%= app_form.text_field :series, id: "series-ap#{application.application_id}", style: "width: 260px" %> 
               <br /><br />
-              Pay Schedule: <%= app_form.text_field :pay_schedule, id: "pay-schedule-ap#{application.application_id}", style: "width: 220px" %>
-              Vacancy Number: <%= app_form.text_field :vacancy_number, id: "vacancy-number-ap#{@application.application_id}" , style: "width: 220px"%>
+              <div class="fieldset-left">
+               <div class="fieldset-left-app-pay"> Pay Schedule: </div><%= app_form.text_field :pay_schedule, id: "pay-schedule-ap#{application.application_id}", style: "width: 260px" %>
+              </div>
+              <div class="fieldset-left-app-vacancy">Vacancy Number: </div><%= app_form.text_field :vacancy_number, id: "vacancy-number-ap#{@application.application_id}" , style: "width: 260px"%>
               <br /><br />
-              ARPA Number: <%= app_form.text_field :arpa, id: "arpa-ap#{@application.application_id}",  style: "width: 215px"%>
+              <div class="fieldset-left-app-arpa">ARPA Number: </div><%= app_form.text_field :arpa, id: "arpa-ap#{@application.application_id}",  style: "width: 260px"%>
             <br /><br />
             <h3><a href="#" alt="Position Status">Position Status</a></h3>
             <div class="accordion-section">
               Status: <%= app_form.select :status, options_for_select(dropdown_options, application.status || dropdown_options.first), {}, {id: "stat-ap#{application.id}", 'data-application-id': application.id, class: "appstat"} %>
             <%= content_tag :div, id: "hold-partial-#{application.id}" do -%>
-              <%= render partial: "/rms/applicant/status/denied" %>
+              <%- partial = { 'Pipeline' => 'pipeline',
+                              'Incoming' => 'incoming',
+                              'Denied' => 'denied'}.fetch(application.status, nil) -%>
+                            <%= render partial: "/rms/applicant/status/#{partial}" unless partial.nil? %> 
+            
             <% end -%>
             </div>
           </div>

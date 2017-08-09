@@ -143,10 +143,35 @@ $(document).ready(function() {
   });
   
   $('.appstat').on('change', function (e) {
-    alert($(e.currentTarget.dataset.applicationId));
     var target = $("#hold-partial-" + e.currentTarget.dataset.applicationId);
-    target.html("");
+    if($(this).val())
+    {
+
+      $.ajax({
+        url: "/rms/applicant/status_select",
+        data: {
+          partial: $(this).val(),
+          app: e.currentTarget.dataset.applicationId,
+        },
+        dataType: "html",
+        method: "get",
+
+        success: function(data) {
+          target.html("");
+          target.html(data);
+
+
+        },
+
+        error: function(xhdr, text, thrown) {
+          alert(thrown);
+        }
+      });
+    } else {
+      target.html("");
+    }
   });
+
 
   $('#gp_field_office').change(function() {
     $.ajax({

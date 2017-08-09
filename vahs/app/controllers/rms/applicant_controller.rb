@@ -24,7 +24,7 @@ class Rms::ApplicantController < Rms::ApplicationController
     @applicant = Bvadmin::EmployeeApplicant.find(params[:id])
     @application = Bvadmin::EmployeeApplication.new
 
-    @active_status = ['PIPELINE', 'INCOMING']
+    @active_status = ['Pipeline', 'Incoming']
     @active_applications = Bvadmin::EmployeeApplication.active_applications(@applicant.applicant_id, @active_status)
 
   rescue ActiveRecord::RecordNotFound
@@ -46,6 +46,17 @@ class Rms::ApplicantController < Rms::ApplicationController
         flash[:error] = @applicant.errors
         format.html { render 'rms/applicant/edit' }
         format.js
+      end
+    end
+  end
+
+  def status_select
+   byebug
+    @application = Bvadmin::EmployeeApplication.find(params[:app])
+    partial = {'Denied' => 'denied', 'Incoming' => 'incoming', 'Pipeline' => 'pipeline'}.fetch(params[:partial], 'error')
+    respond_to do |format|
+      format.html do
+        render partial: 'rms/applicant/status/' + partial, application: @application
       end
     end
   end
@@ -113,7 +124,7 @@ class Rms::ApplicantController < Rms::ApplicationController
 
   def save_all
     @applicant.update_attributes applicant_params
-    @application = @applicant.save_applications(params[:application])
+    @application = @applicant.save_applications(params[:napplication])
     @applicant.edit_applications params[:eapplication]
   end
 

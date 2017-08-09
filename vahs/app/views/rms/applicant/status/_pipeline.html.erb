@@ -2,7 +2,7 @@
 <%= fields_for :application, @application do |f| %>
   <div class="fieldset-left">
     <%= f.label :action_date1, "Action Date (MM/DD/YYYY):" %>
-    <%= f.text_field :action_date, placeholder: 'MM/DD/YYYY' %>
+    <%= f.text_field :pipeline_action_date, placeholder: 'MM/DD/YYYY' %>
   </div>
   <div class="fieldset-right">
     <%= f.label :selection_date1, "Selection Date (MM/DD/YYYY):" %>
@@ -24,7 +24,7 @@
   </div>
   <div class="fieldset-right">
     <%= f.label :eod_date1, "Requested EOD Date (MM/DD/YYYY):" %>
-    <%= f.text_field :eod_date, placeholder: 'MM/DD/YYYY' %>
+    <%= f.text_field :requested_eod, placeholder: 'MM/DD/YYYY' %>
   </div>
   <br /><br />
 

@@ -1,5 +1,6 @@
 <br /><br />
-<%= fields_for :application, @application do |f| %>
+
+<%= fields_for 'eapplication[]', @application, include_id: false do |f| %>
   <div class="fieldset-left">
     <%= f.label :denied_action_date1, "*Action Date (MM/DD/YYYY):" %>
     <%= f.text_field :denied_action_date, placeholder: 'MM/DD/YYYY' %>
