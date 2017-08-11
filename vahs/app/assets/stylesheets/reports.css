@@ -116,3 +116,8 @@ div.fte-view div.pagination em.current {
   font-style: italic;
 }
 /* fte report */ 
+
+/* workforce planning document */
+div.workforce-rpt-table div.tbl-col {
+  min-width: 100px;
+}
