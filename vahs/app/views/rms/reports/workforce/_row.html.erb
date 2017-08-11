@@ -1,0 +1,24 @@
+<%-
+  parent_attr = ""
+  child_attr = ""
+  hidden = ""
+
+  unless section_id.nil?
+    parent_attr = " data-collapse-parent=\"#{section_id}\"".html_safe
+  end
+
+  unless belongs_to.nil?
+    child_attr = " data-collapse-child=\"#{belongs_to}\"".html_safe
+    hidden = " hidden"
+  end
+-%>
+<div class="tbl-row<%= hidden -%>" role="row"<%= parent_attr -%><%= child_attr -%>>
+  <div class="tbl-col" role="gridcell"><span class="ui-icon ui-icon-triangle-1-e"></span><%= section.name -%></div>
+  <div class="tbl-col" role="gridcell"><%= section.total_fte -%></div>
+  <div class="tbl-col" role="gridcell"><%= section.total_on_board -%></div>
+  <div class="tbl-col" role="gridcell"><%= section.total_on_board_other -%></div>
+  <div class="tbl-col" role="gridcell"><%= section.funded_positions -%></div>
+  <div class="tbl-col" role="gridcell"><%= section.unfunded_positions -%></div>
+  <div class="tbl-col" role="gridcell"><%= section.total_incoming -%></div>
+  <div class="tbl-col" role="gridcell"><%= section.total_departing -%></div>
+</div>
