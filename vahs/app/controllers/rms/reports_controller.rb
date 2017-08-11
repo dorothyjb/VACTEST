@@ -21,6 +21,8 @@ class Rms::ReportsController < Rms::ApplicationController
     @units = Bvadmin::Employee.job_code_list.unshift [ "ALL", "ALL" ]
     @eods = Bvadmin::Employee.effectives_list.unshift [ "ALL", "ALL" ]
 
+    @offices = Bvadmin::RmsOrgOffice.all
+
     render layout: false
   end
 
