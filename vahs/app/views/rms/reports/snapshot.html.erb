@@ -1,82 +1,32 @@
 <%= javascript_include_tag 'reports.tab.js' %>
 
-<h2>Snapshot</h2>
+<h2>Workforce Planning Report</h2>
 
 <div class="report-search-header">
-  <%= form_tag(rms_reports_snapshot_path, :method => 'POST', id: "hr-reports-snapshot") do %>
-    <div class="group">
-      <%= label_tag :Unit, "Unit:", class: 'title' %>
-      <%= select_tag :Unit, options_for_select(@units, params[:unit] || "ALL"), multiple: true %><br>
-      <span class="subtext">Filter by VLJ or *DETAIL/*MILITARY/*ROTATION/*UNION/*VACANT</span>
-    </div>
+</div>
 
-    <div class="group">
-      <%= label_tag :paidtitle, "Official Title:", class: 'title' %>
-      <%= select_tag :paidtitle, options_for_select(@paidtitles, params[:paidtitle] || "ALL"), multiple: true %><br>
-      <span class="subtext">Filter by HR Job Title</span>
-    </div>
-  
-  
-    <div class="group">
-      <%= label_tag :bvatitle, "Unnofficial Title:", class: 'title' %>
-      <%= select_tag :bvatitle, options_for_select(@bvatitles, params[:bvatitle] || "ALL"), multiple: true %><br>
-      <span class="subtext">Filter by BVA Job Title</span>
-    </div>
+<div class="workforce-rpt-table table" role="presentation">
+  <div class="tbl-row" role="row">
+    <div class="tbl-col" role="columnheader">Office/Division</div>
+    <div class="tbl-col" role="columnheader">FTE</div>
+    <div class="tbl-col" role="columnheader">On-Board</div>
+    <div class="tbl-col" role="columnheader">Other*</div>
+    <div class="tbl-col" role="columnheader">Funded Positions</div>
+    <div class="tbl-col" role="columnheader">Unfunded Positions</div>
+    <div class="tbl-col" role="columnheader">Total Incoming</div>
+    <div class="tbl-col" role="columnheader">Total Departing</div>
+  </div>
 
-    <div class="group">
-      <%= label_tag :series, "Series:", class: 'title' %>
-      <%= select_tag :series, options_for_select(@series, params[:series] || "ALL"), multiple: true %><br>
-      <span class="subtext">Filter by Job Series</span>
-    </div>
-
-    <div class="group">
-      <%= label_tag :grade, "Grade:", class: 'title'  %>
-      <%= select_tag :grade, options_for_select(@grades, params[:grade] || "ALL"), multiple: true %><br>
-      <span class="subtext">Filter by Grade</span>
-    </div>
-
-    <div class="padded-group">
-      <%= label_tag :eod_to, 'To:' %>
-      <%= label_tag :eod_from, 'From:' %>
-    </div>
-
-    <div class="group">
-      <%= label_tag :eod, "EOD:", class: 'title' %>
-      <%= text_field_tag :eod_to, params[:eod_to], alt: "EOD To" %>
-      <%= text_field_tag :eod_from, params[:eod_from], alt: "EOD From" %><br>
-      <span class="subtext">Filter by Employee Orientation Date Range</span>
-    </div>
-
-    <div class="group">
-      <%= field_set_tag "Export Format:" do %>
-        <%= radio_button_tag :export_format, "HTML", true %>
-        <%= label_tag :export_format_HTML, "HTML", class: 'radio-tag' %>
-
-        <%= radio_button_tag :export_format, "MS Excel" %>
-        <%= label_tag :export_format_MS_Excel, "MS Excel", class: 'radio-tag' %>
-
-        <%= radio_button_tag :export_format, "PDF" %>
-        <%= label_tag :export_format_PDF, "PDF", class: 'radio-tag' %>
-      <% end %>
-
-      <span class="subtext">Select Export Format</span>
-    </div>
-
-    <div class="group">
-      <%= field_set_tag "Report Type:" do %>
-        <%= radio_button_tag :report_type, "Summary", true %>
-        <%= label_tag :report_type_Summary, "Summary", class: 'radio-tag' %>
-
-        <%= radio_button_tag :report_type, "Detailed" %>
-        <%= label_tag :report_type_Detailed, "Detailed", class: 'radio-tag' %>
-      <% end %>
-
-      <span class="subtext">Select Report Type</span>
-    </div>
-
-    <div class="button">
-      <%= button_tag "Generate Report" %>
-      <%= button_tag "Cancel" %>
-    </div>
-  <% end %>
+  <%- @offices.order('name ASC').each do |office| -%>
+    <%- office_id = "o#{office.id}" -%>
+    <%= render partial: 'rms/reports/workforce/row', locals: { section: office, section_id: office_id, belongs_to: nil } -%>
+    <%- office.divisions.order('name ASC').each do |division| -%>
+      <%- division_id = "d#{division.id}" -%>
+      <%= render partial: 'rms/reports/workforce/row', locals: { section: division, section_id: division_id, belongs_to: office_id } -%>
+      <%- division.branches.order('name ASC').each do |branch| -%>
+        <%- branch_id = "b#{branch.id}" -%>
+        <%= render partial: 'rms/reports/workforce/row', locals: { section: branch, section_id: branch_id, belongs_to: division_id } -%>
+      <%- end -%>
+    <%- end -%>
+  <%- end -%>
 </div>
