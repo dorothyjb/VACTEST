@@ -170,10 +170,10 @@
             <div class="accordion-section">
               Status: <%= app_form.select :status, options_for_select(dropdown_options, application.status || dropdown_options.first), {}, {id: "stat-ap#{application.id}", 'data-application-id': application.id, class: "appstat"} %>
             <%= content_tag :div, id: "hold-partial-#{application.id}" do -%>
-              <%- partial = { 'Pipeline' => 'pipeline',
+              <% partial = { 'Pipeline' => 'pipeline',
                               'Incoming' => 'incoming',
-                              'Denied' => 'denied'}.fetch(application.status, nil) -%>
-                            <%= render partial: "/rms/applicant/status/#{partial}" unless partial.nil? %> 
+                              'Denied' => 'denied'}.fetch(application.status, nil) %>
+                            <%= render partial: "/rms/applicant/status/#{partial}", locals: {appstatus: application} %> 
             
             <% end -%>
             </div>

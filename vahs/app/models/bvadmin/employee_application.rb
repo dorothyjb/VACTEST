@@ -2,7 +2,24 @@ class Bvadmin::EmployeeApplication < Bvadmin::Record
   self.table_name = "BVADMIN.EMPLOYEE_APPLICATIONS"
   self.primary_key = :application_id
   belongs_to :employee_applicants
-  
+
+  attr_writer :str_selection_date
+  attr_writer :str_process_start_date
+  attr_writer :str_tentative_offer_date
+  attr_writer :str_sent_to_security_date
+  attr_writer :str_final_offer_date
+  attr_writer :str_requested_eod
+  attr_writer :str_confirmed_eod
+  attr_writer :str_denied_action_date
+  attr_writer :str_incoming_action_date
+  attr_writer :str_pipeline_action_date
+  attr_writer :str_sent_start_date
+
+
+
+
+
+
   validate :selection_date_is_valid
   validate :process_start_date_is_valid
   validate :tentative_offer_date_is_valid

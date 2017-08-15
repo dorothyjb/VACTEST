@@ -35,20 +35,20 @@ class Bvadmin::EmployeeApplicant < Bvadmin::Record
                                 pay_schedule: application[:pay_schedule],
                                 arpa: application[:arpa],
                                 selected_date: application[:selected_date],
-                                tentative_offer_date: application[:tentative_offer_date],
-                                sent_to_security_date: application[:sent_to_security_date],
-                                final_offer_date: application[:final_offer_date],
-                                requested_eod: application[:requested_eod],
-                                confirmed_eod: application[:confirmed_eod],
+                                str_tentative_offer_date: application[:tentative_offer_date],
+                                str_sent_to_security_date: application[:sent_to_security_date],
+                                str_final_offer_date: application[:final_offer_date],
+                                str_requested_eod: application[:requested_eod],
+                                str_confirmed_eod: application[:confirmed_eod],
                                 denied_reason: application[:denied_reason],
-                                denied_action_date: application[:denied_action_date],
+                                str_denied_action_date: application[:denied_action_date],
                                 denied_comments: application[:denied_comments],
-                                incoming_action_date: application[:incoming_action_date],
+                                str_incoming_action_date: application[:incoming_action_date],
                                 incoming_comments: application[:incoming_comments],
-                                pipeline_action_date: application[:pipeline_action_date],
-                                selection_date: application[:selection_date],
+                                str_pipeline_action_date: application[:pipeline_action_date],
+                                str_selection_date: application[:selection_date],
                                 pipeline_comments: application[:pipeline_comments],
-                                sent_start_date: application[:sent_start_date]
+                                str_sent_start_date: application[:sent_start_date]
                          )
     output.update_attributes(status: "Pipeline")
     if output.valid?
@@ -72,7 +72,7 @@ class Bvadmin::EmployeeApplicant < Bvadmin::Record
   end
 
   def edit_applications applications
-    byebug
+    
     return if applications.nil? || applications.empty?
     applications.each do |application_id, application|
       app = Bvadmin::EmployeeApplication.find_by(application_id: application_id)
@@ -93,26 +93,32 @@ class Bvadmin::EmployeeApplicant < Bvadmin::Record
                                 pay_schedule: application[:pay_schedule],
                                 arpa: application[:arpa],
                                 selected_date: application[:selected_date],
-                                tentative_offer_date: application[:tentative_offer_date],
-                                sent_to_security_date: application[:sent_to_security_date],
-                                final_offer_date: application[:final_offer_date],
-                                requested_eod: application[:requested_eod],
-                                confirmed_eod: application[:confirmed_eod],
+                                str_sent_to_security_date: application[:sent_to_security_date],
+                                str_tentative_offer_date: application[:tentative_offer_date],
+                                str_final_offer_date: application[:final_offer_date],
+                                str_requested_eod: application[:requested_eod],
+                                str_confirmed_eod: application[:confirmed_eod],
                                 denied_reason: application[:denied_reason],
-                                denied_action_date: application[:denied_action_date],
+                                str_denied_action_date: application[:denied_action_date],
                                 denied_comments: application[:denied_comments],
-                                incoming_action_date: application[:incoming_action_date],
+                                str_incoming_action_date: application[:incoming_action_date],
                                 incoming_comments: application[:incoming_comments],
-                                pipeline_action_date: application[:pipeline_action_date],
-                                selection_date: application[:selection_date],
+                                str_pipeline_action_date: application[:pipeline_action_date],
+                                str_selection_date: application[:selection_date],
                                 pipeline_comments: application[:pipeline_comments],
-                                sent_start_date: application[:sent_start_date]
+                                str_sent_start_date: application[:sent_start_date]
                          )
       if app.valid?
         app.save
       else
         append_errors 'Application', app
       end
+    end
+  end
+
+  def append_errors name, model
+    model.errors.each do |k,v|
+      self.errors.add "#{name}.#{k}", v
     end
   end
 

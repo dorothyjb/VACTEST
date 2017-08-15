@@ -1,13 +1,13 @@
 <br /><br />
 
-<%= fields_for 'eapplication[]', @application, include_id: false do |f| %>
+<%= fields_for 'eapplication[]', appstatus, include_id: false do |f| %>
   <div class="fieldset-left">
     <%= f.label :denied_action_date1, "*Action Date (MM/DD/YYYY):" %>
     <%= f.text_field :denied_action_date, placeholder: 'MM/DD/YYYY' %>
   </div>
   <div class="fieldset-right">
     <%= f.label :denied_reason1, "Denied Reason:" %>
-    <%= f.select :denied_reason, options_for_select(Bvadmin::RmsDropDownConfig.options_for(:application, :denied_reason, ''), @application.denied_reason || '') %>
+    <%= f.select :denied_reason, options_for_select(Bvadmin::RmsDropDownConfig.options_for(:application, :denied_reason, ''), appstatus.denied_reason || '') %>
   </div>
   <br /><br />
 

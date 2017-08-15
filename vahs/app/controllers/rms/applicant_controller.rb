@@ -51,12 +51,12 @@ class Rms::ApplicantController < Rms::ApplicationController
   end
 
   def status_select
-   byebug
     @application = Bvadmin::EmployeeApplication.find(params[:app])
     partial = {'Denied' => 'denied', 'Incoming' => 'incoming', 'Pipeline' => 'pipeline'}.fetch(params[:partial], 'error')
     respond_to do |format|
       format.html do
-        render partial: 'rms/applicant/status/' + partial, application: @application
+        render partial: 'rms/applicant/status/' + partial, locals: {appstatus:  @application}
+
       end
     end
   end

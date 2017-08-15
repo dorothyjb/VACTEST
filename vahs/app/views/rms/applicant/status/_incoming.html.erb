@@ -1,8 +1,8 @@
 <br /><br />
-<%= fields_for 'eapplication[]', @application do |f| %>
+<%= fields_for 'eapplication[]', appstatus do |f| %>
   <div class="fieldset-left">
     <%= f.label :incoming_action_date, "*Action Date (MM/DD/YYYY):" %>
-    <%= f.text_field :incoming_action_date, placeholder: 'MM/DD/YYYY' %>
+    <%= f.text_field :incoming_action_date, placeholder: Date.today.to_s %>
   </div>
   <div class="fieldset-right">
     <%= f.label :final_offer_date1, "*Final Offer Sent Date (MM/DD/YYYY):" %>
