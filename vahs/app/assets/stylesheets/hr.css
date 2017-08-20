@@ -163,6 +163,105 @@ div.fieldset-left {
 	float: left;
 }
 
+div.fieldset-left-app-branch {
+        margin-right: 3.4em;
+        float: left;
+}
+
+div.fieldset-left-app-org {
+        margin-right: 2.2em;
+        float: left;
+}
+
+
+div.fieldset-left-app-pay {
+        margin-right: 0.4em;
+        float: left;
+}
+
+
+div.fieldset-left-app-arpa {
+        margin-right: 0.1em;
+        float: left;
+}
+
+
+div.fieldset-left-app-grade {
+        margin-right: 3.4em;
+        float: left;
+}
+
+
+div.fieldset-left-app-unit {
+        margin-right: 5.7em;
+        float: left;
+}
+
+
+div.fieldset-left-app-title {
+        margin-right: 3.4em;
+        float: left;
+}
+
+
+div.fieldset-left-app-series {
+        margin-right: 4.3em;
+        float: left;
+}
+
+
+div.fieldset-left-app-vacancy {
+        margin-right: 0.0em;
+        float: left;
+}
+
+
+div.fieldset-left-app-lname {
+        margin-right: 1.6em;
+        float: left;
+}
+
+
+div.fieldset-left-app-title2 {
+        margin-right: 1.1em;
+        float: left;
+}
+
+
+div.fieldset-left-app-state {
+        margin-right: 4.6em;
+        float: left;
+}
+
+
+div.fieldset-left-app-wkphone {
+        margin-right: 1.3em;
+        float: left;
+}
+
+
+div.fieldset-left-app-fname {
+        margin-right: 0.9em;
+        float: left;
+}
+
+
+div.fieldset-left-app-gender {
+        margin-right: 2.7em;
+        float: left;
+}
+
+
+div.fieldset-left-app-city {
+        margin-right: 4.3em;
+        float: left;
+}
+
+
+div.fieldset-left-app-zip {
+        margin-right: 4.5em;
+        float: left;
+}
 div.fieldset-left-benefits {
   margin-right: 2.4em;
   float:left;

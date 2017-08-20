@@ -75,6 +75,7 @@ $(document).ready(function() {
   });
 
 
+
   $(document).on ('change', '#other_assignments', function(){
     var str = $(this).val();
 
@@ -141,6 +142,36 @@ $(document).ready(function() {
     }
   });
   
+  $('.appstat').on('change', function (e) {
+    var target = $("#hold-partial-" + e.currentTarget.dataset.applicationId);
+    if($(this).val())
+    {
+
+      $.ajax({
+        url: "/rms/applicant/status_select",
+        data: {
+          partial: $(this).val(),
+          app: e.currentTarget.dataset.applicationId,
+        },
+        dataType: "html",
+        method: "get",
+
+        success: function(data) {
+          target.html("");
+          target.html(data);
+
+
+        },
+
+        error: function(xhdr, text, thrown) {
+          alert(thrown);
+        }
+      });
+    } else {
+      target.html("");
+    }
+  });
+
 
   $('#gp_field_office').change(function() {
     $.ajax({
