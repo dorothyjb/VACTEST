@@ -23,7 +23,6 @@ class Rms::ApplicantController < Rms::ApplicationController
   def edit
     @applicant = Bvadmin::EmployeeApplicant.find(params[:id])
     @application = Bvadmin::EmployeeApplication.new
-
     @active_status = ['Pipeline', 'Incoming']
     @active_applications = Bvadmin::EmployeeApplication.active_applications(@applicant.applicant_id, @active_status)
 
@@ -34,6 +33,8 @@ class Rms::ApplicantController < Rms::ApplicationController
 
   def update
     @applicant = Bvadmin::EmployeeApplicant.find(params[:id])
+    @active_status = ['Pipeline', 'Incoming']
+    @active_applications = Bvadmin::EmployeeApplication.active_applications(@applicant.applicant_id, @active_status)
     save_all
     
     respond_to do |format|
@@ -44,7 +45,7 @@ class Rms::ApplicantController < Rms::ApplicationController
         }
       else
         flash[:error] = @applicant.errors
-        format.html { render 'rms/applicant/edit' }
+        format.html { redirect_to rms_applicant_edit_path(@applicant)}
         format.js
       end
     end

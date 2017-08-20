@@ -2,7 +2,7 @@
 <%= fields_for 'eapplication[]', appstatus do |f| %>
   <div class="fieldset-left">
     <%= f.label :action_date1, "Action Date (MM/DD/YYYY):" %>
-    <%= f.text_field :pipeline_action_date, placeholder: 'MM/DD/YYYY' %>
+    <%= f.text_field :pipeline_action_date, value: Date.today.to_s  %>
   </div>
   <div class="fieldset-right">
     <%= f.label :selection_date1, "Selection Date (MM/DD/YYYY):" %>
