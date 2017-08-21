@@ -26,7 +26,7 @@
     <%= spacing -%>
     <%= section.name.present? ? section.name : '(blank)' -%>
   </div>
-  <div class="tbl-col wf-col-fte" role="gridcell"><%= section.total_fte -%></div>
+  <div class="tbl-col wf-col-fte" role="gridcell"><%= "%.2f" % section.total_fte -%></div>
   <div class="tbl-col wf-col-on-board" role="gridcell"><%= section.total_on_board -%></div>
   <div class="tbl-col wf-col-on-board-other" role="gridcell"><%= section.total_on_board_other -%></div>
   <div class="tbl-col wf-col-rotation" role="gridcell"><%= section.total_rotation -%></div>
