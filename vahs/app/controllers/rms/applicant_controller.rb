@@ -18,6 +18,7 @@ class Rms::ApplicantController < Rms::ApplicationController
   def new
     @applicant = Bvadmin::EmployeeApplicant.new
     @application = Bvadmin::EmployeeApplication.new
+    @attachment = [Bvadmin::RmsAttachment.new]
   end
 
   def edit
@@ -25,7 +26,7 @@ class Rms::ApplicantController < Rms::ApplicationController
     @application = Bvadmin::EmployeeApplication.new
     @active_status = ['Pipeline', 'Incoming']
     @active_applications = Bvadmin::EmployeeApplication.active_applications(@applicant.applicant_id, @active_status)
-
+    @attachment = [Bvadmin::RmsAttachment.new]
   rescue ActiveRecord::RecordNotFound
     flash[:error] = { 'Applicant': 'Invalid ID' }
     redirect_to rms_applicant_path
