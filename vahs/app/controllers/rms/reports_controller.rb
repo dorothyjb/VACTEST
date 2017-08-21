@@ -13,17 +13,32 @@ class Rms::ReportsController < Rms::ApplicationController
     render layout: false
   end
 
+  # GET /rms/reports/snapshot
   def snapshot
-    @paidtitles = Bvadmin::Employee.paid_titles_list.unshift [ "ALL", "ALL" ]
-    @series = Bvadmin::Employee.job_code_list.unshift [ "ALL", "ALL" ]
-    @grades = Bvadmin::Employee.grades_list.unshift [ "ALL", "ALL" ]
-    @bvatitles = Bvadmin::Employee.bva_titles_list.unshift [ "ALL", "ALL" ]
-    @units = Bvadmin::Employee.job_code_list.unshift [ "ALL", "ALL" ]
-    @eods = Bvadmin::Employee.effectives_list.unshift [ "ALL", "ALL" ]
-
-    @offices = Bvadmin::RmsOrgOffice.all
+    @paidtitles = Bvadmin::Employee.paid_titles_list
+    @series = Bvadmin::Employee.job_code_list
+    @grades = Bvadmin::Employee.grades_list
+    @bvatitles = Bvadmin::Employee.bva_titles_list
+    @units = []
 
     render layout: false
+  end
+
+  # POST /rms/reports/snapshot
+  def snapshot_export
+    return render 'rms/reports/workforce/cancel' if params[:cancel]
+
+    @offices = Bvadmin::RmsOrgOffice.all
+    @filters = { status: params[:unit],
+                 official_titles: params[:paidtitle],
+                 unofficial_titles: params[:bvatitle],
+                 series: params[:series],
+                 grades: params[:grade],
+                 eod_end: params[:eod_to],
+                 eod_start: params[:eod_from],
+               }
+
+    render 'rms/reports/workforce'
   end
 
   # GET /rms/reports/fte
