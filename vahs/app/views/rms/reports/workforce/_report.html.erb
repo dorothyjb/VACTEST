@@ -46,7 +46,7 @@
   <%- end -%>
   <div class="tbl-row" role="row">
     <div class="tbl-col wf-ftr-office" role="gridcell">Grand Total</div>
-    <div class="tbl-col wf-ftr-fte" role="gridcell"><%= totals.fte -%></div>
+    <div class="tbl-col wf-ftr-fte" role="gridcell"><%= "%0.2f" % totals.fte -%></div>
     <div class="tbl-col wf-ftr-on-board" role="gridcell"><%= totals.on_board -%></div>
     <div class="tbl-col wf-ftr-on-board-other" role="gridcell"><%= totals.other -%></div>
     <div class="tbl-col wf-ftr-rotation" role="gridcell"><%= totals.rotation -%></div>
