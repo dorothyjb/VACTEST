@@ -83,6 +83,14 @@ class Rms::ApplicantController < Rms::ApplicationController
     end
   end
 
+  def attachment_form
+    respond_to do |format|
+      format.html { render partial: 'rms/employee/attachment/upload' }
+      format.js { render 'rms/employee/attachment/upload' }      
+    end
+  end
+
+
   def new_search
     applicant = Bvadmin::PotentialApplicant.newsearch(params.dig(:applicant, :fname),
                                                       params.dig(:applicant, :lname))
