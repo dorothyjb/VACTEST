@@ -76,7 +76,9 @@ Rails.application.routes.draw do
       get '/', to: 'reports#index'
 
       get '/pipeline', to: 'reports#pipeline'
+
       get '/snapshot', to: 'reports#snapshot'
+      post '/snapshot', to: 'reports#snapshot_export'
 
       get '/fte(.:format)', to: 'reports#fte'
       post '/fte', to: 'reports#fte_export'
