@@ -19,7 +19,7 @@ class Rms::ReportsController < Rms::ApplicationController
     @series = Bvadmin::Employee.job_code_list
     @grades = Bvadmin::Employee.grades_list
     @bvatitles = Bvadmin::Employee.bva_titles_list
-    @units = []
+    @status = Bvadmin::WorkforceRoster.select(:status).distinct.order('status asc').collect { |wfr| [ wfr.status, wfr.status ] }
 
     render layout: false
   end
@@ -36,6 +36,7 @@ class Rms::ReportsController < Rms::ApplicationController
                  grades: params[:grade],
                  eod_end: params[:eod_to],
                  eod_start: params[:eod_from],
+                 status: params[:status],
                }
 
     render 'rms/reports/workforce'
