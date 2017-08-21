@@ -1,0 +1,41 @@
+<%= content_for :head do -%>
+  <%= javascript_include_tag 'reports.tab.js' -%>
+  <%= stylesheet_link_tag 'reports', media: 'all' -%>
+<%- end -%>
+
+<div id="content" class="container">
+<h2 style="text-align: center;">Workforce Planning Report</h2>
+
+<div class="wf-report-wrapper">
+  <div class="workforce-rpt-table table" role="presentation">
+    <div class="tbl-row" role="row">
+      <div class="tbl-col wf-hdr-office" role="columnheader">Office/Division</div>
+      <div class="tbl-col wf-hdr-fte" role="columnheader">FTE</div>
+      <div class="tbl-col wf-hdr-on-board" role="columnheader">On-Board</div>
+      <div class="tbl-col wf-hdr-on-board-other" role="columnheader">Other*</div>
+      <div class="tbl-col wf-hdr-rotation" role="columnheader">Rotation</div>
+      <div class="tbl-col wf-hdr-vacant" role="columnheader">Vacant</div>
+      <div class="tbl-col wf-hdr-funded" role="columnheader">Funded Positions</div>
+      <div class="tbl-col wf-hdr-unfunded" role="columnheader">Unfunded Positions</div>
+      <div class="tbl-col wf-hdr-incoming" role="columnheader">Total Incoming</div>
+      <div class="tbl-col wf-hdr-departing" role="columnheader">Total Departing</div>
+    </div>
+
+    <%- @offices.order('name ASC').each do |office| -%>
+      <%- office.filters = @filters -%>
+      <%- office_id = "o#{office.id}" -%>
+      <%= render partial: 'rms/reports/workforce/row', locals: { section: office, section_id: office_id, belongs_to: nil } -%>
+      <%- office.divisions.order('name ASC').each do |division| -%>
+        <%- division.filters = @filters -%>
+        <%- division_id = "d#{division.id}" -%>
+        <%= render partial: 'rms/reports/workforce/row', locals: { section: division, section_id: division_id, belongs_to: office_id } -%>
+        <%- division.branches.order('name ASC').each do |branch| -%>
+          <%- branch.filters = @filters -%>
+          <%- branch_id = "b#{branch.id}" -%>
+          <%= render partial: 'rms/reports/workforce/row', locals: { section: branch, section_id: branch_id, belongs_to: division_id } -%>
+        <%- end -%>
+      <%- end -%>
+    <%- end -%>
+  </div>
+</div>
+</div>
