@@ -8,109 +8,57 @@ class Bvadmin::RmsOrgInformation < Bvadmin::Record
   end
 
   def total_fte
-    sql, vars = get_applied_filters_for(:employee)
+    sql, vars = get_applied_filters
 
-    Bvadmin::Employee.joins(join_query).where(<<-EOQ, vars).sum(:fte).to_f
-      rms_org_code.#{type_id} = #{self.id} and employee.fte > 0
-      #{sql}
-    EOQ
-  end
-
-  def total_employees
-    sql, vars = get_applied_filters_for(:employee)
-
-    Bvadmin::Employee.joins(join_query).where(<<-EOQ, vars).count
-      rms_org_code.#{type_id} = #{self.id} and
-      employee.fte > 0
-      #{sql}
-    EOQ
+    Bvadmin::WorkforceRoster.where("#{type_id} = #{self.id}#{sql}", vars).sum(:ftee).to_f
   end
 
   def total_vacant
-    Bvadmin::RmsOrgCode.where("employee_id is null and #{type_id} = #{self.id}").count
+    sql, vars = get_applied_filters
+
+    Bvadmin::WorkforceRoster.where("#{type_id} = #{self.id}#{sql}", vars).sum(:vacant).to_i
   end
 
   def total_on_board
-    sql, vars = get_applied_filters_for(:employee)
+    sql, vars = get_applied_filters
 
-    Bvadmin::Employee.joins(join_query).where(<<-EOQ, vars).count
-      rms_org_code.#{type_id} = #{self.id} and
-      employee.fte > 0 and
-      employee.on_union = 0 and (
-        rms_employee_assignment_info.other_assignment is null or
-        rms_employee_assignment_info.other_assignment not in ('Detail To', 'Extended Leave')
-      )
-      #{sql}
-    EOQ
+    Bvadmin::WorkforceRoster.where("#{type_id} = #{self.id} and status = 'ON BOARD'#{sql}", vars).sum(:number_of_personnel).to_i
   end
 
   def total_on_board_other
-    sql, vars = get_applied_filters_for(:employee)
+    sql, vars = get_applied_filters
 
-    Bvadmin::Employee.joins(join_query).where(<<-EOQ, vars).count
-      rms_org_code.#{type_id} = #{self.id} and
-      employee.fte > 0 and (
-        employee.on_union = 1 or (
-          rms_employee_assignment_info.other_assignment is not null and
-          rms_employee_assignment_info.other_assignment in ('Detail To', 'Extended Leave')
-        )
-      )
-      #{sql}
-    EOQ
+    Bvadmin::WorkforceRoster.where("#{type_id} = #{self.id}#{sql}", vars).sum(:other).to_i
   end
 
   def total_rotation
-    sql, vars = get_applied_filters_for(:employee)
+    sql, vars = get_applied_filters
 
-    Bvadmin::Employee.joins(join_query).where(<<-EOQ, vars).count
-      rms_org_code.#{type_id} = #{self.id} and
-      employee.fte > 0 and
-      rms_org_code.rotation = 1
-      #{sql}
-    EOQ
+    Bvadmin::WorkforceRoster.where("#{type_id} = #{self.id}#{sql}", vars).sum(:rotation).to_i
   end
 
   def funded_positions
-    sql, vars = get_applied_filters_for(:employee)
+    sql, vars = get_applied_filters
 
-    Bvadmin::RmsOrgCode.joins(:employee).where(<<-EOQ, vars).count
-      rms_org_code.#{type_id} = #{self.id} and
-      rms_org_code.rotation = 0
-      #{sql}
-    EOQ
+    Bvadmin::WorkforceRoster.where("#{type_id} = #{self.id}#{sql}", vars).sum(:funded_position).to_i
   end
 
   def unfunded_positions
-    sql, vars = get_applied_filters_for(:employee)
+    sql, vars = get_applied_filters
 
-    Bvadmin::RmsOrgCode.joins(:employee).where(<<-EOQ, vars).count
-      rms_org_code.#{type_id} = #{self.id} and
-      rms_org_code.rotation = 1
-      #{sql}
-    EOQ
+    Bvadmin::WorkforceRoster.where("#{type_id} = #{self.id}#{sql}", vars).sum(:unfunded_position).to_i
   end
 
   def total_incoming
-    sql, vars = get_applied_filters_for(:applicant)
+    sql, vars = get_applied_filters
 
-    Bvadmin::EmployeeApplicant.joins(:applications).where(<<-EOQ, vars).count
-      employee_applications.#{type_id} = #{self.id} and
-      employee_applications.status = 'INCOMING' and
-      employee_applications.confirmed_eod >= SYSDATE
-      #{sql}
-    EOQ
+    Bvadmin::WorkforceRoster.where("#{type_id} = #{self.id}#{sql}", vars).sum(:incoming).to_i
   end
 
   def total_departing
-    sql, vars = get_applied_filters_for(:employee)
+    sql, vars = get_applied_filters
 
-    Bvadmin::Employee.joins(:org_codes, :statuses).where(<<-EOQ, vars).count
-      rms_org_code.#{type_id} = #{self.id} and
-      employee.fte > 0 and
-      rms_status_info.status_type = 'Seperation' and
-      SYSDATE < rms_status_info.seperation_effective_date
-      #{sql}
-    EOQ
+    Bvadmin::WorkforceRoster.where("#{type_id} = #{self.id}#{sql}", vars).sum(:departing).to_i
   end
 
   def filters= filters
@@ -118,113 +66,56 @@ class Bvadmin::RmsOrgInformation < Bvadmin::Record
   end
 
 private
-  def get_applied_filters_for type
-    {
-      employee: get_applied_filters_employee,
-      applicant: get_applied_filters_applicant,
-    }.fetch(type, [ '', {} ])
-  end
-  
-  def get_applied_filters_applicant
+  def get_applied_filters
     @filters ||= {}
 
     filter_vars = {}
     sql = ""
 
     if @filters[:official_titles]
-      sql += "and (employee_applications.title in (:official_titles)) "
-      filter_vars[:official_titles] = @filters[:official_titles]
-    end
-
-    if @filters[:series]
-      sql += "and (employee_applicants.series in (:series)) "
-      filter_vars[:series] = @filters[:series]
-    end
-
-    if @filters[:grades]
-      sql += "and (employee_applicants.grade in (:grades)) "
-      filter_vars[:grades] = @filters[:grades]
-    end
-
-    if @filters[:eod_start].present?
-      sql += "and (employee_applications.confirmed_eod >= :eod_start) "
-      filter_vars[:eod_start] = parse_date(@filters[:eod_start])
-    end
-
-    if @filters[:eod_end].present?
-      sql += "and (employee_applications.confirmed_eod <= :eod_end) "
-      filter_vars[:eod_end] = parse_date(@filters[:eod_end])
-    end
-
-    if @filters[:status]
-      # TODO
-    end
-
-    [ sql, filter_vars ]
-  end
-
-  def get_applied_filters_employee
-    @filters ||= {}
-
-    filter_vars = {}
-    sql = ""
-
-    if @filters[:official_titles]
-      sql += "and (employee.paid_title in (:official_titles)) "
+      sql += " and (official_title in (:official_titles))"
       filter_vars[:official_titles] = @filters[:official_titles]
     end
 
     if @filters[:unofficial_titles]
-      sql += "and (employee.bva_title in (:unofficial_titles)) "
+      sql += " and (unofficial_title in (:unofficial_titles))"
       filter_vars[:unofficial_titles] = @filters[:unofficial_titles]
     end
 
     if @filters[:series]
-      sql += "and (employee.job_code in (:series)) "
+      sql += " and (series in (:series))"
       filter_vars[:series] = @filters[:series]
     end
 
     if @filters[:grades]
-      sql += "and (employee.grade in (:grades)) "
+      sql += " and (grade in (:grades))"
       filter_vars[:grades] = @filters[:grades]
     end
 
     if @filters[:eod_start].present?
-      sql += "and (employee.current_bva_duty_date >= :eod_start) "
+      sql += " and (eod >= :eod_start)"
       filter_vars[:eod_start] = parse_date(@filters[:eod_start])
     end
 
     if @filters[:eod_end].present?
-      sql += "and (employee.current_bva_duty_date <= :eod_end) "
+      sql += " and (eod <= :eod_end)"
       filter_vars[:eod_end] = parse_date(@filters[:eod_end])
     end
 
     if @filters[:status]
-      # TODO
+      sql += " and (status in (:statuses))"
+      filter_vars[:statuses] = @filters[:status]
     end
 
     [ sql, filter_vars ]
   end
 
-  def join_query
-    <<-EOJ
-      JOIN "BVADMIN"."RMS_ORG_CODE" ON
-        "BVADMIN"."RMS_ORG_CODE"."EMPLOYEE_ID" = "BVADMIN"."EMPLOYEE"."EMPLOYEE_ID"
-
-      LEFT JOIN "BVADMIN"."RMS_EMPLOYEE_ASSIGNMENT_INFO" ON
-        "BVADMIN"."RMS_EMPLOYEE_ASSIGNMENT_INFO"."EMPLOYEE_ID" = "BVADMIN"."EMPLOYEE"."EMPLOYEE_ID"
-
-      LEFT JOIN "BVADMIN"."RMS_STATUS_INFO" ON
-        "BVADMIN"."RMS_STATUS_INFO"."EMPLOYEE_ID" = "BVADMIN"."EMPLOYEE"."EMPLOYEE_ID"
-    EOJ
-  end
-
   def type_id
     {
-      'Bvadmin::RmsOrgOffice' => 'office_id',
-      'Bvadmin::RmsOrgDivision' => 'division_id',
-      'Bvadmin::RmsOrgBranch' => 'branch_id',
-      'Bvadmin::RmsOrgUnit' => 'unit_id',
+      'Bvadmin::RmsOrgOffice' => 'office',
+      'Bvadmin::RmsOrgDivision' => 'division',
+      'Bvadmin::RmsOrgBranch' => 'branch',
+      'Bvadmin::RmsOrgUnit' => 'unit',
     }.fetch(self.class.to_s, 'id')
   end
 
