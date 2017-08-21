@@ -2,23 +2,37 @@
   parent_attr = ""
   child_attr = ""
   hidden = ""
+  spacing = ""
 
   unless section_id.nil?
     parent_attr = " data-collapse-parent=\"#{section_id}\"".html_safe
   end
 
-  unless belongs_to.nil?
+  if belongs_to.nil?
+    hidden = " wf-row-office"
+  else
     child_attr = " data-collapse-child=\"#{belongs_to}\"".html_safe
     hidden = " hidden"
   end
+
+  spacing = ("&nbsp;" * 3).html_safe if section_id =~ /^d/
+  spacing = ("&nbsp;" * 6).html_safe if section_id =~ /^b/
 -%>
 <div class="tbl-row<%= hidden -%>" role="row"<%= parent_attr -%><%= child_attr -%>>
-  <div class="tbl-col" role="gridcell"><span class="ui-icon ui-icon-triangle-1-e"></span><%= section.name -%></div>
-  <div class="tbl-col" role="gridcell"><%= section.total_fte -%></div>
-  <div class="tbl-col" role="gridcell"><%= section.total_on_board -%></div>
-  <div class="tbl-col" role="gridcell"><%= section.total_on_board_other -%></div>
-  <div class="tbl-col" role="gridcell"><%= section.funded_positions -%></div>
-  <div class="tbl-col" role="gridcell"><%= section.unfunded_positions -%></div>
-  <div class="tbl-col" role="gridcell"><%= section.total_incoming -%></div>
-  <div class="tbl-col" role="gridcell"><%= section.total_departing -%></div>
+  <div class="tbl-col wf-col-office" role="gridcell">
+    <%- if section_id =~ /^[^b]/ -%>
+      <span class="ui-icon ui-icon-triangle-1-e"></span>
+    <%- end -%>
+    <%= spacing -%>
+    <%= section.name.present? ? section.name : '(blank)' -%>
+  </div>
+  <div class="tbl-col wf-col-fte" role="gridcell"><%= section.total_fte -%></div>
+  <div class="tbl-col wf-col-on-board" role="gridcell"><%= section.total_on_board -%></div>
+  <div class="tbl-col wf-col-on-board-other" role="gridcell"><%= section.total_on_board_other -%></div>
+  <div class="tbl-col wf-col-rotation" role="gridcell"><%= section.total_rotation -%></div>
+  <div class="tbl-col wf-col-vacant" role="gridcell"><%= section.total_vacant -%></div>
+  <div class="tbl-col wf-col-funded" role="gridcell"><%= section.funded_positions -%></div>
+  <div class="tbl-col wf-col-unfunded" role="gridcell"><%= section.unfunded_positions -%></div>
+  <div class="tbl-col wf-col-incoming" role="gridcell"><%= section.total_incoming -%></div>
+  <div class="tbl-col wf-col-departing" role="gridcell"><%= section.total_departing -%></div>
 </div>
