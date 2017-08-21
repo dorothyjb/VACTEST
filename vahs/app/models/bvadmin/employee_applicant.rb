@@ -19,8 +19,8 @@ class Bvadmin::EmployeeApplicant < Bvadmin::Record
   end
 
   def save_application application
-    return nil if application.nil? || application[:grade].blank? || application[:series].blank?
-    output = applications.build(applicant_id: self.applicant_id,
+    return nil if application.nil? || application[:grade].blank? || application[:series].blank? || application[:title].blank? || application[:vacancy_number].blank? ||  application[:status].blank?
+       output = applications.build(applicant_id: self.applicant_id,
                                 office_id: application[:office_id],
                                 division_id: application[:division_id],
                                 branch_id: application[:branch_id],
@@ -79,7 +79,11 @@ class Bvadmin::EmployeeApplicant < Bvadmin::Record
       if app.nil?
         errors.add "Application.#{application_id}", "Invalid ID"
       end
-    app.update_attributes(office_id: application[:office_id],
+     if application.nil? || application[:grade].blank? || application[:series].blank? || application[:title].blank? || application[:vacancy_number].blank? ||  application[:status].blank?
+      errors.add "Application.#{application_id}", "Not all required fields entered"
+      return
+     end
+       app.update_attributes(office_id: application[:office_id],
                                 division_id: application[:division_id],
                                 branch_id: application[:branch_id],
                                 unit_id: application[:unit_id],
