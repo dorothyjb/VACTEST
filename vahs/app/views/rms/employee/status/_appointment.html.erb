@@ -1,12 +1,12 @@
 <br /><br />
 <%= fields_for :status, @empstatus do |f| %>
   <div class="fieldset-left">
-    <%= f.label :appointment_onboard_date, "Onboard Date (MM/DD/YYYY):" %>
+    <%= f.label :appointment_onboard_date1, "Onboard Date (MM/DD/YYYY):" %>
     <%= f.text_field :appointment_onboard_date, size: 25, placeholder: 'MM/DD/YYYY' %>
   </div>
   <br /><br />
   <div class="fieldset-left">
-    <%= f.label :appointment_notes, "Notes:" %>
+    <%= f.label :appointment_notes1, "Notes:" %>
     <%= f.text_area :appointment_notes, size: "93x3" %>
   </div>
 <% end %>

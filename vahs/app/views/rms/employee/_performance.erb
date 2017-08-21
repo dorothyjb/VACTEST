@@ -5,32 +5,32 @@
     <h3><a href='#' alt="Employee Performance">Employee Performance</a></h3>
     <div class="accordion-section">
       <div class="fieldset-left">
-        <%= label_tag :pms_from_date, "From Date:" %>
+        <%= label_tag :pms_from_date1, "From Date:" %>
         <%= text_field_tag :pms_from_date, @employee.pms_from_date, name: 'employee[pms_from_date]' %>
       </div>
       
       <div class="fieldset-left">
-        <%= label_tag :current_pms, "Current:" %>
+        <%= label_tag :current_pms1, "Current:" %>
         <%= text_field_tag :current_pms, @employee.current_pms, name: 'employee[current_pms]' %>
       </div>
       
       <div class="fieldset-right">
-        <%= label_tag :prev_pms2, "Prev 2:" %>
+        <%= label_tag :prev_pms21, "Prev 2:" %>
         <%= text_field_tag :prev_pms2, @employee.prev_pms2, name: 'employee[prev_pms2]' %>
       </div>
       <br /><br />
       <div class="fieldset-left">
-        <%= label_tag :pms_to_date, "To Date:" %>
+        <%= label_tag :pms_to_date1, "To Date:" %>
         <%= text_field_tag :pms_to_date, @employee.pms_to_date, name: 'employee[pms_to_date]' %>
       </div>
       
       <div class="fieldset-left">
-        <%= label_tag :prev_pms, "Previous:" %>
+        <%= label_tag :prev_pms1, "Previous:" %>
         <%= text_field_tag :prev_pms, @employee.prev_pms, name: 'employee[prev_pms]' %>
       </div>
       
       <div class="fieldset-right">
-        <%= label_tag :prev_pms3, "Prev 3:" %>
+        <%= label_tag :prev_pms31, "Prev 3:" %>
         <%= text_field_tag :prev_pms3, @employee.prev_pms3, name: 'employee[prev_pms3]' %>
       </div>
     </div>
@@ -76,21 +76,21 @@
     <h3><a href="#" alt="Upload Attachment">Upload Attachment</a></h3>
     <div class="accordion-selection">
       <div class="fieldset-left">
-        <%= label_tag :attachment_type, "Document Type:" %>
+        <%= label_tag :attachment_type1, "Document Type:" %>
         <%= select_tag :attachment_type, options_for_select(Bvadmin::RmsDropDownConfig.options_for(:attachment, :attachment_type)), name: 'pattachment[attachment_type]' %>
       </div>
 
       <br /><br />
 
       <div class="fieldset-left">
-        <%= label_tag :attachment_filename, "Filename:" %>
+        <%= label_tag :attachment_filename1, "Filename:" %>
         <%= file_field_tag :attachment_filename, size: 60, name: 'pattachment[attachment]' %>
       </div>
 
       <br /><br />
 
       <div class="fieldset-left">
-        <%= label_tag :attachment_notes, "Notes:" %>
+        <%= label_tag :attachment_notes1, "Notes:" %>
         <%= text_area_tag :attachment_notes, "", name: 'pattachment[notes]', rows: 6, cols: 100 %>
       </div>
     </div>

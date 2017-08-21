@@ -1,5 +1,6 @@
 class Rms::ApplicantController < Rms::ApplicationController
   before_filter :verify_access
+  before_filter :check_for_cancel, only: [ :create, :update ]
 
   def index
     @applicant = Bvadmin::EmployeeApplicant.new
@@ -21,14 +22,44 @@ class Rms::ApplicantController < Rms::ApplicationController
 
   def edit
     @applicant = Bvadmin::EmployeeApplicant.find(params[:id])
-
-    @active_status = ['PIPELINE', 'INCOMING']
+    @application = Bvadmin::EmployeeApplication.new
+    @active_status = ['Pipeline', 'Incoming']
     @active_applications = Bvadmin::EmployeeApplication.active_applications(@applicant.applicant_id, @active_status)
-
 
   rescue ActiveRecord::RecordNotFound
     flash[:error] = { 'Applicant': 'Invalid ID' }
     redirect_to rms_applicant_path
+  end
+
+  def update
+    @applicant = Bvadmin::EmployeeApplicant.find(params[:id])
+    @active_status = ['Pipeline', 'Incoming']
+    @active_applications = Bvadmin::EmployeeApplication.active_applications(@applicant.applicant_id, @active_status)
+    save_all
+    
+    respond_to do |format|
+      if @applicant.errors.empty?
+        format.html { redirect_to rms_applicant_edit_path(@applicant), notice: 'The applicant was saved successfully.' }
+        format.js { 
+          flash[:notice] = 'The applicant was saved successfully.'
+        }
+      else
+        flash[:error] = @applicant.errors
+        format.html { redirect_to rms_applicant_edit_path(@applicant)}
+        format.js
+      end
+    end
+  end
+
+  def status_select
+    @application = Bvadmin::EmployeeApplication.find(params[:app])
+    partial = {'Denied' => 'denied', 'Incoming' => 'incoming', 'Pipeline' => 'pipeline'}.fetch(params[:partial], 'error')
+    respond_to do |format|
+      format.html do
+        render partial: 'rms/applicant/status/' + partial, locals: {appstatus:  @application}
+
+      end
+    end
   end
 
   def create
@@ -92,6 +123,12 @@ class Rms::ApplicantController < Rms::ApplicationController
     end
   end
 
+  def save_all
+    @applicant.update_attributes applicant_params
+    @application = @applicant.save_applications(params[:napplication])
+    @applicant.edit_applications params[:eapplication]
+  end
+
 private
 
   def verify_access
@@ -105,8 +142,23 @@ private
        @view_private_info = true
     end
   end
-  
+
+  def check_for_cancel
+    redirect_to root_path if params[:cancel]
+  end
+
   def applicant_params
-    params.require(:applicant).permit()
+    params.require(:applicant).permit(:fname,
+                                      :lname,
+                                      :title,
+                                      :gender,
+                                      :streetadr,
+                                      :city,
+                                      :state,
+                                      :zip,
+                                      :workphone,
+                                      :homephone,
+                                      :cellphone,
+                                      :email)
   end
 end

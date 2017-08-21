@@ -1,13 +1,13 @@
 <br /><br />
 <%= fields_for :status, @empstatus do |f| %>
   <div class="fieldset-left">
-    <%= f.label :promotion_date, "Promotion Effective Date (MM/DD/YYYY):" %>
+    <%= f.label :promotion_date1, "Promotion Effective Date (MM/DD/YYYY):" %>
     <%= f.text_field :promotion_date, placeholder: 'MM/DD/YYYY' %>
   </div>
   <br /><br />
 
   <div class="fieldset-left">
-    <%= f.label :promotion_notes, "Notes:" %>
+    <%= f.label :promotion_notes1, "Notes:" %>
     <%= f.text_area :promotion_notes, size: "93x3" %>
   </div>
 <% end %>
