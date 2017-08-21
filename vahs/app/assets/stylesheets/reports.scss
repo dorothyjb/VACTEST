@@ -1,0 +1,299 @@
+/* begin report search header */
+div.report-search-header {
+  margin-left: 8em;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+div.report-search-header div.group {
+  margin-bottom: 20px;
+}
+
+div.report-search-header div.group div.subtext {
+  display: inline;
+}
+
+div.report-search-header label.title {
+  font-weight: bold;
+  font-size: 14px;
+  width: 20%;
+}
+
+div.report-search-header div.group legend {
+  font-weight: bold;
+  font-size: 14px;
+  width: 20%;
+  display: inline;
+}
+
+div.report-search-header select {
+  width: 40%;
+}
+
+div.report-search-header input[type=text] {
+  width: 25%;
+}
+
+div.report-search-header div.group label.radio-tag {
+  margin-right: 15px;
+  font-weight: bold;
+}
+
+div.report-search-header div.padded-group {
+  padding-left: 21%;
+  margin-bottom: 0%;
+  padding-bottom: 0%;
+}
+
+div.report-search-header div.padded-group label {
+  font-weight: bold;
+  width: 33%;
+}
+
+div.report-search-header div.button {
+  text-align: right;
+}
+
+div.report-search-header div.button button,
+div.report-search-header div.group fieldset button {
+  margin: 10px;
+  line-height: 20px;
+  background: inherit;
+  background-color: #000921;
+  text-align: center;
+  vertical-align: middle;
+  box-sizing: border-box;
+  border: 1px solid #07256f;
+  border-radius: 5px;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  font-family: 'Arial Bold', 'Arial Regular', 'Arial';
+  font-weight: 700;
+  font-style: normal;
+  font-size: 14px;
+  color: #fff;
+}
+/* end report search header */
+
+/* tabs */
+div.ui-tabs-panel h2 {
+  text-align: center;
+}
+
+div.tab-panel {
+  margin-top: 2em;
+  padding-left: 2em;
+  float: left;
+}
+/* end tabs */
+
+/* fte report */
+h3.fte-header {
+  margin-top: 35px;
+  text-align: center;
+}
+
+h3.fte-right-header {
+  margin-top: 35px;
+  text-align: right;
+}
+
+h3.fte-right-header b {
+  margin-right: 30px;
+}
+
+div.fte-view div.pagination {
+  width: 100%;
+  text-align: center;
+}
+
+div.fte-view div.pagination a {
+  font-size: 12pt;
+}
+
+div.fte-view div.pagination em.current {
+  font-size: 14pt;
+  font-weight: bold;
+  font-style: italic;
+}
+/* fte report */ 
+
+/* workforce planning document */
+
+@mixin wf-black-hdr() {
+  background-color: #000;
+  color: #fff;
+}
+
+@mixin wf-blue-hdr() {
+  background-color: #0070c0;
+  color: #fff;
+}
+
+@mixin wf-red-hdr() {
+  background-color: #c00000;
+  color: #fff;
+}
+
+/* actually a footer, named hdr for consistancy. */
+@mixin wf-grn-hdr() {
+  background-color: #00b050;
+  color: #fff;
+}
+
+div.wf-report-wrapper {
+  overflow-x: scroll;
+  width: 100%;
+}
+
+div.workforce-rpt-table {
+  .tbl-col {
+    border-bottom: 1px solid #000 !important;
+    font-weight: bold !important;
+    text-align: center !important;
+  }
+
+  .wf-row-office {
+    background-color: #d9d9d9;
+    color: #000;
+  }
+
+  .wf-hdr-office {
+    @include wf-black-hdr();
+    width: 200px;
+  }
+
+  .wf-col-office {
+    text-align: left !important;
+    border-left: 1px solid #000;
+    width: 200px;
+  }
+
+  .wf-ftr-office {
+    @include wf-black-hdr();
+    width: 200px;
+  }
+
+  .wf-hdr-fte {
+    @include wf-black-hdr();
+  }
+
+  .wf-col-fte {
+    border-left: 1px solid #000;
+  }
+
+  .wf-ftr-fte {
+    @include wf-black-hdr();
+  }
+
+  .wf-hdr-on-board {
+    @include wf-black-hdr();
+  }
+
+  .wf-col-on-board {
+  }
+
+  .wf-ftr-on-board {
+    @include wf-black-hdr();
+  }
+
+  .wf-hdr-on-board-other {
+    @include wf-black-hdr();
+  }
+
+  .wf-col-on-board-other {
+  }
+
+  .wf-ftr-on-board-other {
+    @include wf-black-hdr();
+  }
+
+  .wf-hdr-rotation {
+    @include wf-black-hdr();
+  }
+
+  .wf-col-rotation {
+  }
+
+  .wf-ftr-rotation {
+    @include wf-black-hdr();
+  }
+
+  .wf-hdr-vacant {
+    @include wf-black-hdr();
+  }
+
+  .wf-col-vacant {
+    border-right: 1px solid #000;
+  }
+
+  .wf-ftr-vacant {
+    @include wf-black-hdr();
+  }
+
+  .wf-hdr-funded {
+    @include wf-blue-hdr();
+  }
+
+  .wf-col-funded {
+  }
+
+  .wf-ftr-funded {
+    @include wf-blue-hdr();
+  }
+
+  .wf-hdr-unfunded {
+    @include wf-blue-hdr();
+  }
+
+  .wf-col-unfunded {
+    border-right: 1px solid #000;
+  }
+
+  .wf-ftr-unfunded {
+    @include wf-blue-hdr();
+  }
+
+  .wf-hdr-incoming {
+    @include wf-red-hdr();
+  }
+
+  .wf-col-incoming {
+  }
+
+  .wf-ftr-incoming {
+    @include wf-grn-hdr();
+  }
+
+  .wf-hdr-departing {
+    @include wf-red-hdr();
+  }
+
+  .wf-col-departing {
+    border-right: 1px solid #000;
+  }
+
+  .wf-ftr-departing {
+    @include wf-red-hdr();
+  }
+}
+
+div.wf-bottom-links {
+  text-align: center;
+  margin-bottom: 1em;
+
+  a {
+    font-size: 14px;
+    font-weight: bold;
+  }
+}
+
+div#wfr-generating {
+  text-align: center;
+  display: none;
+  font-size: 14px;
+  font-weight: bold;
+
+  .subtext {
+    font-size: 10px;
+  }
+}
