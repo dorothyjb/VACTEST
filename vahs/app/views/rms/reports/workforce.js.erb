@@ -1,0 +1,44 @@
+$('#wfr-generating').hide();
+$('#wfr-table-output').html("<%= j render partial: 'rms/reports/workforce/report' -%>");
+$('#wfr-table-output').show();
+
+$('[data-collapse-parent]').click(function() {
+  var parent_id = $(this).attr('data-collapse-parent');
+  var children = $('[data-collapse-child="' + parent_id + '"]');
+
+  $(this).find('.ui-icon').toggleClass("ui-icon-triangle-1-e ui-icon-triangle-1-s");
+
+  children.each(function(i, obj) {
+    var cparent_id = $(this).attr('data-collapse-parent');
+    var grandchildren = $('[data-collapse-child="' + cparent_id + '"]');
+
+    $(this).toggleClass('hidden');
+
+    if(!$(this).is(':visible')) {
+      $(this).find('.ui-icon').
+        removeClass("ui-icon-triangle-1-e ui-icon-triangle-1-s").
+        addClass("ui-icon-triangle-1-e");
+
+      grandchildren.each(function() {
+        $(this).find('.ui-icon').
+          removeClass("ui-icon-triangle-1-e ui-icon-triangle-1-s").
+          addClass("ui-icon-triangle-1-e");
+        $(this).addClass("hidden");
+      });
+    }
+  });
+});
+
+$('#wf-change-filters').on('click', function() {
+  $('#wfr-table-output').hide();
+  $('#wfr-table-output').html("");
+
+  $('#wfr-filters').show();
+});
+
+$('#wf-refresh').on('click', function() {
+  $('#wfr-table-output').hide();
+  $('#wfr-table-output').html("");
+
+  $('#hr-reports-snapshot').submit();
+});

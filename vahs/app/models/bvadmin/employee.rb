@@ -16,6 +16,9 @@ class Bvadmin::Employee < Bvadmin::Record
   has_many :trainings, class_name: Bvadmin::Training, foreign_key: :user_id, primary_key: :user_id
   has_many :awards, class_name: Bvadmin::EmployeeAwardInfo
   has_many :statuses, class_name: Bvadmin::RmsStatusInfo
+  
+  #has_one :primary_position, -> { where(rotation: 0) }, class_name: Bvadmin::RmsOrgCode
+  #has_one :rotation_position, -> { where(rotation: 1) }, class_name: Bvadmin::RmsOrgCode
 
   # FTE report
   scope :emp_fte_report, -> { where("fte > 0").order('name ASC') }
@@ -351,8 +354,13 @@ class Bvadmin::Employee < Bvadmin::Record
       return nil
     end
 
-    primary_org.update_attributes!(employee_id: nil) unless primary_org.new_record?
+    unless primary_org.new_record?
+      primary_org.update_attributes!(employee_id: nil)
+      primary_org.save
+    end
+
     new_org.update_attributes!(employee_id: self.employee_id)
+    new_org.save
     new_org
 
   rescue Exception
@@ -384,8 +392,13 @@ class Bvadmin::Employee < Bvadmin::Record
 
     return new_org if rotation_org.id == new_org.id
 
-    rotation_org.update_attributes!(employee_id: nil) unless rotation_org.new_record?
+    unless rotation_org.new_record?
+      rotation_org.update_attributes!(employee_id: nil)
+      rotation_org.save
+    end
+
     new_org.update_attributes!(employee_id: self.employee_id)
+    new_org.save
     new_org
 
   rescue Exception
