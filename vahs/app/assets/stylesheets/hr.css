@@ -163,6 +163,11 @@ div.fieldset-left {
 	float: left;
 }
 
+div.fieldset-left-app-division {
+  margin-right: 4.5em;
+  float: left;
+}
+
 div.fieldset-left-app-branch {
         margin-right: 3.4em;
         float: left;
@@ -193,19 +198,19 @@ div.fieldset-left-app-grade {
 
 
 div.fieldset-left-app-unit {
-        margin-right: 5.7em;
+        margin-right: 6.2em;
         float: left;
 }
 
 
 div.fieldset-left-app-title {
-        margin-right: 3.4em;
+        margin-right: 3.5em;
         float: left;
 }
 
 
 div.fieldset-left-app-series {
-        margin-right: 4.5em;
+        margin-right: 4.8em;
         float: left;
 }
 
@@ -262,6 +267,32 @@ div.fieldset-left-app-zip {
         margin-right: 4.5em;
         float: left;
 }
+
+div.app-pipe-action {
+        margin-right: 2.4em;
+        float: left;
+}
+
+div.app-pipe-start {
+        margin-right: 0.75em;
+        float: left;
+}
+
+div.app-pipe-select {
+        margin-right: 3.2em;
+        float: left;
+}
+
+div.app-pipe-eod {
+        margin-right: 2.5em;
+        float: left;
+}
+
+div.app-incoming-action {
+        margin-right: 2.3em;
+        float: left;
+}
+
 div.fieldset-left-benefits {
   margin-right: 2.4em;
   float:left;

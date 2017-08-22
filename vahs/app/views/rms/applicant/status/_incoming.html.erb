@@ -1,16 +1,16 @@
 <br /><br />
 <%= fields_for 'eapplication[]', appstatus do |f| %>
   <div class="fieldset-left">
-    <%= f.label :incoming_action_date, "*Action Date (MM/DD/YYYY):" %>
+    <div class="app-incoming-action"> <%= f.label :incoming_action_date, "*Action Date:" %></div>
     <%= f.text_field :incoming_action_date, value: Date.today.to_s %>
   </div>
   <div class="fieldset-right">
-    <%= f.label :final_offer_date1, "*Final Offer Sent Date (MM/DD/YYYY):" %>
+    <%= f.label :final_offer_date1, "*Final Offer Sent Date:" %>
     <%= f.text_field :final_offer_date, placeholder: 'MM/DD/YYYY' %>
   </div>
   <br /><br />
   <div class="fieldset-left">
-    <%= f.label :confirmed_eod1, "*Confirmed EOD (MM/DD/YYYY):" %>
+    <%= f.label :confirmed_eod1, "*Confirmed EOD:" %>
     <%= f.text_field :confirmed_eod, placeholder: 'MM/DD/YYYY' %>
   </div>
   <br /><br />
