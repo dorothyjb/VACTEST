@@ -11,7 +11,6 @@ class Bvadmin::EmployeeApplicant < Bvadmin::Record
   has_many :applications, foreign_key: :applicant_id, class_name: Bvadmin::EmployeeApplication
   has_many :org_codes, class_name: Bvadmin::RmsOrgCode
 
->>>>>>> master
   scope :fte_new_hires, -> (startdate,enddate) {
     joins(:applications).where("confirmed_eod >= ? and confirmed_eod <= ?", startdate, enddate).order('name ASC')
   }
