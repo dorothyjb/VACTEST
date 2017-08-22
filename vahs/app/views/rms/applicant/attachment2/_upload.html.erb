@@ -1,0 +1,12 @@
+<%- attachment ||= Bvadmin::RmsAttachment.new -%>
+<%- dropdown_options = Bvadmin::RmsDropDownConfig.options_for(:attachment, :app_attachment_type) -%>
+
+<%= fields_for 'attachment[]', attachment do |attach_form| %>
+  <tr class="new-attachment"><% id = attachment.object_id -%>
+    <td><%= link_to 'Add', '/rms/applicant/attachment_form', remote: true, 'aria-label': "Add another attachment" %></td>
+    <td><%= attach_form.text_field :date, size: 8, class: 'datefield', id: "ndate-at#{id}", 'aria-labelledby': 'atchhdr_date' %></td>
+    <td><%= attach_form.select :attachment_type, options_for_select(dropdown_options, attachment.attachment_type || dropdown_options.first), {}, { id: "ntype-at#{id}", class: 'attachment-type', 'aria-labelledby': 'atchhdr_type' } %></td>
+    <td><%= attach_form.file_field :attachment, id: "nattachment-at#{id}", 'aria-labelledby': 'atchhdr_filename' %></td>
+    <td><%= attach_form.text_area :notes, id: "nnotes-at#{id}", rows: 3, cols: 45, 'aria-labelledby': 'atchhdr_notes' %></td>
+  </tr>
+<% end %>

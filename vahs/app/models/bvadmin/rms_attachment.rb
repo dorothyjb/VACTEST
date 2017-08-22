@@ -3,11 +3,9 @@ class Bvadmin::RmsAttachment < Bvadmin::Record
 
   attr_writer :str_date
 
-  belongs_to :employee
 
   validate :str_date_is_valid
 
-  validates :employee_id, presence: true
   validates :date, presence: true
   validates :filename, presence: true
   validates :filetype, presence: true

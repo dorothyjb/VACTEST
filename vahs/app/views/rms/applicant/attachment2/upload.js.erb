@@ -1,0 +1,11 @@
+$('tr.new-attachment').last().after("<%= j render partial: 'rms/applicant/attachment2/upload' %>");
+
+/* this needs to be here, so that the new datefield classes
+ * get the datepicker object added to them. */
+$('.datefield').datepicker({
+  changeMonth: true,
+  changeYear: true,
+  showButtonPannel: true,
+  dateFormat: 'mm/dd/yy'
+});
+

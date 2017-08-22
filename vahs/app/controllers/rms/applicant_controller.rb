@@ -18,6 +18,7 @@ class Rms::ApplicantController < Rms::ApplicationController
   def new
     @applicant = Bvadmin::EmployeeApplicant.new
     @application = Bvadmin::EmployeeApplication.new
+    @attachment = [Bvadmin::RmsAttachment.new]
   end
 
   def edit
@@ -25,7 +26,7 @@ class Rms::ApplicantController < Rms::ApplicationController
     @application = Bvadmin::EmployeeApplication.new
     @active_status = ['Pipeline', 'Incoming']
     @active_applications = Bvadmin::EmployeeApplication.active_applications(@applicant.applicant_id, @active_status)
-
+    @attachment = [Bvadmin::RmsAttachment.new]
   rescue ActiveRecord::RecordNotFound
     flash[:error] = { 'Applicant': 'Invalid ID' }
     redirect_to rms_applicant_path
@@ -83,6 +84,14 @@ class Rms::ApplicantController < Rms::ApplicationController
     end
   end
 
+  def attachment_form
+    respond_to do |format|
+      format.html { render partial: 'rms/applicant/attachment2/upload' }
+      format.js { render 'rms/applicant/attachment2/upload' }      
+    end
+  end
+
+
   def new_search
     applicant = Bvadmin::PotentialApplicant.newsearch(params.dig(:applicant, :fname),
                                                       params.dig(:applicant, :lname))
@@ -127,6 +136,10 @@ class Rms::ApplicantController < Rms::ApplicationController
     @applicant.update_attributes applicant_params
     @application = @applicant.save_applications(params[:napplication])
     @applicant.edit_applications params[:eapplication]
+
+    @attachment = @applicant.save_attachments params[:attachment]
+    @applicant.edit_attachments params[:eattachment]
+    @applicant.save_attachment params[:pattachment]
   end
 
 private

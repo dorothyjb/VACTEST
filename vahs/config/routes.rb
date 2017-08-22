@@ -64,6 +64,14 @@ Rails.application.routes.draw do
       get '/new_search/:searchtype', to: 'applicant#new_search'
     
       get '/(:id)/status_select/', to: 'applicant#status_select'
+    
+      get 'attachment_form', to: 'applicant#attachment_form'
+
+      scope :attachment2 do
+        get '/:id/edit', to: 'attachment2#edit'
+        get '/:id/delete', to: 'attachment2#delete'
+        get '/:id/undo', to: 'attachment2#undo'
+      end
     end
 
     scope :training, as: :training do

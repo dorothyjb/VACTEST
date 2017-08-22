@@ -184,6 +184,34 @@
         <% end %>
         <% end %>
       </div>
+      <h3><a href="#" alt="Applicant Records">Applicant Records</a></h3>
+      <div class="accordion-section">
+        <div class="attachments">
+          <table cellpadding="10" class="table table-condensed employee-attachments">
+            <thead>
+              <tr>
+                <th id="atchhdr_actions">Actions</th>
+                <th id="atchhdr_date">Date</th>
+                <th id="atchhdr_type">Type</th>
+                <th id="atchhdr_filename">Filename</th>
+                <th id="atchhdr_notes">Notes</th>
+              </tr>
+            </thead>
+            <tbody id="attach-files">
+              <%- @attachment.each do |attachment| -%>
+                <%= render partial: '/rms/applicant/attachment2/upload', locals: { attachment: attachment } %>
+              <%- end -%>
+              <% @applicant.attachments.each do |attachment| %>
+                <tr id="at<%= attachment.id %>">
+                <%= render partial: '/rms/applicant/attachment2/show', locals: { attachment: attachment } %>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+
       <div id="employee-buttons">
         <div class="actions-left">
           <% unless @applicant.lname.nil? %>
