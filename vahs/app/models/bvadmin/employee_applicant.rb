@@ -8,7 +8,7 @@ class Bvadmin::EmployeeApplicant < Bvadmin::Record
   validates :lname, presence: true
  
   has_many :applications, class_name: Bvadmin::EmployeeApplication, foreign_key: :applicant_id
-
+  has_many :attachments, class_name: Bvadmin::RmsAttachment
   scope :fte_new_hires, -> (startdate,enddate) {
     joins(:applications).where("confirmed_eod >= ? and confirmed_eod <= ?", startdate, enddate).order('name ASC')
   }
@@ -120,13 +120,71 @@ class Bvadmin::EmployeeApplicant < Bvadmin::Record
     end
   end
 
+  def save_attachment attachment
+    return nil if attachment.blank? || !attachment.is_a?(Hash)
+    return nil if attachment[:attachment].blank? && attachment[:date].blank? && attachment[:notes].blank?
+
+    attachment[:attachment] ||= FakeAttachment.new
+    attachment[:date] = Date.today.strftime("%Y-%m-%d") if attachment[:date].blank?
+
+    attach = Bvadmin::RmsAttachment.new(employee_applicant_id: self.applicant_id,
+                                        attachment_type: attachment[:attachment_type],
+                                        filename: attachment[:attachment].original_filename,
+                                        filetype: attachment[:attachment].content_type,
+                                        filedata: attachment[:attachment].read,
+                                        notes: attachment[:notes],
+                                        str_date: attachment[:date])
+
+    if attach.valid?
+      attach.save
+    else
+      append_errors 'Attachment', attach
+    end
+
+    attach
+  end
+
+
+  def save_attachments attachments
+    return [Bvadmin::RmsAttachment.new] if attachments.nil? || attachments.empty?
+
+    rst = []
+    attachments.each do |attachment|
+      tmp = save_attachment(attachment)
+      rst << tmp if tmp && !tmp.valid?
+    end
+
+    rst = [Bvadmin::RmsAttachment.new] if rst.empty?
+    rst
+  end
+
+  def edit_attachments attachments
+    return if attachments.nil? || attachments.empty?
+
+    attachments.each do |id, attachment|
+      attach = Bvadmin::RmsAttachment.find_by(id: id)
+      if attach.nil?
+        errors.add "Attachment.#{id}", "Invalid ID"
+        next
+      end
+
+      attach.update_attributes(attachment_type: attachment[:attachment_type],
+                               filename: attachment[:filename],
+                               notes: attachment[:notes],
+                               str_date: attachment[:date])
+
+      if attach.valid?
+        attach.save
+      else
+        append_errors 'Attachment', attach
+      end
+    end
+  end
+
   def append_errors name, model
     model.errors.each do |k,v|
       self.errors.add "#{name}.#{k}", v
     end
   end
 
-  def attachments
-    [Bvadmin::RmsAttachment.new]
-  end
 end

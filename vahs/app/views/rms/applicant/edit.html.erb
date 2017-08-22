@@ -199,11 +199,11 @@
             </thead>
             <tbody id="attach-files">
               <%- @attachment.each do |attachment| -%>
-                <%= render partial: '/rms/applicant/attachment/upload', locals: { attachment: attachment } %>
+                <%= render partial: '/rms/applicant/attachment2/upload', locals: { attachment: attachment } %>
               <%- end -%>
               <% @applicant.attachments.each do |attachment| %>
                 <tr id="at<%= attachment.id %>">
-                <%= render partial: '/rms/applicant/attachment/show', locals: { attachment: attachment } %>
+                <%= render partial: '/rms/applicant/attachment2/show', locals: { attachment: attachment } %>
                 </tr>
               <% end %>
             </tbody>

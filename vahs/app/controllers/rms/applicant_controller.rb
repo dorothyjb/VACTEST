@@ -86,8 +86,8 @@ class Rms::ApplicantController < Rms::ApplicationController
 
   def attachment_form
     respond_to do |format|
-      format.html { render partial: 'rms/employee/attachment/upload' }
-      format.js { render 'rms/employee/attachment/upload' }      
+      format.html { render partial: 'rms/applicant/attachment2/upload' }
+      format.js { render 'rms/applicant/attachment2/upload' }      
     end
   end
 
@@ -136,6 +136,10 @@ class Rms::ApplicantController < Rms::ApplicationController
     @applicant.update_attributes applicant_params
     @application = @applicant.save_applications(params[:napplication])
     @applicant.edit_applications params[:eapplication]
+
+    @attachment = @applicant.save_attachments params[:attachment]
+    @applicant.edit_attachments params[:eattachment]
+    @applicant.save_attachment params[:pattachment]
   end
 
 private
