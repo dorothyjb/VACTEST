@@ -1,13 +1,19 @@
 <%= javascript_include_tag 'reports.tab.js' %>
 
-<h2>Snapshot</h2>
+<h2>Workforce Planning Report</h2>
 
-<div class="report-search-header">
-  <%= form_tag(rms_reports_snapshot_path, :method => 'POST', id: "hr-reports-snapshot") do %>
+<div id="wfr-generating">
+  Generating Report<br>
+  <span class="subtext">(This could take a few minutes)</span><br><br>
+  Wait Time: <span id="wfr-timer"></span> seconds.
+</div>
+
+<div class="report-search-header" id="wfr-filters">
+  <%= form_tag(rms_reports_snapshot_path, :method => 'POST', remote: true, id: "hr-reports-snapshot") do %>
     <div class="group">
-      <%= label_tag :Unit, "Unit:", class: 'title' %>
-      <%= select_tag :Unit, options_for_select(@units, params[:unit] || "ALL"), multiple: true %><br>
-      <span class="subtext">Filter by VLJ or *DETAIL/*MILITARY/*ROTATION/*UNION/*VACANT</span>
+      <%= label_tag :status, "Status:", class: 'title' %>
+      <%= select_tag :status, options_for_select(@status, params[:status] || "ALL"), multiple: true %><br>
+      <span class="subtext">Filter by Status</span>
     </div>
 
     <div class="group">
@@ -76,7 +82,9 @@
 
     <div class="button">
       <%= button_tag "Generate Report" %>
-      <%= button_tag "Cancel" %>
+      <%= button_tag "Cancel", name: 'cancel' %>
     </div>
   <% end %>
 </div>
+
+<div class="wf-report-wrapper hide-element" id="wfr-table-output"></div>

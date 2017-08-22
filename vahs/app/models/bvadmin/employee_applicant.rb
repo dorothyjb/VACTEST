@@ -7,8 +7,11 @@ class Bvadmin::EmployeeApplicant < Bvadmin::Record
   validates :fname, presence: true
   validates :lname, presence: true
  
-  has_many :applications, class_name: Bvadmin::EmployeeApplication, foreign_key: :applicant_id
   has_many :attachments, class_name: Bvadmin::RmsAttachment
+  has_many :applications, foreign_key: :applicant_id, class_name: Bvadmin::EmployeeApplication
+  has_many :org_codes, class_name: Bvadmin::RmsOrgCode
+
+>>>>>>> master
   scope :fte_new_hires, -> (startdate,enddate) {
     joins(:applications).where("confirmed_eod >= ? and confirmed_eod <= ?", startdate, enddate).order('name ASC')
   }

@@ -10,11 +10,15 @@ div.table {
     div.tbl-col {
       display: table-cell;
       padding: 6px 6px 6px 6px;
+
+      &[role=columnheader] {
+        font-weight: bold;
+        font-size: 14px;
+      }
     }
 
-    div.tbl-col[role=columnheader] {
-      font-weight: bold;
-      font-size: 14px;
+    &.hidden {
+      display: none;
     }
   }
 }
@@ -38,4 +42,8 @@ ul.inline-list {
       text-decoration: underline;
     }
   }
+}
+
+.hide-element {
+  display: none;
 }
