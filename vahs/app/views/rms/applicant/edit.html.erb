@@ -108,7 +108,7 @@
               <div class="fieldset-left">
                 <div class="fieldset-left">Office: </div>  <%= app_form.select :office_id, options_for_select(Bvadmin::RmsOrgOffice.dropdown), {}, {id: "office-nap", style: "width: 260px"} %>
               </div>
-              <div class="fieldset-left">Division:  </div><%= app_form.select :division_id, options_for_select(Bvadmin::RmsOrgDivision.dropdown), {}, {id: "division-nap", style: "width: 260px"} %>
+              <div class="fieldset-left-app-division">Division:  </div><%= app_form.select :division_id, options_for_select(Bvadmin::RmsOrgDivision.dropdown), {}, {id: "division-nap", style: "width: 260px"} %>
               <br /><br />
               <div class="fieldset-left">
                 <div class="fieldset-left-app-branch">Branch:  </div><%= app_form.select :branch_id, options_for_select(Bvadmin::RmsOrgBranch.dropdown), {}, {id: "branch-nap", style: "width: 260px"} %>
@@ -145,7 +145,7 @@
               <div class="fieldset-left">
                 <div class="fieldset-left">Office: </div>  <%= app_form.select :office_id, options_for_select(Bvadmin::RmsOrgOffice.dropdown, application.office_id || ""), {}, {id: "office-ap#{application.application_id}", style: "width: 260px"} %>
               </div>
-              <div class="fieldset-left">Division:  </div><%= app_form.select :division_id, options_for_select(Bvadmin::RmsOrgDivision.dropdown, application.division_id || ""), {}, {id: "division-ap#{application.application_id}", style: "width: 260px"} %>
+              <div class="fieldset-left-app-division">Division:  </div><%= app_form.select :division_id, options_for_select(Bvadmin::RmsOrgDivision.dropdown, application.division_id || ""), {}, {id: "division-ap#{application.application_id}", style: "width: 260px"} %>
               <br /><br />
               <div class="fieldset-left">
                 <div class="fieldset-left-app-branch">Branch:  </div><%= app_form.select :branch_id, options_for_select(Bvadmin::RmsOrgBranch.dropdown, application.branch_id || ""), {}, {id: "branch-ap#{application.application_id}", style: "width: 260px"} %>

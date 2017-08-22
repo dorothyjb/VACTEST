@@ -2,7 +2,7 @@
 
 <%= fields_for 'eapplication[]', appstatus, include_id: false do |f| %>
   <div class="fieldset-left">
-    <%= f.label :denied_action_date1, "*Action Date (MM/DD/YYYY):" %>
+    <%= f.label :denied_action_date1, "*Action Date:" %>
     <%= f.text_field :denied_action_date, value: Date.today.to_s %>
   </div>
   <div class="fieldset-right">
