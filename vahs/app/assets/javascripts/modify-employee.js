@@ -74,8 +74,6 @@ $(document).ready(function() {
     }
   });
 
-
-
   $(document).on ('change', '#other_assignments', function(){
     var str = $(this).val();
 
@@ -172,6 +170,9 @@ $(document).ready(function() {
     }
   });
 
+  $('#employee_on_union').on('change', function() {
+    $('#on_union_view').toggle();
+  });
 
   $('#gp_field_office').change(function() {
     $.ajax({
