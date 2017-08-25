@@ -267,6 +267,10 @@ class Rms::EmployeeController < Rms::ApplicationController
                                      :thur2,
                                      :fri1,
                                      :fri2,
+                                     :on_union,
+                                     :union_start,
+                                     :union_end,
+                                     :union_timespent,
                                      # poc
                                      :street,
                                      :city,

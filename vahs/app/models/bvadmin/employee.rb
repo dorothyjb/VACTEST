@@ -7,6 +7,10 @@ class Bvadmin::Employee < Bvadmin::Record
   validates :fname, presence: true
   validates :lname, presence: true
   validates_uniqueness_of :attorney_id, allow_nil: true, allow_blank: true
+  validates :union_timespent, length: { maximum: 12 }
+  validates :union_timespent, presence: true, if: :on_union?
+  validates :union_start, presence: true, if: :on_union?
+  validates :union_end, presence: true, if: :on_union?
 
   # associations
   has_one :attorney, foreign_key: :attorney_id, primary_key: :attorney_id
@@ -411,6 +415,10 @@ class Bvadmin::Employee < Bvadmin::Record
     org_codes.find_by(rotation: true) || Bvadmin::RmsOrgCode.new(employee_id: self.employee_id)
   end
 
+  def on_union?
+    !!self.on_union
+  end
+
   ## Ewwww.... There HAS to be a better way.
   # :nodoc:
   def current_bva_duty_date= date
@@ -484,6 +492,25 @@ class Bvadmin::Employee < Bvadmin::Record
 
   # :nodoc:
   def rotation_end= date
+    return super(date) unless date.is_a? String
+
+    date = Date.strptime(date, "%m/%d/%Y") if date =~ /\d{1,2}\/\d{1,2}\/\d{4}/
+    date = Date.parse(date) if date =~ /\d{4}-\d{1,2}-\d{1,2}/
+
+    super date
+  end
+
+  # :nodoc:
+  def union_start= date
+    return super(date) unless date.is_a? String
+
+    date = Date.strptime(date, "%m/%d/%Y") if date =~ /\d{1,2}\/\d{1,2}\/\d{4}/
+    date = Date.parse(date) if date =~ /\d{4}-\d{1,2}-\d{1,2}/
+
+    super date
+  end
+
+  def union_end= date
     return super(date) unless date.is_a? String
 
     date = Date.strptime(date, "%m/%d/%Y") if date =~ /\d{1,2}\/\d{1,2}\/\d{4}/
