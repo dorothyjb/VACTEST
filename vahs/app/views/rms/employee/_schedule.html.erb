@@ -112,14 +112,14 @@
       <%end%>
     </div>
     <br /><br />
-    <% hide = ""; hide = "hide-element" unless @employee.on_union? %>
+    <% hide = "hide-element"; hide = "" if @employee.on_union? %>
     <div id="on_union_view" class="<%= hide -%>">
       <div class="fieldset-left">
-        <%= label_tag :union_start, "Union Start Date:" %>
+        <%= label_tag :union_start, "Union Start Date:", class: 'title' %>
         <%= text_field_tag :union_start, @employee.union_start, class: 'datefield', name: 'employee[union_start]' %>
       </div>
       <div class="fieldset-left">
-        <%= label_tag :union_end, "Union End Date:" %>
+        <%= label_tag :union_end, "Union End Date:", class: 'title' %>
         <%= text_field_tag :union_end, @employee.union_end, class: 'datefield', name: 'employee[union_end]' %>
       </div>
       <div class="fieldset-left">
