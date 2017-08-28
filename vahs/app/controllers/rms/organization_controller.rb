@@ -1,4 +1,4 @@
-class Rms::OrginizationController < Rms::ApplicationController
+class Rms::OrganizationController < Rms::ApplicationController
   def index
   end
 

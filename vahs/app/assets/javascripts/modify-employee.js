@@ -176,7 +176,7 @@ $(document).ready(function() {
 
   $('#gp_field_office').change(function() {
     $.ajax({
-      url: "/rms/orginization/office",
+      url: "/rms/organization/office",
       data: {
         office: $(this).val()
       },

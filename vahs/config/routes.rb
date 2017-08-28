@@ -97,14 +97,14 @@ Rails.application.routes.draw do
       get '/paid_exception', to: 'reports#paid_exception'
     end
 
-    scope :orginization, as: :orginization do
-      get '/', to: 'orginization#index'
+    scope :organization, as: :organization do
+      get '/', to: 'organization#index'
 
-      get '/office(.:format)', to: 'orginization#office'
-      get '/division(.:format)', to: 'orginization#division'
-      get '/branch(.:format)', to: 'orginization#branch'
-      get '/unit(.:format)', to: 'orginization#unit'
-      get '/org_code(.:format)', to: 'orginization#org_code'
+      get '/office(.:format)', to: 'organization#office'
+      get '/division(.:format)', to: 'organization#division'
+      get '/branch(.:format)', to: 'organization#branch'
+      get '/unit(.:format)', to: 'organization#unit'
+      get '/org_code(.:format)', to: 'organization#org_code'
     end
   end
 
