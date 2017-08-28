@@ -44,7 +44,7 @@ $(document).ready(function() {
     }
   });
 
-  $(document).on ('change', '#status_seperation_reason', function(){
+  $(document).on ('change', '#status_separation_reason', function(){
     var str = $(this).val();
 
     if(str == "Termination" || str == "Transfer" || str == "Other") {
