@@ -17,6 +17,7 @@
 <div id="content" class="container">
 
   <%= @applicant.fname %> <%= @applicant.lname %> <br>
+  BVA Internal Employee: <%= @applicant.employee_id.present? ? "Yes" : "No" %> <br>
   <%= @active_applications.count %> Active Application(s) <br>
   
     <% @active_applications.each do |row| %>
