@@ -92,7 +92,7 @@ SELECT
     to_number(null) AS "INCOMING",
     
     case
-      when si.status_type = 'Seperation' and SYSDATE < si.seperation_effective_date then to_number('1')
+      when si.status_type = 'Separation' and SYSDATE < si.seperation_effective_date then to_number('1')
       else to_number(null)
     end AS "DEPARTING"
     
