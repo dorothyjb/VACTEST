@@ -23,6 +23,8 @@ class Rms::EmployeeController < Rms::ApplicationController
 
     @employee.update employee_params
     unless @employee.valid?
+      @employee.build_attorney if @employee.attorney.nil?
+      @employee.build_assignment if @employee.assignment.nil?
       flash[:error] = @employee.errors
       return render('rms/employee/new')
     end
@@ -43,7 +45,6 @@ class Rms::EmployeeController < Rms::ApplicationController
     else
       @employee.build_attorney if @employee.attorney.nil?
       @employee.build_assignment if @employee.assignment.nil?
-
       flash[:error] = @employee.errors
       render 'rms/employee/edit'
     end
@@ -67,7 +68,7 @@ class Rms::EmployeeController < Rms::ApplicationController
     @employee = Bvadmin::Employee.find(params[:id])
 
     save_all
-
+    
     respond_to do |format|
       if @employee.errors.empty?
         format.html { redirect_to rms_employee_edit_path(@employee, current_tab: params[:current_tab]),
