@@ -296,9 +296,9 @@ class Bvadmin::Employee < Bvadmin::Record
                                         rolls_date: status[:rolls_date],
                                         str_appointment_onboard_date: status[:appointment_onboard_date],
                                         appointment_notes: status[:appointment_notes],
-                                        seperation_status: status[:seperation_status],
-                                        seperation_reason: status[:seperation_reason],
-                                        str_seperation_effective_date: status[:seperation_effective_date],
+                                        separation_status: status[:separation_status],
+                                        separation_reason: status[:separation_reason],
+                                        str_separation_effective_date: status[:separation_effective_date],
                                         termination_notes: status[:termination_notes],
                                         str_promotion_date: status[:promotion_date],
                                         promotion_notes: status[:promotion_notes])

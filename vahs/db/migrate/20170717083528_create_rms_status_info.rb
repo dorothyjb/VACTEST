@@ -6,9 +6,9 @@ class CreateRmsStatusInfo < ActiveRecord::Migration
       t.date :rolls_date
       t.date :appointment_onboard_date
       t.string :appointment_notes, limit: 80
-      t.string :seperation_status, limit: 30
-      t.string :seperation_reason, limit: 30
-      t.date :seperation_effective_date
+      t.string :separation_status, limit: 30
+      t.string :separation_reason, limit: 30
+      t.date :separation_effective_date
       t.string :termination_notes, limit: 80
       t.date :promotion_date
       t.string :promotion_notes, limit: 80

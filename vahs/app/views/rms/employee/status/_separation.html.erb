@@ -1,0 +1,24 @@
+<br /><br />
+<%= fields_for :status, @empstatus do |f| %>
+  <div class="fieldset-left-status">
+    <%= f.label :separation_status1, "Separation Status:" %>
+    <%= f.select :separation_status, options_for_select(Bvadmin::RmsDropDownConfig.options_for(:employee, :separation_status, '')) %>
+  </div>
+
+  <div class="fieldset-left">
+    <%= f.label :separation_effective_date1, "Status Effective Date (MM/DD/YYYY):" %>
+    <%= f.text_field :separation_effective_date, class: 'datefield', placeholder: 'MM/DD/YYYY' %>
+  </div>
+
+  <div class="fieldset-right">
+    <%= f.label :separation_reason1, "Reason for Separation:" %>
+    <%= f.select :separation_reason, options_for_select(Bvadmin::RmsDropDownConfig.options_for(:employee, :separation_reason, '')) %>
+  </div>
+
+  <br /><br />
+
+  <div  class="hide-element"  id= "term_notes">
+    <%= f.label :termination_notes1, "Comments:" %>
+    <%= f.text_area :termination_notes, size: "93x3"%>
+  </div>
+<% end %>

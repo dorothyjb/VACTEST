@@ -123,7 +123,7 @@ class Rms::EmployeeController < Rms::ApplicationController
   def status_select
     @employee = Bvadmin::Employee.find(params[:emp])
     @empstatus = Bvadmin::RmsStatusInfo.new
-    partial = {'Appointment' => 'appointment', 'Seperation' => 'seperation', 'Promotion' => 'promotion'}.fetch(params[:partial], 'error')
+    partial = {'Appointment' => 'appointment', 'Separation' => 'separation', 'Promotion' => 'promotion'}.fetch(params[:partial], 'error')
     respond_to do |format|
       format.html do
         render partial: 'rms/employee/status/' + partial, employee: @employee
@@ -337,9 +337,9 @@ class Rms::EmployeeController < Rms::ApplicationController
                                    :appointment_notes,
                                    :promotion_date,
                                    :promotion_notes,
-                                   :seperation_status,
-                                   :seperation_effective_date,
-                                   :seperation_reason,
+                                   :separation_status,
+                                   :separation_effective_date,
+                                   :separation_reason,
                                    :termination_notes)                                
   end
   

@@ -5,7 +5,7 @@ class Bvadmin::RmsStatusInfo < Bvadmin::Record
 
   attr_writer :str_appointment_onboard_date
   attr_writer :str_promotion_date
-  attr_writer :str_seperation_effective_date
+  attr_writer :str_separation_effective_date
 
   belongs_to :employee
   validate :app_date_is_valid
@@ -46,7 +46,7 @@ class Bvadmin::RmsStatusInfo < Bvadmin::Record
     super date
   end
 
-  def seperation_effective_date= date
+  def separation_effective_date= date
     return super(date) unless date.is_a? String
 
     date = Date.strptime(date, "%m%d%Y") if date =~ /\d{8}/
@@ -66,8 +66,8 @@ class Bvadmin::RmsStatusInfo < Bvadmin::Record
   end
 
 
-  def str_seperation_effective_date
-    @str_seperation_effective_date || self.seperation_effective_date.to_s
+  def str_separation_effective_date
+    @str_separation_effective_date || self.separation_effective_date.to_s
   end
 
 
@@ -118,22 +118,22 @@ class Bvadmin::RmsStatusInfo < Bvadmin::Record
 
 
   def sep_date_is_valid
-        return if @str_seperation_effective_date.blank?
+        return if @str_separation_effective_date.blank?
 
-            unless @str_seperation_effective_date =~ /^(\d{8}|\d{1,2}\/\d{1,2}\/\d{4}|\d{4}-\d{1,2}-\d{1,2})$/
+            unless @str_separation_effective_date =~ /^(\d{8}|\d{1,2}\/\d{1,2}\/\d{4}|\d{4}-\d{1,2}-\d{1,2})$/
                     errors.add :date, 'invalid date format supplied, accepted forms are: YYYY-MM-DD, MMDDYYYY, and MM/DD/YYYY'
                           return
                               end
 
-                if @str_seperation_effective_date =~ /^\d{8}$/
-                        tmp = Date.strptime(@str_seperation_effective_date, "%m%d%Y")
-                            elsif @str_seperation_effective_date =~ /^\d{1,2}\/\d{1,2}\/\d{4}$/
-                                    tmp = Date.strptime(@str_seperation_effective_date, "%m/%d/%Y") 
+                if @str_separation_effective_date =~ /^\d{8}$/
+                        tmp = Date.strptime(@str_separation_effective_date, "%m%d%Y")
+                            elsif @str_separation_effective_date =~ /^\d{1,2}\/\d{1,2}\/\d{4}$/
+                                    tmp = Date.strptime(@str_separation_effective_date, "%m/%d/%Y") 
                                         else
-                                                tmp = Date.strptime(@str_seperation_effective_date, "%Y-%m-%d") 
+                                                tmp = Date.strptime(@str_separation_effective_date, "%Y-%m-%d") 
                                                     end
 
-                    self.seperation_effective_date = tmp
+                    self.separation_effective_date = tmp
                       end
 
 
