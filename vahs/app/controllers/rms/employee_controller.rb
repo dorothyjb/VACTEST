@@ -213,7 +213,8 @@ class Rms::EmployeeController < Rms::ApplicationController
                                      :license,
                                      :jurisdiction,
                                      :lawschool,
-                                     :attorney_notes)
+                                     :attorney_notes,
+                                     :presidential_admin)
   end
 
   def employee_params
