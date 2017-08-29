@@ -419,6 +419,18 @@ class Bvadmin::Employee < Bvadmin::Record
     !!self.on_union
   end
 
+  def is_attorney?
+    %w{0905}.include? self.job_code # series
+  end
+
+  def is_board_member?
+    is_attorney? && self.pay_sched =~ /^(al|sl|es)/i
+  end
+
+  def is_assigned?
+    is_attorney? && self.pay_sched =~ /^al/i
+  end
+
   ## Ewwww.... There HAS to be a better way.
   # :nodoc:
   def current_bva_duty_date= date
