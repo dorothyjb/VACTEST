@@ -215,6 +215,49 @@ $(document).ready(function() {
     });
   });
 
+  $('#series').change(function() {
+    var sched = $('#pay_sched').val();
+    var series = $(this).val();
+
+    if(series == '0905') {
+      $('#gp_ai_view').show();
+
+      if(sched.match(/^(al|sl|es)/i)) {
+        $('#gp_bmi_view').show();
+
+        if(sched.match(/^al/i)) {
+          $('#gp_president_admin').show();
+        } else {
+          $('#gp_president_admin').hide();
+        }
+      }
+    } else {
+      $('#gp_ai_view').hide();
+      $('#gp_bmi_view').hide();
+      $('#gp_president_admin').hide();
+    }
+  });
+
+  $('#pay_sched').change(function() {
+    var series = $('#series').val();
+    var sched = $(this).val();
+
+    if(series == '0905') {
+      if(sched.match(/^(al|sl|es)/i)) {
+        $('#gp_bmi_view').show();
+
+        if(sched.match(/^al/i)) {
+          $('#gp_president_admin').show();
+        } else {
+          $('#gp_president_admin').hide();
+        }
+      } else {
+        $('#gp_bmi_view').hide();
+        $('#gp_president_admin').hide();
+      }
+    }
+  });
+
   $('#gp_field_rotation').click(function() {
     if(this.checked) {
       $('#gp_org_code_2').removeClass('hide-element');
