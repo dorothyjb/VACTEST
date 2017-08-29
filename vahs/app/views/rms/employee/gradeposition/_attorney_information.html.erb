@@ -1,0 +1,31 @@
+<h3><a href="#" alt="Attorney Information">Attorney Information</a></h3>
+<div class="accordion-section">
+  <div class="fieldset-left">
+    <%= label_tag :license_number, "License Number:" %>
+    <%= text_field_tag :license_number, @employee.attorney.license, name: 'attorney[license]' %>
+  </div>
+
+  <div class="fieldset-left">
+    <%= label_tag :jurisdiction, "Jurisdiction:" %>
+    <%= text_field_tag :jurisdiction, @employee.attorney.jurisdiction, name: 'attorney[jurisdiction]' %>
+  </div>
+
+  <div class="fieldset-right">
+    <%= label_tag :lawschool, "Law School Attended:" %>
+    <%= text_field_tag :lawschool, @employee.attorney.lawschool, name: 'attorney[lawschool]' %>
+  </div>
+
+  <br /><br />
+
+  <div class="fieldset-left">
+    <%= label_tag :bar_member, "Bar Member:" %>
+    <%= text_field_tag :bar_member, @employee.attorney.bar_member, name: 'attorney[bar_member]' %>
+  </div>
+
+  <br /><br />
+
+  <div class="fieldset-left">
+    <%= label_tag :attorney_notes, "Notes:" %>
+    <%= text_area_tag :attorney_notes, @employee.attorney.attorney_notes, name: 'attorney[attorney_notes]', rows: 6, cols: 100 %>
+  </div>
+</div>

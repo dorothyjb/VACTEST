@@ -1,0 +1,31 @@
+<h3><a href="#" alt="Board Member Information">Board Member Information</a></h3>
+<div class="accordion-section">
+  <div class="fieldset-left">
+    <%= label_tag :board_appt_date, "Appointment Date:" %>
+    <%= text_field_tag :board_appt_date, @employee.attorney.board_appt_date, name: 'attorney[board_appt_date]', class: 'datefield' %>
+  </div>
+
+  <div class="fieldset-left">
+    <%= label_tag :board_exp_date, "Expiration Date:" %>
+    <%= text_field_tag :board_exp_date, @employee.attorney.board_exp_date, name: 'attorney[board_exp_date]', class: 'datefield' %>
+  </div>
+
+  <div class="fieldset-right">
+    <%= label_tag :board_reappt_date, "Re-Appointment Date:" %>
+    <%= text_field_tag :board_reappt_date, @employee.attorney.board_reappt_date, name: 'attorney[board_reappt_date]', class: 'datefield' %>
+  </div>
+
+  <br /><br />
+
+  <%- hidden = @employee.is_assigned? ? '' : ' hide-element' -%>
+  <div class="fieldset-left<%= hidden -%>" id="gp_president_admin">
+    <%= label_tag :presidential_administration, "Presidential Administration:" %>
+    <%= text_field_tag :presidential_admin, @employee.attorney.presidential_admin, name: 'attorney[presidential_admin]', size: 24 %>
+    <br /><br />
+  </div>
+
+  <div class="fieldset-left">
+    <%= label_tag :notes, "Notes:" %>
+    <%= text_area_tag :notes, @employee.attorney.notes, name: 'attorney[notes]', rows: 6, cols: 100 %>
+  </div>
+</div>
