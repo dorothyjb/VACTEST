@@ -177,7 +177,7 @@
               <% partial = { 'Pipeline' => 'pipeline',
                               'Incoming' => 'incoming',
                               'Denied' => 'denied'}.fetch(application.status, nil) %>
-                            <%= render partial: "/rms/applicant/status/#{partial}", locals: {appstatus: application} %> 
+                            <%= render partial: "/rms/applicant/status/#{partial}", locals: {appstatus: application} unless partial.nil? %> 
             
             <% end -%>
             </div>
