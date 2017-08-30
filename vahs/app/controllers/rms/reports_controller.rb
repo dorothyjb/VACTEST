@@ -4,6 +4,7 @@ class Rms::ReportsController < Rms::ApplicationController
   def index
   end
 
+  # GET /rms/reports/pipeline
   def pipeline
     @titles = Bvadmin::Employee.paid_titles_list#.unshift [ "ALL", "ALL" ]
     @series = Bvadmin::Employee.job_code_list#.unshift [ "ALL", "ALL" ]
@@ -11,6 +12,13 @@ class Rms::ReportsController < Rms::ApplicationController
     @effectives = Bvadmin::Employee.effectives_list#.unshift [ "ALL", "ALL" ]
 
     render layout: false
+  end
+
+  # POST /rms/reports/pipeline
+  def pipeline_export
+    return redirect_to root_path if params[:cancel]
+    
+    redirect_to rms_reports_path, notice: 'Pipeline report not yet implemented.'
   end
 
   # GET /rms/reports/snapshot

@@ -343,20 +343,23 @@ class Bvadmin::Employee < Bvadmin::Record
 
   # setter for primary org code
   def primary_org= new_org
-    new_org = Bvadmin::RmsOrgCode.find(new_org.to_i) if new_org.to_i > 0
-    new_org = Bvadmin::RmsOrgCode.find_by(code: new_org) if new_org.is_a? String
-
-    if new_org.nil?
+    if new_org.blank?
       return nil if primary_org.new_record?
-
       primary_org.update_attributes(employee_id: nil)
-      return nil
+      return new_org
+    end
+
+    if new_org.is_a?(Fixnum) || new_org.is_a?(String)
+      new_org = Bvadmin::RmsOrgCode.find(new_org.to_i) if new_org.to_i > 0
+      new_org ||= Bvadmin::RmsOrgCode.find_by(code: new_org)
     end
 
     unless new_org.is_a? Bvadmin::RmsOrgCode
       errors.add :primary_org, 'invalid data type'
       return nil
     end
+
+    return new_org if primary_org.code == new_org.code
 
     unless primary_org.new_record?
       primary_org.update_attributes!(employee_id: nil)
@@ -379,14 +382,15 @@ class Bvadmin::Employee < Bvadmin::Record
 
   # setter for rotation org code
   def rotation_org= new_org
-    new_org = Bvadmin::RmsOrgCode.find(new_org.to_i) if new_org.to_i > 0
-    new_org = Bvadmin::RmsOrgCode.find_by(code: new_org) if new_org.is_a? String
-
-    if new_org.nil?
+    if new_org.blank?
       return nil if rotation_org.new_record?
-
       rotation_org.update_attributes(employee_id: nil)
-      return nil
+      return new_org
+    end
+
+    if new_org.is_a?(Fixnum) || new_org.is_a?(String)
+      new_org = Bvadmin::RmsOrgCode.find(new_org.to_i) if new_org.to_i > 0
+      new_org ||= Bvadmin::RmsOrgCode.find_by(code: new_org)
     end
 
     unless new_org.is_a? Bvadmin::RmsOrgCode
@@ -417,6 +421,18 @@ class Bvadmin::Employee < Bvadmin::Record
 
   def on_union?
     !!self.on_union
+  end
+
+  def is_attorney?
+    %w{0905}.include? self.job_code # series
+  end
+
+  def is_board_member?
+    is_attorney? && self.pay_sched =~ /^(al|sl|es)/i
+  end
+
+  def is_assigned?
+    is_attorney? && self.pay_sched =~ /^al/i
   end
 
   ## Ewwww.... There HAS to be a better way.

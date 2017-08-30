@@ -12,6 +12,7 @@ class CreateAttorney < ActiveRecord::Migration
       t.string :jurisdiction, limit: 60
       t.string :lawschool, limit: 60
       t.text :attorney_notes, limit: 600
+      t.string :presidential_admin, limit: 100
     end
   end
 end

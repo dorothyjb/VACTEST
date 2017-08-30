@@ -87,6 +87,7 @@ Rails.application.routes.draw do
       get '/', to: 'reports#index'
 
       get '/pipeline', to: 'reports#pipeline'
+      post '/pipeline', to: 'reports#pipeline_export'
 
       get '/snapshot', to: 'reports#snapshot'
       post '/snapshot', to: 'reports#snapshot_export'
@@ -99,12 +100,7 @@ Rails.application.routes.draw do
 
     scope :organization, as: :organization do
       get '/', to: 'organization#index'
-
-      get '/office(.:format)', to: 'organization#office'
-      get '/division(.:format)', to: 'organization#division'
-      get '/branch(.:format)', to: 'organization#branch'
-      get '/unit(.:format)', to: 'organization#unit'
-      get '/org_code(.:format)', to: 'organization#org_code'
+      get '/dropdown', to: 'organization#dropdown'
     end
   end
 

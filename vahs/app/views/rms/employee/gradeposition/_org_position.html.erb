@@ -1,0 +1,57 @@
+<h3><a href="#" alt="Organization Position">Organization Position</a></h3>
+<div class="accordion-selection">
+  <div class="fieldset-left">
+    <%= label_tag :gp_field_office, "Office:" %>
+    <%= select_tag :office, options_for_select(Bvadmin::RmsOrgOffice.dropdown, @employee.primary_org.office_id), id: 'gp_field_office'  %>
+  </div>
+
+  <div class="fieldset-right">
+    <%= label_tag :gp_field_division, "Division:" %>
+    <%= select_tag :division, options_for_select(Bvadmin::RmsOrgDivision.dropdown, @employee.primary_org.division_id), id: 'gp_field_division' %>
+  </div>
+
+  <br /><br />
+
+  <div class="fieldset-left">
+    <%= label_tag :gp_field_branch, "Branch:" %>
+    <%= select_tag :branch, options_for_select(Bvadmin::RmsOrgBranch.dropdown, @employee.primary_org.branch_id), id: 'gp_field_branch' %>
+  </div>
+
+  <div class="fieldset-right">
+    <%= label_tag :gp_field_unit, "Unit:" %>
+    <%= select_tag :unit, options_for_select(Bvadmin::RmsOrgUnit.dropdown, @employee.primary_org.unit_id), id: 'gp_field_unit' %>
+  </div>
+
+  <br /><br />
+
+  <div class="fieldset-left">
+    <%= label_tag :gp_field_org_code, "Org Code:" %>
+    <%= select_tag :primary_org, options_for_select(Bvadmin::RmsOrgCode.dropdown, @employee.primary_org.id), id: 'gp_field_org_code', name: 'primary_org' %>
+  </div>
+
+  <div class="fieldset-left">
+    <%= label_tag :gp_field_rotation, "Rotation:" %>
+    <%= check_box_tag :on_rotation, "", @employee.on_rotation?, id: 'gp_field_rotation' %>
+  </div>
+
+  <div id="gp_org_code_2" class="<%= @employee.on_rotation? ? "" : "hide-element" -%>">
+    <br /><br />
+    
+    <div class="fieldset-left">
+      <%= label_tag :rotation_start, "Rotation Start Date:" %>
+      <%= text_field_tag :rotation_start, @employee.rotation_start, name: 'employee[rotation_start]', class: 'datefield', id: 'gp_field_rot_start' %>
+    </div>
+
+    <div class="fieldset-right">
+      <%= label_tag :rotation_end, "Rotation End Date:" %>
+      <%= text_field_tag :rotation_end, @employee.rotation_end, name: 'employee[rotation_end]', class: 'datefield', id: 'gp_field_rot_end' %>
+    </div>
+
+    <br /><br />
+
+    <div class="fieldset-left">
+      <%= label_tag :rotation_org, "Org Code (rotation):" %>
+      <%= select_tag :rotation_org, options_for_select(Bvadmin::RmsOrgCode.dropdown(true), @employee.rotation_org.id), id: 'gp_field_org_code_r', name: 'rotation_org' %>
+    </div>
+  </div>
+</div>

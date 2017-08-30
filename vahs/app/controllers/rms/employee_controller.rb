@@ -67,7 +67,14 @@ class Rms::EmployeeController < Rms::ApplicationController
   def update
     @employee = Bvadmin::Employee.find(params[:id])
 
-    save_all
+    if params[:delete]
+      @employee.fte = 0
+      @employee.save
+
+      return redirect_to(root_path, notice: 'Employee was deleted')
+    else
+      save_all
+    end
     
     respond_to do |format|
       if @employee.errors.empty?
@@ -165,7 +172,13 @@ class Rms::EmployeeController < Rms::ApplicationController
     @employee.update_attorney attorney_params
 
     @employee.primary_org = params[:primary_org]
-    @employee.rotation_org = params[:rotation_org]
+
+    if params[:on_rotation]
+      @employee.rotation_org = params[:rotation_org]
+    else
+      @employee.rotation_org = nil
+    end
+
     @employee.update_picture params[:employee_pic]
 
     @attachment = @employee.save_attachments params[:attachment]
@@ -213,7 +226,8 @@ class Rms::EmployeeController < Rms::ApplicationController
                                      :license,
                                      :jurisdiction,
                                      :lawschool,
-                                     :attorney_notes)
+                                     :attorney_notes,
+                                     :presidential_admin)
   end
 
   def employee_params
