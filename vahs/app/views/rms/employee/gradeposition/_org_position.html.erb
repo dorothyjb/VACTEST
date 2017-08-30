@@ -39,19 +39,19 @@
     
     <div class="fieldset-left">
       <%= label_tag :rotation_start, "Rotation Start Date:" %>
-      <%= text_field_tag :rotation_start, @employee.rotation_start, name: 'employee[rotation_start]', class: 'datefield' %>
+      <%= text_field_tag :rotation_start, @employee.rotation_start, name: 'employee[rotation_start]', class: 'datefield', id: 'gp_field_rot_start' %>
     </div>
 
     <div class="fieldset-right">
       <%= label_tag :rotation_end, "Rotation End Date:" %>
-      <%= text_field_tag :rotation_end, @employee.rotation_end, name: 'employee[rotation_end]', class: 'datefield' %>
+      <%= text_field_tag :rotation_end, @employee.rotation_end, name: 'employee[rotation_end]', class: 'datefield', id: 'gp_field_rot_end' %>
     </div>
 
     <br /><br />
 
     <div class="fieldset-left">
       <%= label_tag :rotation_org, "Org Code (rotation):" %>
-      <%= select_tag :rotation_org, options_for_select(Bvadmin::RmsOrgCode.dropdown(true), @employee.rotation_org.id), name: 'rotation_org' %>
+      <%= select_tag :rotation_org, options_for_select(Bvadmin::RmsOrgCode.dropdown(true), @employee.rotation_org.id), id: 'gp_field_org_code_r', name: 'rotation_org' %>
     </div>
   </div>
 </div>
