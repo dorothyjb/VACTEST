@@ -67,7 +67,14 @@ class Rms::EmployeeController < Rms::ApplicationController
   def update
     @employee = Bvadmin::Employee.find(params[:id])
 
-    save_all
+    if params[:delete]
+      @employee.fte = 0
+      @employee.save
+
+      return redirect_to(root_path, notice: 'Employee was deleted')
+    else
+      save_all
+    end
     
     respond_to do |format|
       if @employee.errors.empty?
