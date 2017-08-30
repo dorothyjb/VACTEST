@@ -87,6 +87,7 @@ Rails.application.routes.draw do
       get '/', to: 'reports#index'
 
       get '/pipeline', to: 'reports#pipeline'
+      post '/pipeline', to: 'reports#pipeline_export'
 
       get '/snapshot', to: 'reports#snapshot'
       post '/snapshot', to: 'reports#snapshot_export'
