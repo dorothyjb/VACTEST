@@ -174,46 +174,74 @@ $(document).ready(function() {
     $('#on_union_view').toggle();
   });
 
-  $('#gp_field_office').change(function() {
+  function blank_text(text) {
+    if(text == null || text.length == 0) {
+      return "(Blank)";
+    }
+    return text;
+  }
+
+  function org_pos_dropdown(data) {
+    $('#gp_field_office').val(data.selected_office);
+
+    $('#gp_field_division').empty();
+    $('#gp_field_division').append($("<option></option>").attr("value", null).text(""));
+
+    $.each(data.division, function(i, v) {
+      $('#gp_field_division').append($("<option></option>").attr("value", v.id).text(blank_text(v.name)));
+    });
+    $('#gp_field_division').val(data.selected_division);
+
+    $('#gp_field_branch').empty();
+    $('#gp_field_branch').append($("<option></option>").attr("value", null).text(""));
+
+    $.each(data.branch, function(i, v) {
+      $('#gp_field_branch').append($("<option></option>").attr("value", v.id).text(blank_text(v.name)));
+    });
+    $('#gp_field_branch').val(data.selected_branch);
+
+    $('#gp_field_unit').empty();
+    $('#gp_field_unit').append($("<option></option>").attr("value", null).text(""));
+
+    $.each(data.unit, function(i, v) {
+      $('#gp_field_unit').append($("<option></option>").attr("value", v.id).text(blank_text(v.name)));
+    });
+    $('#gp_field_unit').val(data.selected_unit);
+
+    $('#gp_field_org_code').empty();
+    $('#gp_field_org_code').append($("<option></option>").attr("value", null).text(""));
+
+    $.each(data.org_code, function(i, v) {
+      $('#gp_field_org_code').append($("<option></option>").attr("value", v.id).text(v.code));
+    });
+    $('#gp_field_org_code').val(data.selected_org_code);
+  }
+
+  function org_pos_fetch() {
     $.ajax({
-      url: "/rms/organization/office",
+      url: "/rms/organization/dropdown",
       data: {
-        office: $(this).val()
+        office: $('#gp_field_office').val(),
+        division: $('#gp_field_division').val(),
+        branch: $('#gp_field_branch').val(),
+        unit: $('#gp_field_unit').val(),
+        org_code: $('#gp_field_org_code').val(),
+        selected: $(this).attr("name"),
       },
       dataType: "json",
       method: "get",
-
-      success: function(data) {
-        $('#gp_field_division').empty();
-        $('#gp_field_division').append($("<option></option>").attr("value", null).text(""))
-        $.each(data.division, function(i, v) {
-          $('#gp_field_division').append($("<option></option>").attr("value", v.id).text(v.name));
-        });
-
-        $('#gp_field_branch').empty();
-        $('#gp_field_branch').append($("<option></option>").attr("value", null).text(""))
-        $.each(data.branch, function(i, v) {
-          $('#gp_field_branch').append($("<option></option>").attr("value", v.id).text(v.name));
-        });
-
-        $('#gp_field_unit').empty();
-        $('#gp_field_unit').append($("<option></option>").attr("value", null).text(""))
-        $.each(data.unit, function(i, v) {
-          $('#gp_field_unit').append($("<option></option>").attr("value", v.id).text(v.name));
-        });
-
-        $('#gp_field_org_code').empty();
-        $('#gp_field_org_code').append($("<option></option>").attr("value", null).text(""))
-        $.each(data.org_code, function(i, v) {
-          $('#gp_field_org_code').append($("<option></option>").attr("value", v.id).text(v.code));
-        });
-      },
-
+      success: org_pos_dropdown,
       error: function(xhdr, text, thrown) {
         alert(thrown);
       }
     });
-  });
+  }
+
+  $('#gp_field_office').change(org_pos_fetch);
+  $('#gp_field_division').change(org_pos_fetch);
+  $('#gp_field_branch').change(org_pos_fetch);
+  $('#gp_field_unit').change(org_pos_fetch);
+  $('#gp_field_org_code').change(org_pos_fetch);
 
   $('#series').change(function() {
     var sched = $('#pay_sched').val();
