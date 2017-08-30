@@ -1,0 +1,10 @@
+json.office @offices
+json.division @divisions
+json.branch @branches
+json.unit @units
+json.org_code @org_codes
+json.selected_office @office
+json.selected_division @division
+json.selected_branch @branch
+json.selected_unit @unit
+json.selected_org_code @org_code
