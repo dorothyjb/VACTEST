@@ -165,7 +165,13 @@ class Rms::EmployeeController < Rms::ApplicationController
     @employee.update_attorney attorney_params
 
     @employee.primary_org = params[:primary_org]
-    @employee.rotation_org = params[:rotation_org]
+
+    if params[:on_rotation]
+      @employee.rotation_org = params[:rotation_org]
+    else
+      @employee.rotation_org = nil
+    end
+
     @employee.update_picture params[:employee_pic]
 
     @attachment = @employee.save_attachments params[:attachment]
