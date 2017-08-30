@@ -127,3 +127,8 @@ input#gp_field_rot_start {
 input#gp_field_rot_end {
   width: 250px;
 }
+
+button#hidden_save {
+  position: absolute;
+  left: -100%;
+}
