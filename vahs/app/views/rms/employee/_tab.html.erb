@@ -67,6 +67,7 @@
 
 <div id="employee-buttons">
   <div class="actions-left">
+    <%= button_tag "Save", name: 'save', id: 'hidden_save', tabindex: -1 %>
     <% unless @employee.new_record? %>
       <%= button_tag "Delete Employee Record", name: "delete" %>
     <% end %>
