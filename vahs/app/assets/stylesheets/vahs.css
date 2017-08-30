@@ -50,6 +50,18 @@ label{
 	width:960px;
 }
 
+.footer{
+  margin:0 auto;
+  margin-top:12px;
+  margin-bottom:12px;
+  width:960px;
+  font-size:6pt;
+  background-color:#f8f8f8;
+  color:#202020;
+  padding:6px;
+  border-radius:8px;
+}
+
 #vahs{
 	font-family:'Arial';
 	font-weight:400;
