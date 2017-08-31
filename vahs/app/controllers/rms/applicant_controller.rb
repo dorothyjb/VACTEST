@@ -23,7 +23,7 @@ class Rms::ApplicantController < Rms::ApplicationController
 
   def edit
     @applicant = Bvadmin::EmployeeApplicant.find(params[:id])
-    @application = Bvadmin::EmployeeApplication.new
+    @application = Bvadmin::EmployeeApplication.new(grade: @applicant.grade, series: @applicant.series)
     @active_status = ['Pipeline', 'Incoming']
     @active_applications = Bvadmin::EmployeeApplication.active_applications(@applicant.applicant_id, @active_status)
     @attachment = [Bvadmin::RmsAttachment.new]
