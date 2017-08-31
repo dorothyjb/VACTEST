@@ -294,6 +294,26 @@ $(document).ready(function() {
     }
   });
 
+  // detect form change logic. (kind of hackish and could be done better.)
+  $('#employee-form').change(function() {
+    $(this).data('changed', 'true');
+  });
+
+  $('#employee-form').submit(function() {
+    var txt = $(document.activeElement).text();
+    var changed = $(this).data('changed');
+
+    if(txt.match(/^cancel/i)) {
+      if(changed == "true") {
+        if(confirm("You have unsaved changes.\nAre you sure you want to leave this page?")) {
+          return true;
+        }
+        return false;
+      }
+    }
+    return true;
+  });
+
   // applicant page, for some reason included there.
   // should move this to a modify-applicant.js
   $('#applicant-form').change(function() {
@@ -306,7 +326,7 @@ $(document).ready(function() {
 
     if(txt.match(/^cancel/i)) {
       if(changed == "true") {
-        if(confirm("You have unsaved changes.\nLeave this page?")) {
+        if(confirm("You have unsaved changes.\nAre you sure you want to leave this page?")) {
           return true;
         }
         return false;
