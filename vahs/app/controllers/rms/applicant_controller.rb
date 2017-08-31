@@ -52,7 +52,9 @@ class Rms::ApplicantController < Rms::ApplicationController
         }
       else
         flash[:error] = @applicant.errors
-        format.html { redirect_to rms_applicant_edit_path(@applicant)}
+        @application = @application.first
+
+        format.html { render '/rms/applicant/edit' }
         format.js
       end
     end
@@ -64,7 +66,6 @@ class Rms::ApplicantController < Rms::ApplicationController
     respond_to do |format|
       format.html do
         render partial: 'rms/applicant/status/' + partial, locals: {appstatus:  @application}
-
       end
     end
   end
