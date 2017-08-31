@@ -34,6 +34,12 @@ class Rms::ApplicantController < Rms::ApplicationController
 
   def update
     @applicant = Bvadmin::EmployeeApplicant.find(params[:id])
+
+    if params[:delete]
+      @applicant.delete
+      return redirect_to root_path, notice: 'The applicant was deleted successfully.'
+    end
+
     @active_status = ['Pipeline', 'Incoming']
     @active_applications = Bvadmin::EmployeeApplication.active_applications(@applicant.applicant_id, @active_status)
     save_all
