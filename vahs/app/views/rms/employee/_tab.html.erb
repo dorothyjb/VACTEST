@@ -69,7 +69,7 @@
   <div class="actions-left">
     <%= button_tag "Save", name: 'save', id: 'hidden_save', tabindex: -1 %>
     <% unless @employee.new_record? %>
-      <%= button_tag "Delete Employee Record", name: "delete" %>
+      <%= button_tag "Delete Employee Record", name: "delete", data: { confirm: "Are you sure you want to delete #{@employee.fname} #{@employee.lname}?" } %>
     <% end %>
 
     <%= button_tag "Reset Altered Fields", type: 'reset' %>
