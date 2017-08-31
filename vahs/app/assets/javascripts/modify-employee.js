@@ -293,4 +293,25 @@ $(document).ready(function() {
       $('#gp_org_code_2').addClass('hide-element');
     }
   });
+
+  // applicant page, for some reason included there.
+  // should move this to a modify-applicant.js
+  $('#applicant-form').change(function() {
+    $(this).data('changed', 'true');
+  });
+
+  $('#applicant-form').submit(function() {
+    var txt = $(document.activeElement).text();
+    var changed = $(this).data('changed');
+
+    if(txt.match(/^cancel/i)) {
+      if(changed == "true") {
+        if(confirm("You have unsaved changes.\nLeave this page?")) {
+          return true;
+        }
+        return false;
+      }
+    }
+    return true;
+  });
 });
