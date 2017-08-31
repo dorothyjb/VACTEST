@@ -106,7 +106,8 @@ class Rms::ApplicantController < Rms::ApplicationController
     applicant = Bvadmin::EmployeeApplicant.new(fname: employee.fname,
                                                lname: employee.lname,
                                                grade: employee.grade,
-                                               series: employee.job_code)
+                                               series: employee.job_code,
+                                               employee_id: employee.employee_id)
 
     applicant.save
 
