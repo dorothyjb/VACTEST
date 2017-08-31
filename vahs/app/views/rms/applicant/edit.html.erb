@@ -217,7 +217,7 @@
       <div id="employee-buttons">
         <div class="actions-left">
           <% unless @applicant.lname.nil? %>
-          <%= button_tag "Delete Applicant Record", name: "delete" %>
+            <%= button_tag "Delete Applicant Record", name: "delete", data: { confirm: "Are you sure you want to delete #{@applicant.fname} #{@applicant.lname}?" } %>
           <% end %>
 
           <%= button_tag "Reset Altered Fields", type: 'reset' %>
