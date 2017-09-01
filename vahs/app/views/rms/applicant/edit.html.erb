@@ -107,17 +107,17 @@
             <%= fields_for 'napplication[]',@application, include_id: false do |app_form| %>
      
               <div class="fieldset-left">
-                <div class="fieldset-left">Office: </div>  <%= app_form.select :office_id, options_for_select(Bvadmin::RmsOrgOffice.dropdown), {}, {id: "office-nap", style: "width: 260px"} %>
+                <div class="fieldset-left">Office: </div>  <%= app_form.select :office_id, options_for_select(Bvadmin::RmsOrgOffice.dropdown, @application.office_id), {}, {id: "office-nap", style: "width: 260px"} %>
               </div>
-              <div class="fieldset-left-app-division">Division:  </div><%= app_form.select :division_id, options_for_select(Bvadmin::RmsOrgDivision.dropdown), {}, {id: "division-nap", style: "width: 260px"} %>
+              <div class="fieldset-left-app-division">Division:  </div><%= app_form.select :division_id, options_for_select(Bvadmin::RmsOrgDivision.dropdown, @application.division_id), {}, {id: "division-nap", style: "width: 260px"} %>
               <br /><br />
               <div class="fieldset-left">
-                <div class="fieldset-left-app-branch">Branch:  </div><%= app_form.select :branch_id, options_for_select(Bvadmin::RmsOrgBranch.dropdown), {}, {id: "branch-nap", style: "width: 260px"} %>
+                <div class="fieldset-left-app-branch">Branch:  </div><%= app_form.select :branch_id, options_for_select(Bvadmin::RmsOrgBranch.dropdown, @application.branch_id), {}, {id: "branch-nap", style: "width: 260px"} %>
             </div>
-              <div class="fieldset-left-app-unit">Unit:  </div><%= app_form.select :unit_id, options_for_select(Bvadmin::RmsOrgUnit.dropdown), {}, {id: "unit-nap", style: "width: 260px"} %>
+              <div class="fieldset-left-app-unit">Unit:  </div><%= app_form.select :unit_id, options_for_select(Bvadmin::RmsOrgUnit.dropdown, @application.unit_id), {}, {id: "unit-nap", style: "width: 260px"} %>
               <br /><br />
               <div class="fieldset-left">
-               <div class="fieldset-left-app-org"> Org Code: </div> <%= app_form.select :org_code, options_for_select(Bvadmin::RmsOrgCode.dropdown), {}, {id: "org-nap", style: "width: 260px"} %>
+               <div class="fieldset-left-app-org"> Org Code: </div> <%= app_form.select :org_code, options_for_select(Bvadmin::RmsOrgCode.dropdown, @application.org_code), {}, {id: "org-nap", style: "width: 260px"} %>
               </div>
               <div class="fieldset-left-app-title">*BVA Title: </div><%= app_form.text_field :title, id: "title-nap", style: "width: 260px" %>
               <br /><br />
@@ -139,6 +139,7 @@
         </div>
 
         <% @applicant.applications.each do |application| %>
+          <%- next if application.new_record? -%>
           <h3><a href="#" alt="Position Details">Position Details - <%= application.vacancy_number %></a></h3>
           <div class="accordion-section">
             <%= fields_for 'eapplication[]',application, include_id: false do |app_form| %>
@@ -216,7 +217,7 @@
       <div id="employee-buttons">
         <div class="actions-left">
           <% unless @applicant.lname.nil? %>
-          <%= button_tag "Delete Applicant Record", name: "delete" %>
+            <%= button_tag "Delete Applicant Record", name: "delete", data: { confirm: "Are you sure you want to delete #{@applicant.fname} #{@applicant.lname}?" } %>
           <% end %>
 
           <%= button_tag "Reset Altered Fields", type: 'reset' %>

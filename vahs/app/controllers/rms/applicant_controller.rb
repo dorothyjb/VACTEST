@@ -23,7 +23,7 @@ class Rms::ApplicantController < Rms::ApplicationController
 
   def edit
     @applicant = Bvadmin::EmployeeApplicant.find(params[:id])
-    @application = Bvadmin::EmployeeApplication.new
+    @application = Bvadmin::EmployeeApplication.new(grade: @applicant.grade, series: @applicant.series)
     @active_status = ['Pipeline', 'Incoming']
     @active_applications = Bvadmin::EmployeeApplication.active_applications(@applicant.applicant_id, @active_status)
     @attachment = [Bvadmin::RmsAttachment.new]
@@ -34,6 +34,12 @@ class Rms::ApplicantController < Rms::ApplicationController
 
   def update
     @applicant = Bvadmin::EmployeeApplicant.find(params[:id])
+
+    if params[:delete]
+      @applicant.delete
+      return redirect_to root_path, notice: 'The applicant was deleted successfully.'
+    end
+
     @active_status = ['Pipeline', 'Incoming']
     @active_applications = Bvadmin::EmployeeApplication.active_applications(@applicant.applicant_id, @active_status)
     save_all
@@ -46,7 +52,9 @@ class Rms::ApplicantController < Rms::ApplicationController
         }
       else
         flash[:error] = @applicant.errors
-        format.html { redirect_to rms_applicant_edit_path(@applicant)}
+        @application = @application.first
+
+        format.html { render '/rms/applicant/edit' }
         format.js
       end
     end
@@ -58,7 +66,6 @@ class Rms::ApplicantController < Rms::ApplicationController
     respond_to do |format|
       format.html do
         render partial: 'rms/applicant/status/' + partial, locals: {appstatus:  @application}
-
       end
     end
   end
@@ -106,7 +113,8 @@ class Rms::ApplicantController < Rms::ApplicationController
     applicant = Bvadmin::EmployeeApplicant.new(fname: employee.fname,
                                                lname: employee.lname,
                                                grade: employee.grade,
-                                               series: employee.job_code)
+                                               series: employee.job_code,
+                                               employee_id: employee.employee_id)
 
     applicant.save
 

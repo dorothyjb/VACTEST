@@ -21,8 +21,8 @@ class Bvadmin::EmployeeApplicant < Bvadmin::Record
   end
 
   def save_application application
-    return nil if application.nil? || application[:grade].blank? || application[:series].blank? || application[:title].blank? || application[:vacancy_number].blank? ||  application[:status].blank?
-       output = applications.build(applicant_id: self.applicant_id,
+    return nil if application_empty? application
+    output = applications.build(applicant_id: self.applicant_id,
                                 office_id: application[:office_id],
                                 division_id: application[:division_id],
                                 branch_id: application[:branch_id],
@@ -183,10 +183,25 @@ class Bvadmin::EmployeeApplicant < Bvadmin::Record
     end
   end
 
+private
   def append_errors name, model
     model.errors.each do |k,v|
       self.errors.add "#{name}.#{k}", v
     end
+  end
+
+  def application_empty? app
+    return true if app.nil?
+
+    app.each do |k, v|
+      next if %w[grade series status].include? k
+      return false if v.present?
+    end
+
+    return true if app[:grade] == self.grade.to_s &&
+                   app[:series] == self.series.to_s
+
+    return false
   end
 
 end

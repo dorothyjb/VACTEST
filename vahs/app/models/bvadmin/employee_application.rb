@@ -15,11 +15,6 @@ class Bvadmin::EmployeeApplication < Bvadmin::Record
   attr_writer :str_pipeline_action_date
   attr_writer :str_sent_start_date
 
-
-
-
-
-
   validate :selection_date_is_valid
   validate :process_start_date_is_valid
   validate :tentative_offer_date_is_valid
@@ -31,6 +26,12 @@ class Bvadmin::EmployeeApplication < Bvadmin::Record
   validate :incoming_action_date
   validate :pipeline_action_date
   validate :sent_start_date
+
+  validates :grade, presence: true
+  validates :series, presence: true
+  validates :title, presence: true
+  validates :vacancy_number, presence: true
+  validates :status, presence: true
 
 scope :active_applications, -> (applicant_id, active_status){where("applicant_id = ? and status in (?)", applicant_id, active_status).order('vacancy_number ASC')}
 
