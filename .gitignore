@@ -1,3 +1,4 @@
 # Ignore database.yml ; In here because for some reason, adding it to
 # vahs/.gitignore was not working.
 /vahs/config/database.yml
+/resources
