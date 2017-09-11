@@ -29,5 +29,4 @@ core.ignore.recursive=
 core.ignore= \
 	{coverage} \
 	{tmp} \
-  {vendor/bundle} \
   {.bundle}
