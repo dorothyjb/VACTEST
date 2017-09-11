@@ -2,10 +2,7 @@ source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.7.1'
-
-# Use sqlite3 as the database for Active Record
-gem 'sqlite3', platforms: [:ruby,:mswin,:mingw, :mswin, :x64_mingw]
-gem 'activerecord-jdbcsqlite3-adapter', platforms: :jruby
+gem 'rack'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
@@ -14,11 +11,11 @@ gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 
 # See https://github.com/rails/execjs#readme for more supported runtimes
-# gem 'therubyracer', platforms: :ruby
+gem 'therubyracer', platforms: :ruby
 
 gem 'bootstrap-sass', '3.3.6'
 
-gem 'mysql2', '>= 0.3.13', '< 0.5'
+#gem 'mysql2', '>= 0.3.13', '< 0.5'
 
 gem 'jquery-form-validator-rails' #may take this back out
 
@@ -52,6 +49,12 @@ gem 'ruby-oci8'
 gem 'prawn'
 gem 'prawn-table'
 
+# json
+gem 'json', '1.8.3'
+
+# passenger
+gem "passenger", '5.1.2'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: :ruby
@@ -76,16 +79,21 @@ group :development, :test do
   gem 'sniffybara', git: 'https://github.com/department-of-veterans-affairs/sniffybara.git'
   gem 'simplecov'
 
+
 #  gem 'flamegraph'
 #  gem 'rack-mini-profiler'
 #  gem 'stackprof'
 end
 
+group :test do
+  # Use sqlite3 as the database for Active Record
+  gem 'sqlite3', platforms: [:ruby,:mswin,:mingw, :mswin, :x64_mingw]
+  gem 'activerecord-jdbcsqlite3-adapter', platforms: :jruby
+end
+
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0', platforms: :ruby
-
-  gem "passenger"
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring', platforms: :ruby
