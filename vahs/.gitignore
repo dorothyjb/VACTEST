@@ -30,3 +30,6 @@ public/assets/**
 
 # ignore schema.rb
 /db/schema.rb
+
+# ignore database config
+/.dbcfg-*
