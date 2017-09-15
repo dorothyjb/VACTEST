@@ -1,0 +1,30 @@
+default: &default
+  adapter: oracle_enhanced
+  encoding: utf8
+  database: "(DESCRIPTION=
+               (ADDRESS_LIST=
+                 (ADDRESS=
+                   (PROTOCOL=TCP)
+                   (HOST=<%= Rms::Config::Database::Config.hostname %>)
+                   (PORT=<%= Rms::Config::Database::Config.hostport %>)
+                 )
+               )
+               (CONNECT_DATA = (SID = <%= Rms::Config::Database::Config.sid %>))
+             )"
+  username: <%= Rms::Config::Database::Config.username %>
+  password: <%= Rms::Config::Database::Config.password %>
+
+development:
+  <<: *default
+
+production:
+  <<: *default
+
+staging:
+  <<: *default
+
+test:
+  adapter: sqlite3
+  pool: 5
+  timeout: 5000
+  database: db/test.sqlite3
