@@ -141,7 +141,7 @@ GEM
       shellany (~> 0.0)
     parser (2.3.1.4)
       ast (~> 2.2)
-    passenger (5.1.2)
+    passenger (5.1.8)
       rack
       rake (>= 0.8.1)
     pdf-core (0.7.0)
@@ -307,7 +307,7 @@ DEPENDENCIES
   jquery-rails
   jshint
   json (= 1.8.3)
-  passenger (= 5.1.2)
+  passenger (= 5.1.8)
   prawn
   prawn-table
   puma (~> 2.16.0)
@@ -334,4 +334,4 @@ DEPENDENCIES
   will_paginate
 
 BUNDLED WITH
-   1.13.6
+   1.15.4
