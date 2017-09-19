@@ -158,11 +158,11 @@ class Rms::EmployeeController < Rms::ApplicationController
     if @employee.has_picture?
       send_data @employee.picture_data, type: @employee.picture_mime
     else
-      redirect_to "/assets/no-employee-pic.png"
+      redirect_to ActionController::Base.helpers.asset_path('no-employee-pic.png')
     end
 
   rescue
-    redirect_to "/assets/no-employee-pic.png"
+    redirect_to ActionController::Base.helpers.asset_path('no-employee-pic.png')
   end
 
   private
