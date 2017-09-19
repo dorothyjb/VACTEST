@@ -23,8 +23,8 @@ module Rms
       end
 
       def read
-        raise ArgumentError, "No filename set" if @filename.nil?
-        raise ArgumentError, "File does not exist" unless File.exists? @filename
+        return if @filename.nil?
+        return unless File.exists? @filename
 
         seed = File.stat(@filename).mtime.to_i
         content = File.read(@filename)
@@ -35,7 +35,7 @@ module Rms
       end
 
       def write
-        raise ArgumentError, "No filename set" if @filename.nil?
+        return if @filename.nil?
 
         seed = Time.now
         content = [ @hostname, @hostport, @sid, @username, @password ].join('\n')
