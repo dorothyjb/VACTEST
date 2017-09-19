@@ -17,7 +17,7 @@ body#vahs{
 	width: 100%;
 	height: auto;
 	background:#fff;
-	background: url("/assets/bg-middle-effect.png") repeat-y scroll center -65px #01133F;
+	background: image-url("/assets/bg-middle-effect.png") repeat-y scroll center -65px #01133F;
 	scrollbar-face-color: #01133F;
 	scrollbar-track-color: #F5F5F5;
 	scrollbar-arrow-color: #01133F; 
@@ -106,7 +106,7 @@ label{
 /* Start - app/views/[SubFolder]/[All Primary Pages].html.erb */
 #content{
 	background: #fff;
-	background-image: url("/assets/greyfade.png");
+	background-image: image-url("/assets/greyfade.png");
 	background-repeat: repeat-x;
 	background-position: left top;
 	padding: 12px 10px 10px 10px;

@@ -27,7 +27,7 @@ nav#subnav-group {
 nav#subnav-group div.navbar-nav a {
 	font-size: 12px;
 	background-color: #fff;
-	background-image: url("/assets/greyfade.png");
+	background-image: image-url("/assets/greyfade.png");
 	background-repeat: repeat-x;
 	background-position: left top;
 	border-radius: 8px 8px 0px 0px;
@@ -44,7 +44,7 @@ nav#subnav-group div.navbar-nav a:hover {
 nav#subnav-group div.navbar-nav a.subnav-active {
 	font-size: 12px;
 	background-color: #fff;
-	background-image: url("/assets/greyfade.png");
+	background-image: image-url("/assets/greyfade.png");
 	background-repeat: repeat-x;
 	background-position: left top;
 	border-radius: 8px 8px 0px 0px;
