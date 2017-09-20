@@ -1,5 +1,9 @@
 require "open3"
-require "rainbow"
+
+begin
+  require "rainbow"
+rescue LoadError
+end
 
 desc "shortcut to run all linting tools, at the same time."
 task :security do
