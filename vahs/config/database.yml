@@ -1,3 +1,5 @@
+<% Rms::Config::Database::Config.instance %>
+
 default: &default
   adapter: oracle_enhanced
   encoding: utf8
